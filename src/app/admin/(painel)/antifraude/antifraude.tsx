@@ -8,15 +8,15 @@ import { Icon } from "@/ui/icons";
 import { AnaliseRisco } from "@/ui/painel/pedido-drawer";
 import { Botao, Card, NotaRisco } from "@/ui/painel/ui";
 
-const abas = ["Fila de revisão", "Regras", "Lista de bloqueio"] as const;
+const abas = ["Fila de revisão", "Regras", "Lista de bloqueio", "Chargebacks", "Relatório"] as const;
 
 export function Antifraude({ inicial }: { inicial?: string }) {
   const [aba, setAba] = useState<(typeof abas)[number]>("Fila de revisão");
   return (
     <>
-      <div className="glass mb-4 inline-flex rounded-full p-1.5" role="tablist">
+      <div className="glass scrollbar-none mb-4 inline-flex max-w-full overflow-x-auto rounded-full p-1.5" role="tablist">
         {abas.map((a) => (
-          <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)} className={cn("rounded-full px-4 py-2 text-sm font-semibold transition", aba === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}>
+          <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)} className={cn("shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition", aba === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}>
             {a}
             {a === "Fila de revisão" && <span className="ml-2 rounded-full bg-red px-1.5 py-0.5 text-[11px] text-white">{filaRevisao.length}</span>}
           </button>
@@ -25,6 +25,8 @@ export function Antifraude({ inicial }: { inicial?: string }) {
       {aba === "Fila de revisão" && <Fila inicial={inicial} />}
       {aba === "Regras" && <Regras />}
       {aba === "Lista de bloqueio" && <Bloqueio />}
+      {aba === "Chargebacks" && <Chargebacks />}
+      {aba === "Relatório" && <Relatorio />}
     </>
   );
 }
@@ -314,5 +316,131 @@ function Bloqueio() {
         </table>
       </div>
     </Card>
+  );
+}
+
+function Chargebacks() {
+  const lista = [
+    { pedido: "47102", data: "12/09/2026", valor: 1_189_000, motivo: "Fraude: cartão clonado", status: "Perdido", origem: "Pedido aprovado sem 3DS (ClearSale)" },
+    { pedido: "46880", data: "28/08/2026", valor: 89_900, motivo: "Não reconhece a compra", status: "Contestado com sucesso", origem: "Entrega com assinatura do titular" },
+    { pedido: "46210", data: "02/07/2026", valor: 329_000, motivo: "Mercadoria não recebida", status: "Em disputa", origem: "Rastreio mostra entregue" },
+  ];
+  return (
+    <div className="grid gap-4 xl:grid-cols-[1fr_340px]">
+      <Card titulo="Chargebacks e fraudes confirmadas" ferramentas={<Botao tom="ink"><Icon name="plus" className="size-4" /> Registrar chargeback</Botao>} className="overflow-hidden">
+        <div className="-mx-5 overflow-x-auto">
+          <table className="tabela min-w-[760px]">
+            <thead>
+              <tr>
+                <th>Pedido</th>
+                <th>Data</th>
+                <th className="text-right">Valor</th>
+                <th>Motivo</th>
+                <th>Situação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lista.map((c) => (
+                <tr key={c.pedido}>
+                  <td>
+                    <span className="font-bold">#{c.pedido}</span>
+                    <span className="block text-xs text-muted">{c.origem}</span>
+                  </td>
+                  <td className="tabular">{c.data}</td>
+                  <td className="text-right font-semibold tabular">{reais(c.valor)}</td>
+                  <td>{c.motivo}</td>
+                  <td>
+                    <span className={cn("rounded-full px-2.5 py-1 text-xs font-semibold", c.status === "Perdido" ? "bg-red-50 text-red" : c.status === "Em disputa" ? "bg-warn-50 text-warn" : "bg-ok-50 text-ok")}>{c.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+      <Card titulo="O que acontece ao marcar fraude" tom="red">
+        <ol className="space-y-2.5 text-sm">
+          {["CPF, e-mail, telefone, endereço, cartão e aparelho do pedido vão para a lista de bloqueio", "Todo pedido ligado a esses dados trava na hora", "A regra que deixou passar aparece no relatório", "Sem 3DS, o prejuízo é da loja; com 3DS, a responsabilidade vai para o banco"].map((t, i) => (
+            <li key={t} className="flex gap-2">
+              <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ink text-xs font-bold text-white">{i + 1}</span>
+              {t}
+            </li>
+          ))}
+        </ol>
+      </Card>
+    </div>
+  );
+}
+
+function Relatorio() {
+  const semanas = [
+    { s: "27/10", aprov: 88, rev: 9, bloq: 3 },
+    { s: "03/11", aprov: 90, rev: 7, bloq: 3 },
+    { s: "10/11", aprov: 89, rev: 8, bloq: 3 },
+    { s: "17/11", aprov: 91, rev: 6, bloq: 3 },
+    { s: "24/11", aprov: 90, rev: 6, bloq: 4 },
+  ];
+  const regras = [
+    ["Titular do cartão diferente do comprador", 38, "6 fraudes"],
+    ["Primeira compra acima de R$ 3.000", 61, "2 fraudes"],
+    ["Acesso por VPN ou proxy", 22, "4 fraudes"],
+    ["Mais de 2 cartões tentados", 17, "5 fraudes"],
+    ["Pix pago por CPF diferente", 9, "1 fraude"],
+  ];
+  return (
+    <div className="grid gap-4 xl:grid-cols-2">
+      <Card titulo="Decisões por semana (%)">
+        <ul className="space-y-3">
+          {semanas.map((w) => (
+            <li key={w.s} className="flex items-center gap-3 text-sm">
+              <span className="w-12 text-muted tabular">{w.s}</span>
+              <div className="flex h-5 flex-1 overflow-hidden rounded-full">
+                <span className="bg-ok" style={{ width: `${w.aprov}%` }} />
+                <span className="bg-[#e7a33e]" style={{ width: `${w.rev}%` }} />
+                <span className="bg-red" style={{ width: `${w.bloq}%` }} />
+              </div>
+              <span className="w-10 text-right font-semibold tabular">{w.aprov}%</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-3 flex gap-4 text-xs text-muted">
+          <span className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-ok" /> Aprovado sozinho</span>
+          <span className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-[#e7a33e]" /> Revisão</span>
+          <span className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-red" /> Bloqueado</span>
+        </div>
+      </Card>
+      <Card titulo="Indicadores (30 dias)">
+        <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          <Num k="Pedidos analisados" v="412" />
+          <Num k="Revisões manuais" v="22" />
+          <Num k="Tempo médio de revisão" v="14 min" />
+          <Num k="Aprovados na revisão" v="77%" />
+          <Num k="Pedidos com 3DS" v="68%" />
+          <Num k="Chargebacks" v="0" />
+        </dl>
+      </Card>
+      <Card titulo="Regras que mais pegaram fraude" className="xl:col-span-2 overflow-hidden">
+        <div className="-mx-5 overflow-x-auto">
+          <table className="tabela min-w-[600px]">
+            <thead>
+              <tr>
+                <th>Regra</th>
+                <th className="text-right">Disparos (30d)</th>
+                <th>Fraudes confirmadas</th>
+              </tr>
+            </thead>
+            <tbody>
+              {regras.map(([r, n, f]) => (
+                <tr key={r as string}>
+                  <td className="font-medium">{r}</td>
+                  <td className="text-right tabular">{n}</td>
+                  <td>{f}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
   );
 }

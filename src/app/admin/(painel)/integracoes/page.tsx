@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { integracaoLog } from "@/mock/operacao";
+import { tokensApi } from "@/mock/painel";
 import { cn } from "@/lib/format";
 import { Icon, type IconName } from "@/ui/icons";
-import { Botao, Cabecalho, Card } from "@/ui/painel/ui";
+import { Botao, Cabecalho, Card, Chip } from "@/ui/painel/ui";
 
 export const metadata: Metadata = { title: "Integrações" };
 
@@ -85,6 +86,60 @@ export default function IntegracoesPage() {
           </table>
         </div>
       </Card>
+      <div className="mt-4 grid gap-4 xl:grid-cols-[1.4fr_1fr]">
+        <Card titulo="Tokens de API" ferramentas={<Botao tom="ink"><Icon name="plus" className="size-4" /> Novo token</Botao>} className="overflow-hidden">
+          <div className="-mx-5 overflow-x-auto">
+            <table className="tabela min-w-[720px]">
+              <thead>
+                <tr>
+                  <th>Integração</th>
+                  <th>Pode acessar</th>
+                  <th>Limite</th>
+                  <th>Último uso</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                {tokensApi.map((t) => (
+                  <tr key={t.nome}>
+                    <td>
+                      <span className="block font-semibold">{t.nome}</span>
+                      <span className="font-mono text-xs text-muted">sb_live_••••••••{t.nome.length}f2</span>
+                    </td>
+                    <td className="max-w-[260px] text-sm">{t.escopo}</td>
+                    <td>
+                      <Chip>{t.limite}</Chip>
+                    </td>
+                    <td className="text-sm">{t.ultimoUso}</td>
+                    <td className="text-right">
+                      <button className="text-sm font-semibold text-red">Revogar</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-xs text-muted">O token aparece uma única vez, na criação. Cada chamada fica no log com data, rota e resultado.</p>
+        </Card>
+        <Card titulo="API para a IA de vendas">
+          <ul className="space-y-2 font-mono text-xs">
+            {[
+              ["GET", "/api/ia/produtos?q=mtb aro 29&max=5000"],
+              ["GET", "/api/ia/produtos/{slug}"],
+              ["GET", "/api/ia/pedidos/{numero}?cpf=…"],
+              ["POST", "/api/ia/links (com aprovação do vendedor)"],
+            ].map(([m, r]) => (
+              <li key={r} className="tile flex items-center gap-2 p-2.5">
+                <span className={cn("rounded-md px-1.5 py-0.5 font-bold", m === "GET" ? "bg-ok-50 text-ok" : "bg-info-50 text-info")}>{m}</span>
+                {r}
+              </li>
+            ))}
+          </ul>
+          <Botao tom="ghost" className="mt-3">
+            <Icon name="doc" className="size-4" /> Documentação (OpenAPI)
+          </Botao>
+        </Card>
+      </div>
     </>
   );
 }

@@ -1,7 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { categorias, estoqueTotal, produtos, type Produto } from "@/mock/catalogo";
+import Link from "next/link";
 import { cn, reais } from "@/lib/format";
 import { Icon } from "@/ui/icons";
 import { ProductArt } from "@/ui/product-art";
@@ -16,7 +18,7 @@ export function Catalogo() {
   const [aba, setAba] = useState<"todos" | "revisao">("todos");
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("todas");
-  const [aberto, setAberto] = useState<Produto | null>(null);
+  const router = useRouter();
 
   const lista = useMemo(() => {
     let r = produtos.filter((p) => (cat === "todas" || p.categoria === cat) && (!q || `${p.nome} ${p.marca} ${p.variacoes.map((v) => v.sku).join(" ")}`.toLowerCase().includes(q.toLowerCase())));
@@ -48,9 +50,9 @@ export function Catalogo() {
         <Botao tom="ghost">
           <Icon name="box" className="size-4" /> Fotos em lote (ZIP)
         </Botao>
-        <Botao tom="ink">
+        <Link href="/admin/catalogo/novo" className="inline-flex h-10 items-center gap-2 rounded-full bg-ink px-4 text-sm font-semibold text-white">
           <Icon name="plus" className="size-4" /> Novo produto
-        </Botao>
+        </Link>
       </div>
 
       {aba === "revisao" && (
@@ -92,7 +94,7 @@ export function Catalogo() {
             </thead>
             <tbody>
               {lista.map((p) => (
-                <tr key={p.id} onClick={() => setAberto(p)} className="cursor-pointer border-b border-black/5 last:border-0 hover:bg-white/70">
+                <tr key={p.id} onClick={() => router.push(`/admin/catalogo/${p.id}`)} className="cursor-pointer border-b border-black/5 last:border-0 hover:bg-white/70">
                   <td className="py-2.5 pl-5">
                     <span className="flex items-center gap-3">
                       <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-white/80">
@@ -132,123 +134,6 @@ export function Catalogo() {
         <p className="border-t border-black/5 px-5 py-3 text-xs text-muted">Protótipo com 18 produtos. A base real tem 7.395 itens vindos da Bruning e da Climba.</p>
       </Card>
 
-      {aberto && <EditorProduto p={aberto} fechar={() => setAberto(null)} />}
     </>
-  );
-}
-
-function EditorProduto({ p, fechar }: { p: Produto; fechar: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50" role="dialog" aria-modal aria-label={p.nome}>
-      <button className="absolute inset-0 bg-ink/20" aria-label="Fechar" onClick={fechar} />
-      <aside className="glass-strong drawer-in absolute inset-y-2 right-2 flex w-[calc(100%-16px)] max-w-3xl flex-col overflow-hidden rounded-[26px]">
-        <header className="flex items-center gap-4 border-b border-black/5 p-5">
-          <span className="grid size-16 place-items-center rounded-2xl bg-snow">
-            <ProductArt kind={p.art} color={p.cores[0].hex} className="size-14" />
-          </span>
-          <div className="flex-1">
-            <h2 className="text-xl font-bold tracking-tight">{p.nome}</h2>
-            <p className="text-sm text-muted">
-              {p.marca} · nota do cadastro <NotaQualidade nota={p.qualidade.nota} />
-            </p>
-          </div>
-          <button onClick={fechar} className="grid size-10 place-items-center rounded-full bg-white ring-1 ring-black/5" aria-label="Fechar">
-            <Icon name="close" />
-          </button>
-        </header>
-        <div className="flex-1 space-y-6 overflow-y-auto p-5">
-          <div className="flex items-start gap-2 rounded-2xl bg-info-50 p-3 text-sm text-info">
-            <Icon name="sync" className="mt-0.5 size-4 shrink-0" />
-            <span>
-              <strong>Estoque e preço vêm da Bruning</strong> e não podem ser editados aqui. Fotos, descrição, ficha técnica e SEO são do painel.
-            </span>
-          </div>
-
-          <section>
-            <h3 className="mb-3 font-bold">Variações (tamanho × cor)</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-xs text-muted">
-                    <th className="pb-2">Tamanho</th>
-                    {p.cores.map((c) => (
-                      <th key={c.nome} className="pb-2 text-center">
-                        <span className="inline-flex items-center gap-1.5">
-                          <span className="size-3 rounded-full ring-1 ring-black/10" style={{ background: c.hex }} />
-                          {c.nome}
-                        </span>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {p.tamanhos.map((t) => (
-                    <tr key={t} className="border-t border-black/5">
-                      <td className="py-2.5 font-semibold">{t}</td>
-                      {p.cores.map((c) => {
-                        const v = p.variacoes.find((x) => x.tamanho === t && x.cor === c.nome)!;
-                        return (
-                          <td key={c.nome} className="py-2.5 text-center">
-                            <span className={cn("inline-flex min-w-16 flex-col rounded-xl px-2 py-1.5 ring-1", v.estoque === 0 ? "bg-red-50 ring-red-100" : "bg-white ring-black/5")}>
-                              <span className={cn("font-bold tabular", v.estoque === 0 && "text-red")}>{v.estoque} un.</span>
-                              <span className="text-[10px] text-faint">{v.sku}</span>
-                            </span>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section className="grid gap-3 sm:grid-cols-2">
-            {[
-              ["Nome", p.nome, false],
-              ["Slug (URL)", `/p/${p.slug}`, false],
-              ["Preço (Bruning)", reais(p.preco), true],
-              ["Preço promocional", p.precoDe ? `${reais(p.preco)} até 30/11` : "—", false],
-              ["Parcelamento", p.limiteParcelas ? `até ${p.limiteParcelas}x (regra do produto)` : "até 21x (regra geral)", false],
-              ["Garantia", p.garantia, false],
-              ["Título SEO", `${p.nome} | ShopBike`, false],
-              ["Etiquetas", p.selos.join(", ") || "—", false],
-            ].map(([k, v, erp]) => (
-              <label key={k as string} className="block">
-                <span className="mb-1 flex items-center gap-1 text-xs font-medium text-muted">
-                  {k} {erp && <Icon name="lock" className="size-3" />}
-                </span>
-                <input defaultValue={v as string} readOnly={erp as boolean} className={cn("h-11 w-full rounded-xl px-3 text-sm ring-1 ring-black/10 outline-none focus:ring-ink", erp ? "bg-snow text-muted" : "bg-white")} />
-              </label>
-            ))}
-          </section>
-
-          <section>
-            <h3 className="mb-2 font-bold">Checklist do cadastro</h3>
-            <ul className="grid gap-2 text-sm sm:grid-cols-2">
-              {[
-                [p.qualidade.fotos >= 5, `${p.qualidade.fotos} fotos (mínimo 5)`],
-                [p.qualidade.video, "Vídeo"],
-                [p.qualidade.descricao, "Descrição completa"],
-                [p.caracteristicas.length >= 4, "Ficha técnica"],
-              ].map(([ok, t]) => (
-                <li key={t as string} className="flex items-center gap-2 rounded-xl bg-white p-3 ring-1 ring-black/5">
-                  <Icon name={ok ? "check" : "alert"} className={cn("size-4", ok ? "text-ok" : "text-red")} />
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-        <footer className="flex justify-end gap-2 border-t border-black/5 p-4">
-          <Botao tom="ghost" onClick={fechar}>
-            Cancelar
-          </Botao>
-          <Botao tom="ink" onClick={fechar}>
-            Salvar alterações
-          </Botao>
-        </footer>
-      </aside>
-    </div>
   );
 }

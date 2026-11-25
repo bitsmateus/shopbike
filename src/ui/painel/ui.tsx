@@ -121,3 +121,53 @@ export function Kpi({ rotulo, valor, tipo, variacao, meta }: { rotulo: string; v
 }
 
 export { reais };
+
+export type Tom = "ok" | "warn" | "red" | "info" | "neutro" | "ink" | "apagado";
+const tons: Record<Tom, string> = {
+  ok: "bg-ok-50 text-ok",
+  warn: "bg-warn-50 text-warn",
+  red: "bg-red-50 text-red",
+  info: "bg-info-50 text-info",
+  neutro: "bg-white text-ink-2 ring-1 ring-black/5",
+  ink: "bg-ink text-white",
+  apagado: "bg-cloud text-faint",
+};
+
+export function Chip({ tom = "neutro", children }: { tom?: Tom; children: React.ReactNode }) {
+  return <span className={cn("inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap", tons[tom])}>{children}</span>;
+}
+
+export function CampoPainel({ label, dica, className, ...rest }: { label: string; dica?: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <label className={cn("block", className)}>
+      <span className="mb-1.5 block text-sm font-medium text-ink-2">{label}</span>
+      <input {...rest} className="h-11 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none transition read-only:bg-snow read-only:text-muted focus:ring-2 focus:ring-ink" />
+      {dica && <span className="mt-1 block text-xs text-muted">{dica}</span>}
+    </label>
+  );
+}
+
+export function SelectPainel({ label, opcoes, className, ...rest }: { label: string; opcoes: string[] } & React.SelectHTMLAttributes<HTMLSelectElement>) {
+  return (
+    <label className={cn("block", className)}>
+      <span className="mb-1.5 block text-sm font-medium text-ink-2">{label}</span>
+      <select {...rest} className="h-11 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink">
+        {opcoes.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+export function Vazio({ icone = "check", titulo, texto }: { icone?: IconName; titulo: string; texto?: string }) {
+  return (
+    <div className="py-12 text-center">
+      <span className="mx-auto grid size-12 place-items-center rounded-full bg-white ring-1 ring-black/5">
+        <Icon name={icone} className="size-5 text-muted" />
+      </span>
+      <p className="mt-3 font-semibold">{titulo}</p>
+      {texto && <p className="mt-1 text-sm text-muted">{texto}</p>}
+    </div>
+  );
+}
