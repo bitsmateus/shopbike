@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/*
+ * Tokens da ShopBike. Branco, vermelho e preto, sem peso:
+ * o vermelho da logo só em destaque e CTA; o preto da logo em texto e títulos.
+ * Linguagem do painel inspirada no Solvik (vidro, cápsulas, cards de 22px),
+ * recriada do zero.
+ */
+@theme {
+  --font-sans: "Urbanist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-red: #e30618;
+  --color-red-600: #c90515;
+  --color-red-50: #fdf0f1;
+  --color-red-100: #fbdde0;
+
+  --color-ink: #1a1917;
+  --color-ink-2: #2b2a27;
+  --color-muted: #5f5d58;
+  --color-faint: #8b8983;
+
+  --color-paper: #ffffff;
+  --color-snow: #f7f6f5;
+  --color-cloud: #efeeec;
+  --color-line: #e7e5e2;
+  --color-line-2: #d8d6d2;
+
+  --color-ok: #1f7a3d;
+  --color-ok-50: #eaf6ee;
+  --color-warn: #a35c00;
+  --color-warn-50: #fdf3e3;
+  --color-info: #2c6bc8;
+  --color-info-50: #ecf2fb;
+
+  --color-nx: #2c6bc8;
+
+  --radius-card: 22px;
+  --radius-tile: 16px;
+
+  --shadow-soft: 0 1px 2px #1a19170a, 0 8px 24px -12px #1a19171f;
+  --shadow-pop: 0 24px 60px -18px #1a191740, 0 2px 6px #1a191714;
+  --shadow-glass: inset 0 1px 0 #ffffffcc, 0 18px 40px -28px #1a191759;
+
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 0;
+}
+
+::selection {
+  background: var(--color-red-100);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 2px;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.container-loja {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3vw, 32px);
+}
+
+/* ---------- Painel: vidro claro ---------- */
+.painel-bg {
+  background:
+    radial-gradient(60rem 40rem at 100% -10%, #e306180d, transparent 60%),
+    radial-gradient(50rem 40rem at -10% 110%, #2c6bc80a, transparent 60%),
+    linear-gradient(180deg, #f6f5f3, #efeeeb);
+  min-height: 100dvh;
+}
+
+.glass {
+  background: #ffffffb3;
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid #ffffffd9;
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-strong {
+  background: #ffffffe6;
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid #ffffff;
+  box-shadow: var(--shadow-pop);
+}
+
+.tile {
+  background: #ffffffa6;
+  border: 1px solid #1a19170d;
+  border-radius: var(--radius-tile);
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.5s var(--ease-out-soft) both;
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.drawer-in {
+  animation: drawer-in 0.35s var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
