@@ -10,7 +10,7 @@ Plataforma própria da ShopBike (Tubarão/SC), construída e mantida pela NX Dig
 
 Protótipo navegável da loja e do painel, **com dados fictícios e sem backend**, na stack final (Next.js 16 + TypeScript + Tailwind 4). Serve para aprovar layout e fluxos.
 
-**Painel (38 telas):** abra `/admin/mapa` para ver todas, agrupadas como no menu, com a seção da especificação de cada uma. As telas da Fase 2 aparecem marcadas com “F2”.
+**Painel:** 31 telas no menu (26 da Fase 1 e 5 da Fase 2), mais as de detalhe (editor de produto, perfil do cliente, relatório detalhado) e o login com 2FA. Abra `/admin/mapa` para ver todas, agrupadas como no menu, com a seção da especificação de cada uma. As telas da Fase 2 aparecem marcadas com “F2”.
 
 | Área | Telas |
 |---|---|
