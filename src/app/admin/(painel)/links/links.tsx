@@ -71,7 +71,8 @@ export function Links() {
   const whatsOk = whats.replace(/\D/g, "").length >= 10;
 
   // O que falta para gerar o link (texto ao lado do botão desabilitado)
-  const falta = [itens.length === 0 && "um produto", !nome.trim() && "o nome do cliente", !whatsOk && "o WhatsApp"].filter(Boolean) as string[];
+  // WhatsApp é opcional: sem ele, o vendedor copia o link e manda por onde quiser.
+  const falta = [itens.length === 0 && "um produto", !nome.trim() && "o nome do cliente"].filter(Boolean) as string[];
   const faltaTxt = falta.length ? `Adicione ${falta.length > 1 ? falta.slice(0, -1).join(", ") + " e " + falta.at(-1) : falta[0]} para gerar o link.` : "";
 
   const visiveis = filtro === "Ativos" ? lista.filter(ativo) : lista;
@@ -210,7 +211,9 @@ export function Links() {
             <input value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Ex.: Rodrigo Mendes" autoComplete="off" className="campo h-11 w-full rounded-xl px-3 text-sm" />
           </label>
           <label className="block">
-            <span className="mb-1.5 block text-sm font-medium">WhatsApp</span>
+            <span className="mb-1.5 block text-sm font-medium">
+              WhatsApp <span className="font-normal text-muted">(opcional)</span>
+            </span>
             <input
               value={whats}
               onChange={(e) => setWhats(mascaraWhats(e.target.value))}
@@ -302,9 +305,11 @@ export function Links() {
               <Botao tom="ghost" onClick={() => copiar(`https://shopbike.com.br/pagar/${gerado}`)}>
                 <Icon name="copy" className="size-4" /> Copiar
               </Botao>
-              <Botao tom="ink" onClick={() => avisar(`Link enviado no WhatsApp para ${whats}`)}>
-                <Icon name="whatsapp" className="size-4" /> Enviar no WhatsApp
-              </Botao>
+              {whatsOk && (
+                <Botao tom="ink" onClick={() => avisar(`Link enviado no WhatsApp para ${whats}`)}>
+                  <Icon name="whatsapp" className="size-4" /> Enviar no WhatsApp
+                </Botao>
+              )}
             </div>
           </div>
         )}
