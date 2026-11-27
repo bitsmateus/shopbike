@@ -33,7 +33,7 @@ export default function BuscaPage() {
           { icon: "cart", rotulo: "Busca → venda", valor: "8,1%" },
         ]}
         acoes={
-          <Link href="/admin/relatorios/pesquisas" className="inline-flex h-10 items-center gap-2 rounded-full bg-white/70 px-4 text-sm font-semibold ring-1 ring-black/10">
+          <Link href="/admin/relatorios/pesquisas" className="inline-flex h-10 items-center gap-2 rounded-full bg-snow px-4 text-sm font-semibold ring-1 ring-black/10">
             <Icon name="chart" className="size-4" /> Log de pesquisas
           </Link>
         }

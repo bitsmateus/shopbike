@@ -33,7 +33,7 @@ export function ListaClientes() {
       </div>
       <Card className="overflow-hidden p-0">
         <div className="border-b border-black/5 p-3">
-          <label className="flex h-10 items-center gap-2 rounded-full bg-white/80 px-4 ring-1 ring-black/5 focus-within:ring-ink">
+          <label className="flex h-10 items-center gap-2 rounded-full bg-snow px-4 ring-1 ring-black/5 focus-within:ring-ink">
             <Icon name="search" className="size-4 text-faint" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Nome, CPF/CNPJ, e-mail, telefone ou cidade" className="flex-1 bg-transparent text-sm outline-none" aria-label="Buscar clientes" />
           </label>

@@ -1,20 +1,36 @@
 "use client";
 
 import { useState } from "react";
-import { reais, reaisCurto } from "@/lib/format";
+import { reaisCurto } from "@/lib/format";
 
-const CORES = { site: "#1a1917", link: "#e30618", ia: "#2c6bc8" } as const;
+/* Cores dos canais vêm dos tokens (globals.css). Vermelho fica fora: é cor de erro. */
+const CORES = { site: "var(--color-canal-site)", link: "var(--color-canal-link)", ia: "var(--color-canal-ia)" } as const;
+const CORES_LISTA = [CORES.site, CORES.link, CORES.ia];
+
+/** Divisões redondas do eixo (em centavos): 1, 2, 2,5 ou 5 vezes uma potência de 10, até 6 linhas. */
+function divisoes(maximo: number) {
+  const reaisMax = maximo / 100;
+  const base = 10 ** Math.floor(Math.log10(reaisMax / 5));
+  const passo = [1, 2, 2.5, 5, 10].map((m) => m * base).find((p) => reaisMax / p <= 5) ?? base * 10;
+  const topo = Math.ceil(reaisMax / passo) * passo;
+  return { topo: topo * 100, ticks: Array.from({ length: Math.round(topo / passo) + 1 }, (_, i) => i * passo * 100) };
+}
+
+/** Rótulo do eixo no padrão brasileiro: "0", "5 mil", "10 mil". */
+const rotuloEixo = (centavos: number) => {
+  const r = centavos / 100;
+  return r === 0 ? "0" : r >= 1000 ? `${(r / 1000).toLocaleString("pt-BR")} mil` : r.toLocaleString("pt-BR");
+};
 
 /** Barras empilhadas por dia: site, link do vendedor e IA. Passe o mouse (ou toque) para ver os números do dia. */
 export function GraficoVendas({ serie, mes = "nov" }: { serie: { dia: number; site: number; link: number; ia: number }[]; mes?: string }) {
   const [ativo, setAtivo] = useState<number | null>(null);
   const W = 720;
-  const H = 170;
-  const pad = { l: 44, r: 8, t: 10, b: 24 };
-  const max = Math.max(...serie.map((d) => d.site + d.link + d.ia)) * 1.1;
+  const H = 150;
+  const pad = { l: 48, r: 8, t: 10, b: 24 };
+  const { topo: max, ticks } = divisoes(Math.max(...serie.map((d) => d.site + d.link + d.ia)));
   const bw = (W - pad.l - pad.r) / serie.length;
   const y = (v: number) => H - pad.b - (v / max) * (H - pad.t - pad.b);
-  const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * max);
   const d = ativo == null ? null : serie[ativo];
   const total = d ? d.site + d.link + d.ia : 0;
   // posição do quadro em % da largura, sem sair da área do gráfico
@@ -25,9 +41,9 @@ export function GraficoVendas({ serie, mes = "nov" }: { serie: { dia: number; si
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full touch-none" role="img" aria-label="Vendas por dia e canal">
         {ticks.map((t) => (
           <g key={t}>
-            <line x1={pad.l} x2={W - pad.r} y1={y(t)} y2={y(t)} stroke="#1a191714" />
-            <text x={pad.l - 8} y={y(t) + 4} textAnchor="end" fontSize="11" fill="#6e6c67">
-              {t === 0 ? "0" : `${Math.round(t / 100_000)}k`}
+            <line x1={pad.l} x2={W - pad.r} y1={y(t)} y2={y(t)} style={{ stroke: "var(--color-line)" }} />
+            <text x={pad.l - 8} y={y(t) + 4} textAnchor="end" fontSize="12" style={{ fill: "var(--color-faint)" }}>
+              {rotuloEixo(t)}
             </text>
           </g>
         ))}
@@ -38,15 +54,15 @@ export function GraficoVendas({ serie, mes = "nov" }: { serie: { dia: number; si
           const apagado = ativo != null && ativo !== i;
           return (
             <g key={dia.dia} style={{ opacity: apagado ? 0.35 : 1, transition: "opacity .15s" }}>
-              {ativo === i && <rect x={pad.l + i * bw} y={pad.t} width={bw} height={H - pad.t - pad.b} rx={6} fill="#1a19170a" />}
+              {ativo === i && <rect x={pad.l + i * bw} y={pad.t} width={bw} height={H - pad.t - pad.b} rx={6} style={{ fill: "var(--color-cloud)" }} />}
               {(["site", "link", "ia"] as const).map((k) => {
                 const y0 = y(acc);
                 acc += dia[k];
                 const y1 = y(acc);
-                return <rect key={k} x={x} y={y1} width={w} height={Math.max(0, y0 - y1 - 1)} rx={Math.min(4, w / 2)} fill={CORES[k]} opacity={k === "site" ? 0.88 : 1} />;
+                return <rect key={k} x={x} y={y1} width={w} height={Math.max(0, y0 - y1 - 1)} rx={Math.min(4, w / 2)} style={{ fill: CORES[k] }} />;
               })}
               {(i % 4 === 0 || i === serie.length - 1 || ativo === i) && (
-                <text x={x + w / 2} y={H - 6} textAnchor="middle" fontSize="11" fontWeight={ativo === i ? 700 : 400} fill={ativo === i ? "#1a1917" : "#6e6c67"}>
+                <text x={x + w / 2} y={H - 6} textAnchor="middle" fontSize="12" fontWeight={ativo === i ? 700 : 500} style={{ fill: ativo === i ? "var(--color-ink)" : "var(--color-faint)" }}>
                   {dia.dia}
                 </text>
               )}
@@ -69,8 +85,8 @@ export function GraficoVendas({ serie, mes = "nov" }: { serie: { dia: number; si
       {d && (
         <div
           role="status"
-          className="pointer-events-none absolute top-0 z-10 w-[210px] rounded-xl bg-ink px-3 py-2.5 text-xs text-white shadow-[var(--shadow-pop)]"
-          style={{ left: xPct > 55 ? `calc(${xPct}% - 232px)` : `calc(${xPct}% + 22px)` }}
+          className="pointer-events-none absolute top-0 z-10 w-[200px] rounded-xl bg-ink px-3 py-2.5 text-xs text-white shadow-[var(--shadow-pop)]"
+          style={{ left: xPct > 55 ? `calc(${xPct}% - 222px)` : `calc(${xPct}% + 22px)` }}
         >
           <p className="mb-1.5 font-bold">
             {d.dia} de {mes}
@@ -87,12 +103,12 @@ export function GraficoVendas({ serie, mes = "nov" }: { serie: { dia: number; si
                 <span className="size-2 rounded-full ring-1 ring-white/40" style={{ background: c }} />
                 {n}
               </span>
-              <span className="font-semibold tabular">{reais(v)}</span>
+              <span className="font-semibold tabular">{reaisCurto(v)}</span>
             </p>
           ))}
           <p className="mt-1.5 flex justify-between border-t border-white/15 pt-1.5 font-bold">
             <span>Total</span>
-            <span className="tabular">{reais(total)}</span>
+            <span className="tabular">{reaisCurto(total)}</span>
           </p>
         </div>
       )}
@@ -108,7 +124,7 @@ export function GraficoVendas({ serie, mes = "nov" }: { serie: { dia: number; si
             {n}
           </span>
         ))}
-        <span className="ml-auto text-faint">Passe o mouse nas barras para ver os valores</span>
+        <span className="ml-auto text-faint">Passe o mouse nas barras para ver os valores do dia</span>
       </figcaption>
     </figure>
   );
@@ -121,12 +137,12 @@ export function Anel({ valor, total, rotulo }: { valor: number; total: number; r
   return (
     <div className="relative grid size-20 shrink-0 place-items-center">
       <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90" aria-hidden>
-        <circle cx="50" cy="50" r={r} fill="none" stroke="#1a191712" strokeWidth="7" />
-        <circle cx="50" cy="50" r={r} fill="none" stroke="#1f7a3d" strokeWidth="7" strokeLinecap="round" strokeDasharray={`${c * f} ${c}`} />
+        <circle cx="50" cy="50" r={r} fill="none" strokeWidth="7" style={{ stroke: "var(--color-line)" }} />
+        <circle cx="50" cy="50" r={r} fill="none" strokeWidth="7" strokeLinecap="round" strokeDasharray={`${c * f} ${c}`} style={{ stroke: "var(--color-ok)" }} />
       </svg>
       <div className="max-w-[60px] text-center">
         <div className="text-lg leading-none font-bold tabular">{Math.round(f * 100)}%</div>
-        <div className="mt-0.5 text-[10px] leading-tight text-muted">{rotulo}</div>
+        <div className="mt-0.5 text-xs leading-tight text-muted">{rotulo}</div>
       </div>
     </div>
   );
@@ -142,8 +158,8 @@ export function BarrasHorizontais({ itens }: { itens: { rotulo: string; valor: n
             <span className="font-medium">{i.rotulo}</span>
             <span className="font-semibold tabular">{reaisCurto(i.valor)}</span>
           </div>
-          <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/5">
-            <div className="h-full rounded-full" style={{ width: `${(i.valor / max) * 100}%`, background: ["#1a1917", "#e30618", "#2c6bc8"][idx % 3] }} />
+          <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-line">
+            <div className="h-full rounded-full" style={{ width: `${(i.valor / max) * 100}%`, background: CORES_LISTA[idx % 3] }} />
           </div>
           {i.sub && <div className="mt-1 text-xs text-muted">{i.sub}</div>}
         </li>

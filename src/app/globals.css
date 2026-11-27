@@ -29,10 +29,26 @@
   --color-ok-50: #eaf6ee;
   --color-warn: #a35c00;
   --color-warn-50: #fdf3e3;
+  --color-warn-400: #e7a33e;
   --color-info: #2c6bc8;
   --color-info-50: #ecf2fb;
 
   --color-nx: #2c6bc8;
+
+  /* Semânticas: erro/fraude, alerta, sucesso, info. O vermelho da marca (#e30618)
+     fica só para logo, CTA primário e badge de contagem. */
+  --color-danger: #b3000f;
+  --color-danger-50: #fde7e9;
+  --color-focus: #2c6bc8;
+
+  /* Canais de venda (gráficos e legendas) */
+  --color-canal-site: #1a1917;
+  --color-canal-link: #e7a33e;
+  --color-canal-ia: #2c6bc8;
+
+  /* Superfícies do painel */
+  --color-fundo-painel: #f4f3f1;
+  --color-borda-card: #1a191714;
 
   --radius-card: 16px;
   --radius-tile: 12px;
@@ -40,6 +56,7 @@
   --shadow-soft: 0 1px 2px #1a19170a, 0 8px 24px -12px #1a19171f;
   --shadow-pop: 0 24px 60px -18px #1a191740, 0 2px 6px #1a191714;
   --shadow-glass: inset 0 1px 0 #ffffffcc, 0 18px 40px -28px #1a191759;
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.8), 0 18px 40px -28px rgb(26 25 23 / 0.35);
 
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -63,7 +80,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-red);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
 
@@ -79,39 +96,36 @@ body {
 }
 
 /* ---------- Painel: vidro claro ---------- */
-/* Painel mais denso: base de 15px (em vez de 16px) reduz texto, espaçamentos,
-   botões e campos de todas as telas na mesma proporção. Não afeta a loja. */
-html:has(.painel-bg) {
-  font-size: 15px;
-}
-
+/* Raiz em 16px: text-xs = 12px, text-sm = 14px, espaços e raios na grade de 4/8.
+   A densidade vem de paddings menores nos componentes, não de encolher a raiz. */
 .painel-bg {
-  background:
-    radial-gradient(60rem 40rem at 100% -10%, #e306180d, transparent 60%),
-    radial-gradient(50rem 40rem at -10% 110%, #2c6bc80a, transparent 60%),
-    linear-gradient(180deg, #f6f5f3, #efeeeb);
+  background: var(--color-fundo-painel);
   min-height: 100dvh;
 }
 
+/* Cards: branco sólido sobre fundo cinza-claro, com borda visível e sombra. */
 .glass {
-  background: #ffffffb3;
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid #ffffffd9;
-  box-shadow: var(--shadow-glass);
+  background: var(--color-paper);
+  border: 1px solid var(--color-borda-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* Faixa do menu fixo: o conteúdo que passa por trás fica desfocado. */
+.topnav {
+  background: rgb(244 243 241 / 0.72);
+  backdrop-filter: blur(12px) saturate(140%);
 }
 
 .glass-strong {
   background: #ffffffe6;
   backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
   border: 1px solid #ffffff;
   box-shadow: var(--shadow-pop);
 }
 
 .tile {
-  background: #ffffffa6;
-  border: 1px solid #1a19170d;
+  background: var(--color-snow);
+  border: 1px solid var(--color-borda-card);
   border-radius: var(--radius-tile);
 }
 
@@ -196,7 +210,7 @@ html:has(.painel-bg) {
   transition: background 0.15s;
 }
 .tabela tbody tr:hover {
-  background: #ffffffb3;
+  background: var(--color-snow);
 }
 
 /* ---------- Clicáveis: cursor e retorno ao passar o mouse ---------- */
@@ -239,14 +253,14 @@ label:has(> input[type="radio"]) {
 /* Botões redondos de ícone e botões com fundo: escurecem levemente */
 .painel-bg button.glass:hover,
 .painel-bg a.glass:hover {
-  background-color: #ffffffe6;
+  background-color: var(--color-snow);
   box-shadow: var(--shadow-soft);
 }
 
 /* Linhas de tabela clicáveis */
 .tabela tbody tr.cursor-pointer:hover {
-  background: #fff;
-  box-shadow: inset 3px 0 0 var(--color-red);
+  background: var(--color-snow);
+  box-shadow: inset 3px 0 0 var(--color-ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -256,12 +270,7 @@ label:has(> input[type="radio"]) {
   }
 }
 
-/* Links de texto no topo dos cards ("Ver todos", "Abrir fila") */
-.painel-bg section > div:first-child a:not([class*="bg-"]):hover {
-  color: var(--color-red);
-}
-
-/* Lista com rolagem discreta (fila do antifraude na visão geral) */
+/* Lista com rolagem discreta */
 .fila-scroll {
   scrollbar-width: thin;
   scrollbar-color: #1a191733 transparent;

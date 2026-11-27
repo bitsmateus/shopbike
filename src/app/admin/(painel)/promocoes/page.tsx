@@ -33,7 +33,7 @@ export default function PromocoesPage() {
                 </div>
                 <p className="text-sm text-muted">{p.periodo}</p>
               </div>
-              <button className="grid size-9 place-items-center rounded-full bg-white/70 ring-1 ring-black/5" aria-label="Editar">
+              <button className="grid size-9 place-items-center rounded-full bg-snow ring-1 ring-black/5" aria-label="Editar">
                 <Icon name="gear" className="size-4" />
               </button>
             </div>

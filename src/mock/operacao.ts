@@ -102,7 +102,7 @@ export const pedidos: Pedido[] = [
     total: 305_820,
     status: "Aguardando pagamento",
     regras: [],
-    proximaAcao: "Aguarde confirmação do pagamento",
+    proximaAcao: "Aguardando confirmação do pagamento",
   }),
   pedido({
     numero: "48210",
@@ -115,7 +115,7 @@ export const pedidos: Pedido[] = [
     total: 1_401_200,
     status: "Bloqueado",
     regras: ["lista_bloqueio", "muitos_cartoes", "vpn_proxy", "primeira_compra_alta"],
-    proximaAcao: "Pedido bloqueado pelo antifraude",
+    proximaAcao: "Bloqueado pelo antifraude",
     vinculos: [
       { tipo: "CPF", valor: "***.664.230-**" },
       { tipo: "Endereço", valor: "R. Sete, 120 — Duque de Caxias/RJ", alerta: "Em lista de bloqueio (chargeback 09/2026)" },
@@ -211,7 +211,7 @@ export const pedidos: Pedido[] = [
     total: 83_090,
     status: "Cancelado",
     regras: [],
-    proximaAcao: "Última tentativa de pagamento negada",
+    proximaAcao: "Pagamento negado na última tentativa",
   }),
   pedido({
     numero: "48197",
@@ -344,5 +344,5 @@ export const dashboard = {
 export const equipe = [
   { nome: "Diego", vendas: 4_890_000, pedidos: 11 },
   { nome: "Carla", vendas: 2_520_900, pedidos: 7 },
-  { nome: "IA (WhatsApp)", vendas: 2_268_200, pedidos: 7 },
+  { nome: "IA no WhatsApp", vendas: 2_268_200, pedidos: 7 },
 ];

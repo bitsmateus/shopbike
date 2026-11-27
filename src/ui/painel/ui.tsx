@@ -6,11 +6,11 @@ import { Icon, type IconName } from "@/ui/icons";
 
 export function Card({ titulo, ferramentas, className, children, tom }: { titulo?: string; ferramentas?: React.ReactNode; className?: string; children: React.ReactNode; tom?: "red" }) {
   return (
-    <section className={cn("glass rise min-w-0 rounded-[var(--radius-card)] p-4", tom === "red" && "bg-[linear-gradient(160deg,#fdf0f1cc,#ffffffb3)]", className)}>
+    <section className={cn("glass rise min-w-0 rounded-[var(--radius-card)] p-4", tom === "red" && "bg-[linear-gradient(160deg,var(--color-red-50),var(--color-paper)_55%)]", className)}>
       {(titulo || ferramentas) && (
         <div className="mb-3 flex items-center justify-between gap-3">
-          {titulo && <h2 className="text-[15px] font-bold">{titulo}</h2>}
-          {ferramentas && <div className="flex items-center gap-1.5">{ferramentas}</div>}
+          {titulo && <h2 className="text-base font-bold">{titulo}</h2>}
+          {ferramentas && <div className="-my-1.5 flex items-center gap-1.5">{ferramentas}</div>}
         </div>
       )}
       {children}
@@ -18,9 +18,29 @@ export function Card({ titulo, ferramentas, className, children, tom }: { titulo
   );
 }
 
+/** Link padrão de card ("Ver todos", "Relatório"): 13px/600, chevron e área de clique de 32px. */
+export function LinkCard({ href, children, tom, icone }: { href: string; children: React.ReactNode; tom?: "erro"; icone?: IconName }) {
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "-mx-2 inline-flex min-h-8 items-center gap-1 rounded-full px-2 py-1.5 text-[13px] font-semibold",
+        tom === "erro" ? "text-danger hover:bg-danger-50" : "text-ink hover:bg-snow",
+      )}
+    >
+      {icone && <Icon name={icone} className="size-3.5" />}
+      {children}
+      <Icon name="chevronRight" className="size-3.5" />
+    </Link>
+  );
+}
+
+/** Nome do canal por extenso, igual em gráficos, listas e relatórios. */
+export const nomeCanal: Record<string, string> = { Site: "Site", Link: "Link do vendedor", IA: "IA no WhatsApp" };
+
 export function BotaoIcone({ icon, rotulo, onClick }: { icon: IconName; rotulo: string; onClick?: () => void }) {
   return (
-    <button onClick={onClick} className="grid size-9 place-items-center rounded-full bg-white/70 ring-1 ring-black/5 transition hover:bg-white" aria-label={rotulo} title={rotulo}>
+    <button onClick={onClick} className="grid size-9 place-items-center rounded-full bg-snow ring-1 ring-black/5 transition hover:bg-white" aria-label={rotulo} title={rotulo}>
       <Icon name={icon} className="size-4" />
     </button>
   );
@@ -38,7 +58,7 @@ export function Cabecalho({ titulo, kpis, acoes }: { titulo: string; kpis?: { ic
                 <Icon name={k.icon} className="size-4" />
               </span>
               <div>
-                <dt className="text-xs text-muted">{k.rotulo}</dt>
+                <dt className="text-xs font-medium text-muted">{k.rotulo}</dt>
                 <dd className="text-base leading-tight font-bold tabular">{k.valor}</dd>
               </div>
               {k.href && <Link href={k.href} className="absolute inset-0 rounded-full" aria-label={`${k.rotulo}: ${k.valor}. Abrir detalhes`} />}
@@ -59,7 +79,7 @@ export function Botao({ children, tom = "ink", className, ...rest }: { tom?: "in
         "inline-flex h-10 items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold transition disabled:opacity-50",
         tom === "ink" && "bg-ink text-white hover:bg-ink-2",
         tom === "red" && "bg-red text-white hover:bg-red-600",
-        tom === "ghost" && "bg-white/70 ring-1 ring-black/10 hover:bg-white",
+        tom === "ghost" && "bg-snow ring-1 ring-black/10 hover:bg-white",
         className,
       )}
     >
@@ -68,67 +88,92 @@ export function Botao({ children, tom = "ink", className, ...rest }: { tom?: "in
   );
 }
 
+/* Cor por significado: verde = pago/concluído, âmbar = esperando alguém,
+   vermelho escuro = barrado, azul = em andamento, cinza = etapa fiscal ou encerrado. */
 const coresStatus: Record<StatusPedido, string> = {
   "Aguardando pagamento": "bg-warn-50 text-warn",
-  "Em análise": "bg-red-50 text-red",
-  Pago: "bg-info-50 text-info",
+  "Em análise": "bg-warn-50 text-warn",
+  Pago: "bg-ok-50 text-ok",
   "Em separação": "bg-info-50 text-info",
   Faturado: "bg-cloud text-ink-2",
   Autorizado: "bg-cloud text-ink-2",
-  Enviado: "bg-ok-50 text-ok",
+  Enviado: "bg-info-50 text-info",
   Entregue: "bg-ok-50 text-ok",
   Cancelado: "bg-cloud text-faint",
-  Bloqueado: "bg-ink text-white",
+  Bloqueado: "bg-danger-50 text-danger",
 };
 
 export function StatusChip({ status }: { status: StatusPedido }) {
   return <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap", coresStatus[status])}>{status}</span>;
 }
 
-export function NotaRisco({ nota, faixa, grande }: { nota: number; faixa: Faixa; grande?: boolean }) {
-  const cor = faixa === "aprova" ? "text-ok bg-ok-50" : faixa === "revisao" ? "text-warn bg-warn-50" : "text-white bg-red";
+const faixaTexto: Record<Faixa, string> = { aprova: "aprovação automática (0 a 29)", revisao: "revisão manual (30 a 59)", bloqueia: "bloqueio (60 ou mais)" };
+
+/** Nota de risco do antifraude (0 a 100). A cor segue a faixa de decisão da regra. */
+export function NotaRisco({ nota, faixa, grande, rotulo = true }: { nota: number; faixa: Faixa; grande?: boolean; rotulo?: boolean }) {
+  const cor = faixa === "aprova" ? "text-ok bg-ok-50" : faixa === "revisao" ? "text-warn bg-warn-50" : "text-danger bg-danger-50";
   return (
-    <span className={cn("inline-flex items-center gap-1.5 rounded-full font-bold tabular", cor, grande ? "px-3 py-1.5 text-lg" : "px-2.5 py-1 text-xs")}>
-      <span className={cn("rounded-full", grande ? "size-2.5" : "size-1.5", faixa === "bloqueia" ? "bg-white" : "bg-current")} />
+    <span
+      title={`Nota de risco ${nota} de 100: ${faixaTexto[faixa]}`}
+      className={cn("inline-flex shrink-0 items-center gap-1.5 rounded-full font-bold whitespace-nowrap tabular", cor, grande ? "px-3 py-1.5 text-lg" : "px-2 py-1 text-xs")}
+    >
+      <span className={cn("rounded-full bg-current", grande ? "size-2.5" : "size-1.5")} />
+      {rotulo && !grande && <span className="font-semibold">Risco</span>}
       {nota}
     </span>
   );
 }
 
-export function Kpi({ rotulo, valor, tipo, variacao, meta, href }: { rotulo: string; valor: number; tipo: "dinheiro" | "numero" | "pct"; variacao: number; meta?: number; href?: string }) {
+export function Kpi({ rotulo, valor, tipo, variacao, meta, href, destaque, tendencia, className }: { rotulo: string; valor: number; tipo: "dinheiro" | "numero" | "pct"; variacao: number; meta?: number; href?: string; destaque?: boolean; tendencia?: number[]; className?: string }) {
   const txt = tipo === "dinheiro" ? reaisCurto(valor) : tipo === "pct" ? pct(valor, 2) : numero(valor);
   const sobe = variacao >= 0;
   const bom = rotulo.includes("abandonados") ? !sobe : sobe;
   const conteudo = (
     <>
-      <div className="flex items-center justify-between gap-2 text-xs font-medium text-muted">
+      <div className="flex items-center justify-between gap-2 text-[13px] font-medium text-muted">
         {rotulo}
         {href && <Icon name="chevronRight" className="seta size-3.5 opacity-0 transition" />}
       </div>
-      <div className="mt-0.5 text-xl leading-tight font-bold tabular">{txt}</div>
-      <div className={cn("mt-1 inline-flex items-center gap-1 text-xs font-semibold", bom ? "text-ok" : "text-red")}>
+      <div className={cn("mt-0.5 leading-tight font-bold tabular", destaque ? "text-[28px]" : "text-xl")}>{txt}</div>
+      <div className={cn("mt-1 inline-flex items-center gap-1 text-xs font-semibold", bom ? "text-ok" : "text-danger")}>
         <Icon name={sobe ? "arrowUp" : "arrowDown"} className="size-3.5" />
         {Math.abs(variacao).toLocaleString("pt-BR")}% vs. out
       </div>
       {meta && (
-        <div className="mt-2">
-          <div className="flex justify-between text-[11px] text-muted">
+        <div className="mt-3">
+          <div className="flex justify-between text-xs text-muted">
             <span>Meta {reaisCurto(meta)}</span>
-            <span className="tabular">{Math.round((valor / meta) * 100)}%</span>
+            <span className="font-semibold text-ink tabular">{Math.round((valor / meta) * 100)}%</span>
           </div>
-          <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-black/5">
-            <div className="h-full rounded-full bg-red" style={{ width: `${Math.min(100, (valor / meta) * 100)}%` }} />
+          <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-line">
+            <div className={cn("h-full rounded-full", valor >= meta ? "bg-ok" : "bg-ink")} style={{ width: `${Math.min(100, (valor / meta) * 100)}%` }} />
           </div>
         </div>
       )}
+      {tendencia && tendencia.length > 1 && <MiniLinha valores={tendencia} />}
     </>
   );
   return href ? (
-    <Link href={href} className="tile clicavel group block px-3 py-2.5" aria-label={`${rotulo}: ${txt}. Abrir detalhes`}>
+    <Link href={href} className={cn("tile clicavel group block px-4 py-3", className)} aria-label={`${rotulo}: ${txt}. Abrir detalhes`}>
       {conteudo}
     </Link>
   ) : (
-    <div className="tile px-3 py-2.5">{conteudo}</div>
+    <div className={cn("tile px-4 py-3", className)}>{conteudo}</div>
+  );
+}
+
+/** Minilinha de tendência (sem eixo) para o KPI em destaque. */
+function MiniLinha({ valores }: { valores: number[] }) {
+  const W = 200;
+  const H = 40;
+  const max = Math.max(...valores);
+  const min = Math.min(...valores);
+  const pts = valores.map((v, i) => `${(i / (valores.length - 1)) * W},${H - 2 - ((v - min) / (max - min || 1)) * (H - 4)}`).join(" ");
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="mt-3 h-10 w-full text-ink" aria-hidden>
+      <polygon points={`0,${H} ${pts} ${W},${H}`} className="fill-current opacity-[0.06]" />
+      <polyline points={pts} fill="none" stroke="currentColor" strokeWidth="1.5" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
+    </svg>
   );
 }
 
@@ -138,7 +183,7 @@ export type Tom = "ok" | "warn" | "red" | "info" | "neutro" | "ink" | "apagado";
 const tons: Record<Tom, string> = {
   ok: "bg-ok-50 text-ok",
   warn: "bg-warn-50 text-warn",
-  red: "bg-red-50 text-red",
+  red: "bg-danger-50 text-danger",
   info: "bg-info-50 text-info",
   neutro: "bg-white text-ink-2 ring-1 ring-black/5",
   ink: "bg-ink text-white",

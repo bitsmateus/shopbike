@@ -23,6 +23,7 @@ export function CardVendas({ kpis, serie }: { kpis: KpiDado[]; serie: Dia[] }) {
   const caixa = useRef<HTMLDivElement>(null);
   const { avisar, aviso } = useAviso();
 
+  const [destaque, ...outros] = kpis;
   const p = periodos.find((x) => x.id === periodo)!;
   const dados = p.dias ? serie.slice(-p.dias) : serie;
   const titulo = p.dias ? `${dados[0].dia} a ${dados[dados.length - 1].dia} de novembro` : `1 a ${serie[serie.length - 1].dia} de novembro`;
@@ -58,13 +59,14 @@ export function CardVendas({ kpis, serie }: { kpis: KpiDado[]; serie: Dia[] }) {
         aria-expanded={menu}
         aria-haspopup="menu"
         title="Escolher período"
-        className={cn("inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-xs font-semibold ring-1 ring-black/5 hover:bg-white", menu ? "bg-white" : "bg-white/70")}
+        className={cn("inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-[13px] font-semibold ring-1 ring-black/10 hover:bg-snow", menu ? "bg-snow" : "bg-white")}
       >
-        <Icon name="filter" className="size-4" />
+        <Icon name="calendar" className="size-4" />
         <span className="hidden sm:inline">{p.rotulo}</span>
+        <Icon name="chevronDown" className={cn("size-3.5 transition", menu && "rotate-180")} />
       </button>
-      <button onClick={exportar} title="Baixar planilha (CSV)" aria-label="Baixar planilha" className="grid size-9 place-items-center rounded-full bg-white/70 ring-1 ring-black/5 hover:bg-white">
-        <Icon name="arrowDown" className="size-4" />
+      <button onClick={exportar} title="Baixar planilha (CSV)" aria-label="Baixar planilha" className="grid size-9 place-items-center rounded-full bg-white ring-1 ring-black/10 hover:bg-snow">
+        <Icon name="download" className="size-4" />
       </button>
       {menu && (
         <ul role="menu" className="glass-strong rise absolute top-[calc(100%+6px)] right-0 z-20 w-48 rounded-2xl p-1.5">
@@ -91,12 +93,16 @@ export function CardVendas({ kpis, serie }: { kpis: KpiDado[]; serie: Dia[] }) {
 
   return (
     <Card titulo={`Vendas · ${titulo}`} className="xl:col-span-8" ferramentas={ferramentas}>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 2xl:grid-cols-6">
-        {kpis.map((k) => (
-          <Kpi key={k.rotulo} {...k} />
-        ))}
+      {/* Vendas em destaque (com meta e tendência); os outros cinco compactos ao lado */}
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,3fr)]">
+        <Kpi {...destaque} destaque tendencia={dados.map((d) => d.site + d.link + d.ia)} className="h-full" />
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-6">
+          {outros.map((k, i) => (
+            <Kpi key={k.rotulo} {...k} className={i < 3 ? "sm:col-span-2" : "sm:col-span-3"} />
+          ))}
+        </div>
       </div>
-      <div className="mt-5">
+      <div className="mt-4">
         <GraficoVendas serie={dados} />
       </div>
       {aviso}

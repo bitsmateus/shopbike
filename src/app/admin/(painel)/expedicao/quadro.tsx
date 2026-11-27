@@ -73,7 +73,7 @@ export function QuadroExpedicao() {
                 {lista.map((c) => {
                   const prox = proxima[c.etapa];
                   return (
-                    <li key={c.pedido} className={cn("rise rounded-2xl bg-white/90 p-3 ring-1 transition", sel.includes(c.pedido) ? "ring-2 ring-ink" : "ring-black/5")}>
+                    <li key={c.pedido} className={cn("rise rounded-2xl bg-snow p-3 ring-1 transition", sel.includes(c.pedido) ? "ring-2 ring-ink" : "ring-black/5")}>
                       <div className="flex items-start gap-2">
                         {c.etapa === "Etiqueta" && (
                           <input

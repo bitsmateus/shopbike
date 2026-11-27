@@ -12,11 +12,10 @@ import { areas } from "./navegacao";
 const casa = (path: string, href: string) => (href === "/admin" ? path === "/admin" : path === href || path.startsWith(href + "/"));
 const areaDe = (path: string) => areas.find((a) => casa(path, a.href) || a.subs?.some((s) => casa(path, s.href)));
 
+/* Barra lateral = ações rápidas. Buscar e Relatórios já estão no menu de cima, então não se repetem aqui. */
 const dock: { icon: IconName; rotulo: string; href?: string }[] = [
-  { icon: "search", rotulo: "Buscar (Ctrl K)" },
   { icon: "link", rotulo: "Novo link de pagamento", href: "/admin/links" },
   { icon: "truck", rotulo: "Expedição", href: "/admin/expedicao" },
-  { icon: "chart", rotulo: "Relatórios", href: "/admin/relatorios" },
   { icon: "menu", rotulo: "Mapa do sistema", href: "/admin/mapa" },
   { icon: "store", rotulo: "Abrir a loja", href: "/" },
   { icon: "gear", rotulo: "Configurações", href: "/admin/configuracoes" },
@@ -48,7 +47,7 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
       <a href="#painel" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
         Pular para o conteúdo
       </a>
-      <header className="sticky top-0 z-40 px-[clamp(12px,1.6vw,28px)] pt-3">
+      <header className="topnav sticky top-0 z-40 px-[clamp(12px,1.6vw,28px)] py-2">
         <div className="mx-auto flex max-w-[1840px] flex-wrap items-center gap-3 xl:flex-nowrap">
           <Link href="/admin" className="glass flex h-12 shrink-0 items-center rounded-full px-4" aria-label="Painel ShopBike">
             <LogoSistema compact />
@@ -65,17 +64,17 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
                     aria-current={ativa ? "page" : undefined}
                     className={cn(
                       "relative inline-flex h-full shrink-0 items-center gap-2 rounded-full px-3.5 text-sm font-semibold transition",
-                      ativa ? "bg-ink text-white shadow-[0_6px_16px_-8px_#1a191799]" : "text-ink-2 hover:bg-white/70",
+                      ativa ? "bg-ink text-white shadow-[0_6px_16px_-8px_#1a191799]" : "text-ink-2 hover:bg-snow",
                     )}
                   >
                     {a.rotulo}
-                    {a.badge ? <span className="grid min-w-5 place-items-center rounded-full bg-red px-1 text-[11px] font-bold text-white">{a.badge}</span> : null}
+                    {a.badge ? <span className="grid min-w-5 place-items-center rounded-full bg-red px-1 text-xs font-bold text-white">{a.badge}</span> : null}
                   </Link>
                 );
               })}
           </nav>
           <div className="relative ml-auto flex items-center gap-2 xl:ml-0">
-            <button onClick={() => setBusca(true)} className="glass grid size-11 place-items-center rounded-full" aria-label="Buscar">
+            <button onClick={() => setBusca(true)} className="glass grid size-11 place-items-center rounded-full" aria-label="Buscar (Ctrl K)" title="Buscar (Ctrl K)">
               <Icon name="search" />
             </button>
             <button onClick={() => setAvisos((v) => !v)} aria-expanded={avisos} className="glass relative grid size-11 place-items-center rounded-full" aria-label="Notificações, 3 novas">
@@ -101,7 +100,7 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
       >
         {dock.map((d) => {
           const ativo = d.href && d.href !== "/" && (d.href === "/admin/configuracoes" ? area?.href === "/admin/configuracoes" : casa(path, d.href));
-          const cls = cn("group relative grid size-11 place-items-center rounded-full transition", ativo ? "bg-ink text-white" : "text-ink-2 hover:bg-white");
+          const cls = cn("group relative grid size-11 place-items-center rounded-full transition", ativo ? "bg-ink text-white" : "text-ink-2 hover:bg-snow");
           const tip = (
             <span className="pointer-events-none absolute left-[calc(100%+12px)] hidden rounded-full bg-ink px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-white opacity-0 transition group-hover:opacity-100 md:block">
               {d.rotulo}
@@ -121,7 +120,7 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
         })}
       </nav>
 
-      <main id="painel" className="mx-auto max-w-[1840px] px-[clamp(12px,1.6vw,28px)] pt-4 pb-28 md:pl-[96px] md:pb-12">
+      <main id="painel" className="mx-auto max-w-[1840px] px-[clamp(12px,1.6vw,28px)] pt-3 pb-28 md:pl-[96px] md:pb-12">
         {area?.subs && (
           <nav aria-label={`Seções de ${area.rotulo}`} className="scrollbar-none mb-3 flex gap-1 overflow-x-auto">
             {area.subs.map((s) => {
@@ -134,7 +133,7 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
                   className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", ativa ? "bg-white text-ink shadow-[var(--shadow-soft)] ring-1 ring-black/5" : "text-muted hover:text-ink")}
                 >
                   {s.rotulo}
-                  {s.fase === 2 && <span className="ml-1.5 rounded-full bg-info-50 px-1.5 py-0.5 text-[10px] font-bold text-info">F2</span>}
+                  {s.fase === 2 && <span className="ml-1.5 rounded-full bg-info-50 px-1.5 py-0.5 text-xs font-bold text-info">F2</span>}
                 </Link>
               );
             })}

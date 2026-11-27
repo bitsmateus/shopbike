@@ -10,7 +10,7 @@ const vendedores = [
   { nome: "Diego", vendas: 4_890_000, meta: 5_500_000, pedidos: 11, links: 18, conversao: 61, comissao: 146_700 },
   { nome: "Carla", vendas: 2_520_900, meta: 4_000_000, pedidos: 7, links: 12, conversao: 58, comissao: 75_627 },
   { nome: "Rogério", vendas: 1_180_000, meta: 3_000_000, pedidos: 4, links: 9, conversao: 44, comissao: 35_400 },
-  { nome: "IA (WhatsApp)", vendas: 2_268_200, meta: 2_000_000, pedidos: 7, links: 7, conversao: 100, comissao: 0 },
+  { nome: "IA no WhatsApp", vendas: 2_268_200, meta: 2_000_000, pedidos: 7, links: 7, conversao: 100, comissao: 0 },
 ];
 
 export default function VendedoresPage() {

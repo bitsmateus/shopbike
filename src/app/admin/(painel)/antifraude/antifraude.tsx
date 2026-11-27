@@ -16,7 +16,7 @@ export function Antifraude({ inicial }: { inicial?: string }) {
     <>
       <div className="glass scrollbar-none mb-3 inline-flex max-w-full overflow-x-auto rounded-full p-1" role="tablist">
         {abas.map((a) => (
-          <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)} className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", aba === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}>
+          <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)} className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", aba === a ? "bg-ink text-white" : "text-ink-2 hover:bg-snow")}>
             {a}
             {a === "Fila de revisão" && <span className="ml-2 rounded-full bg-red px-1.5 py-0.5 text-[11px] text-white">{filaRevisao.length}</span>}
           </button>

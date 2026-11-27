@@ -155,7 +155,7 @@ export function Links() {
           </label>
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center gap-4 rounded-2xl bg-white/80 p-4 ring-1 ring-black/5">
+        <div className="mt-5 flex flex-wrap items-center gap-4 rounded-2xl bg-snow p-4 ring-1 ring-black/5">
           <div className="flex-1">
             <p className="text-sm text-muted">Total do link</p>
             <p className="text-2xl font-bold tabular">{reais(total)}</p>

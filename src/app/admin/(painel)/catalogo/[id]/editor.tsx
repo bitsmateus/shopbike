@@ -68,7 +68,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
         </Link>
         <span className="flex-1" />
         {!novo && (
-          <Link href={`/p/${p.slug}`} target="_blank" className="inline-flex h-10 items-center gap-2 rounded-full bg-white/70 px-4 text-sm font-semibold ring-1 ring-black/10">
+          <Link href={`/p/${p.slug}`} target="_blank" className="inline-flex h-10 items-center gap-2 rounded-full bg-snow px-4 text-sm font-semibold ring-1 ring-black/10">
             <Icon name="eye" className="size-4" /> Ver na loja
           </Link>
         )}
@@ -81,7 +81,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        <span className="grid size-20 place-items-center rounded-[20px] bg-white/80 ring-1 ring-black/5">{!novo && <ProductArt kind={p.art} color={p.cores[0].hex} className="size-[72px]" />}</span>
+        <span className="grid size-20 place-items-center rounded-[20px] bg-snow ring-1 ring-black/5">{!novo && <ProductArt kind={p.art} color={p.cores[0].hex} className="size-[72px]" />}</span>
         <div className="min-w-0 flex-1">
           <h1 className="text-2xl leading-tight font-bold tracking-tight">{titulo || "Novo produto"}</h1>
           <p className="text-sm text-muted">{novo ? "Preencha os dados e salve como rascunho." : `${p.marca} · ${p.variacoes.length} variações · código ERP ${p.variacoes[0]?.sku.split("-")[0]}`}</p>
@@ -133,7 +133,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
                     {!novo && <ProductArt kind={p.art} color={p.cores[i % p.cores.length].hex} angle={i} className="size-full p-2" />}
                   </div>
                   {i === 0 && <span className="absolute top-2 left-2 rounded-full bg-ink px-2 py-0.5 text-[10px] font-bold text-white">Capa</span>}
-                  <input defaultValue={novo ? "" : `${p.nome} ${i === 0 ? "vista lateral" : `detalhe ${i}`}`} aria-label={`Texto alternativo da foto ${i + 1}`} className="mt-1.5 h-8 w-full rounded-lg bg-white/80 px-2 text-xs ring-1 ring-black/5" />
+                  <input defaultValue={novo ? "" : `${p.nome} ${i === 0 ? "vista lateral" : `detalhe ${i}`}`} aria-label={`Texto alternativo da foto ${i + 1}`} className="mt-1.5 h-8 w-full rounded-lg bg-snow px-2 text-xs ring-1 ring-black/5" />
                 </div>
               ))}
               <label className="grid aspect-square cursor-pointer place-items-center rounded-2xl border-2 border-dashed border-black/15 text-center text-xs text-muted hover:bg-white/60">
@@ -265,7 +265,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
               <CampoPainel label="Promoção até" type="date" defaultValue={p.precoDe ? "2026-11-30" : ""} />
               <SelectPainel label="Parcelamento" opcoes={["Regra geral (até 21x)", "Regra da marca", "Até 12x neste produto", "Até 6x neste produto"]} defaultValue={p.limiteParcelas ? "Até 12x neste produto" : "Regra geral (até 21x)"} />
               <SelectPainel label="Exibição" opcoes={["Preço normal", "Preço sob consulta", "Só vitrine (sem compra)"]} />
-              <div className="rounded-xl bg-white/80 p-3 text-sm ring-1 ring-black/5">
+              <div className="rounded-xl bg-snow p-3 text-sm ring-1 ring-black/5">
                 <p className="text-xs text-muted">Na loja aparece</p>
                 <p className="font-semibold tabular">
                   até {parcelasPermitidas(p.preco, p.limiteParcelas)}x · {reais(Math.round(p.preco * 0.9))} no Pix

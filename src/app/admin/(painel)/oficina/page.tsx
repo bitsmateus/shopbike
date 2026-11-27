@@ -47,7 +47,7 @@ export default function OficinaPage() {
             <div className="grid min-w-[760px] grid-cols-[64px_repeat(6,1fr)] gap-1.5">
               <span />
               {dias.map((d) => (
-                <span key={d} className={cn("rounded-xl py-2 text-center text-sm font-bold", d === "Qua 25" ? "bg-ink text-white" : "bg-white/70")}>
+                <span key={d} className={cn("rounded-xl py-2 text-center text-sm font-bold", d === "Qua 25" ? "bg-ink text-white" : "bg-snow")}>
                   {d}
                 </span>
               ))}

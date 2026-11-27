@@ -197,7 +197,7 @@ export default async function PerfilCliente({ params }: Props) {
                   </li>
                 ))}
               </ul>
-              <div className="mt-4 rounded-2xl bg-white/80 p-3 text-sm">
+              <div className="mt-4 rounded-2xl bg-snow p-3 text-sm">
                 <p className="font-semibold">Observações da equipe</p>
                 <p className="mt-1 text-muted">Pedala no grupo de quarta. Prefere retirar na loja. Revisão da Big Wheel em 25/12.</p>
               </div>

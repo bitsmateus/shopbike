@@ -53,6 +53,13 @@ const paths: Record<string, React.ReactNode> = {
       <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-1.9Z" />
     </>
   ),
+  calendar: (
+    <>
+      <rect x="3.5" y="5" width="17" height="15" rx="2.5" />
+      <path d="M3.5 10h17M8 3v4M16 3v4" />
+    </>
+  ),
+  download: <path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16" />,
   chevronRight: <path d="m9 6 6 6-6 6" />,
   chevronLeft: <path d="m15 6-6 6 6 6" />,
   chevronDown: <path d="m6 9 6 6 6-6" />,

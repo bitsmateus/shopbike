@@ -38,7 +38,7 @@ export function Catalogo() {
               ["revisao", `Revisão do cadastro (${produtos.filter((p) => p.qualidade.nota < 80).length})`],
             ] as const
           ).map(([k, r]) => (
-            <button key={k} role="tab" aria-selected={aba === k} onClick={() => setAba(k)} className={cn("rounded-full px-4 py-2 text-sm font-semibold", aba === k ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}>
+            <button key={k} role="tab" aria-selected={aba === k} onClick={() => setAba(k)} className={cn("rounded-full px-4 py-2 text-sm font-semibold", aba === k ? "bg-ink text-white" : "text-ink-2 hover:bg-snow")}>
               {r}
             </button>
           ))}
@@ -65,11 +65,11 @@ export function Catalogo() {
 
       <Card className="overflow-hidden p-0">
         <div className="flex flex-wrap gap-2 border-b border-black/5 p-3">
-          <label className="flex h-10 min-w-[240px] flex-1 items-center gap-2 rounded-full bg-white/80 px-4 ring-1 ring-black/5">
+          <label className="flex h-10 min-w-[240px] flex-1 items-center gap-2 rounded-full bg-snow px-4 ring-1 ring-black/5">
             <Icon name="search" className="size-4 text-faint" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Nome, marca ou SKU" className="flex-1 bg-transparent text-sm outline-none" aria-label="Buscar produtos" />
           </label>
-          <select value={cat} onChange={(e) => setCat(e.target.value)} className="h-10 rounded-full bg-white/80 px-4 text-sm ring-1 ring-black/5" aria-label="Categoria">
+          <select value={cat} onChange={(e) => setCat(e.target.value)} className="h-10 rounded-full bg-snow px-4 text-sm ring-1 ring-black/5" aria-label="Categoria">
             <option value="todas">Todas as categorias</option>
             {categorias.map((c) => (
               <option key={c.slug} value={c.slug}>
@@ -94,10 +94,10 @@ export function Catalogo() {
             </thead>
             <tbody>
               {lista.map((p) => (
-                <tr key={p.id} onClick={() => router.push(`/admin/catalogo/${p.id}`)} className="cursor-pointer border-b border-black/5 last:border-0 hover:bg-white/70">
+                <tr key={p.id} onClick={() => router.push(`/admin/catalogo/${p.id}`)} className="cursor-pointer border-b border-black/5 last:border-0 hover:bg-snow">
                   <td className="py-2 pl-4">
                     <span className="flex items-center gap-3">
-                      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/80">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-snow">
                         <ProductArt kind={p.art} color={p.cores[0].hex} className="size-9" />
                       </span>
                       <span>

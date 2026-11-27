@@ -34,7 +34,7 @@ export default function ImportacaoPage() {
       />
       <div className="grid gap-4 xl:grid-cols-[1.3fr_1fr]">
         <Card titulo="Importar">
-          <label className="grid cursor-pointer place-items-center rounded-[20px] border-2 border-dashed border-black/15 bg-white/50 p-8 text-center hover:bg-white">
+          <label className="grid cursor-pointer place-items-center rounded-[20px] border-2 border-dashed border-black/15 bg-snow p-8 text-center hover:bg-white">
             <span>
               <span className="mx-auto grid size-14 place-items-center rounded-full bg-ink text-white">
                 <Icon name="arrowUp" />

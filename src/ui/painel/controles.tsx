@@ -14,7 +14,7 @@ export function Abas<T extends string>({ abas, ativa, onChange, contagem }: { ab
           role="tab"
           aria-selected={ativa === a}
           onClick={() => onChange(a)}
-          className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", ativa === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}
+          className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", ativa === a ? "bg-ink text-white" : "text-ink-2 hover:bg-snow")}
         >
           {a}
           {contagem?.[a] != null && <span className={cn("ml-1.5 text-xs tabular", ativa === a ? "text-white/70" : "text-faint")}>{contagem[a]}</span>}

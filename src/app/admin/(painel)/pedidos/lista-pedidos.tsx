@@ -33,11 +33,11 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
     <>
       <Card className="p-3 md:p-4">
         <div className="flex flex-wrap items-center gap-2">
-          <label className="flex h-11 min-w-[260px] flex-1 items-center gap-2 rounded-full bg-white/80 px-4 ring-1 ring-black/5 focus-within:ring-ink">
+          <label className="flex h-11 min-w-[260px] flex-1 items-center gap-2 rounded-full bg-snow px-4 ring-1 ring-black/5 focus-within:ring-ink">
             <Icon name="search" className="size-4 text-faint" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Número, NF, CPF, nome, e-mail, produto ou SKU" className="h-full flex-1 bg-transparent text-sm outline-none" aria-label="Buscar pedidos" />
           </label>
-          <div className="flex rounded-full bg-white/70 p-1 ring-1 ring-black/5" role="group" aria-label="Canal">
+          <div className="flex rounded-full bg-snow p-1 ring-1 ring-black/5" role="group" aria-label="Canal">
             {(["Todos", "Site", "Link", "IA"] as const).map((c) => (
               <button key={c} aria-pressed={canal === c} onClick={() => setCanal(c)} className={cn("rounded-full px-3.5 py-1.5 text-sm font-semibold", canal === c ? "bg-ink text-white" : "text-muted hover:text-ink")}>
                 {c}
@@ -57,7 +57,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
               key={s}
               aria-pressed={status === s}
               onClick={() => setStatus(s)}
-              className={cn("inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium ring-1 transition", status === s ? "bg-ink text-white ring-ink" : "bg-white/60 ring-black/5 hover:bg-white")}
+              className={cn("inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium ring-1 transition", status === s ? "bg-ink text-white ring-ink" : "bg-snow ring-black/5 hover:bg-white")}
             >
               {s}
               <span className={cn("text-xs tabular", status === s ? "text-white/70" : "text-faint")}>{contagem(s)}</span>
@@ -104,7 +104,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
             </thead>
             <tbody>
               {lista.map((p) => (
-                <tr key={p.numero} onClick={() => setAberto(p.numero)} className="cursor-pointer border-b border-black/5 transition last:border-0 hover:bg-white/70">
+                <tr key={p.numero} onClick={() => setAberto(p.numero)} className="cursor-pointer border-b border-black/5 transition last:border-0 hover:bg-snow">
                   <td className="py-2 pl-4" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"

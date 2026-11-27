@@ -92,7 +92,7 @@ export function Trocas() {
               </li>
             ))}
           </ul>
-          <p className="mt-4 rounded-xl bg-white/70 p-3 text-xs text-muted">
+          <p className="mt-4 rounded-xl bg-snow p-3 text-xs text-muted">
             “Tamanho não serviu” lidera. A calculadora de tamanho de quadro (Fase 2) deve reduzir esse número.
           </p>
         </Card>
