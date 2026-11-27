@@ -12,6 +12,11 @@ import { Abas, useAviso } from "@/ui/painel/controles";
 import { Botao, Card, Chip, plural, type Tom } from "@/ui/painel/ui";
 
 type Item = { p: Produto; sku: string; rotulo: string; qtd: number };
+/** Item avulso: descrição e valor digitados, sem catálogo. Não baixa estoque. */
+type Avulso = { descricao: string; valor: number };
+
+/** "R$" enquanto digita: só números, lidos como centavos (1990 → 19,90). */
+const centavosDe = (v: string) => Number(v.replace(/\D/g, "").slice(0, 9) || "0");
 
 const LIMITE_DESCONTO = 5; // % do perfil Vendedor (protótipo)
 const PASSO_DESCONTO = 0.5;
@@ -58,13 +63,18 @@ export function Links() {
   const [parcelas, setParcelas] = useState(21);
   const [nome, setNome] = useState("");
   const [whats, setWhats] = useState("");
+  const [avulsos, setAvulsos] = useState<Avulso[]>([]);
+  const [formAvulso, setFormAvulso] = useState(false);
+  const [descAvulso, setDescAvulso] = useState("");
+  const [valorAvulso, setValorAvulso] = useState(0);
   const [lista, setLista] = useState(linksIniciais);
   const [filtro, setFiltro] = useState<(typeof filtrosLista)[number]>("Ativos");
   const [gerado, setGerado] = useState<string | null>(null);
   const { avisar, aviso } = useAviso();
 
   const sugestoes = useMemo(() => (busca.length < 2 ? [] : produtos.filter((p) => `${p.nome} ${p.marca}`.toLowerCase().includes(busca.toLowerCase())).slice(0, 5)), [busca]);
-  const subtotal = itens.reduce((s, i) => s + i.p.preco * i.qtd, 0);
+  const subtotal = itens.reduce((s, i) => s + i.p.preco * i.qtd, 0) + avulsos.reduce((s, a) => s + a.valor, 0);
+  const semItens = itens.length === 0 && avulsos.length === 0;
   const total = Math.round(subtotal * (1 - desconto / 100));
   const maxParcelas = parcelasPermitidas(total);
   const n = Math.min(parcelas, maxParcelas);
@@ -72,10 +82,18 @@ export function Links() {
 
   // O que falta para gerar o link (texto ao lado do botão desabilitado)
   // WhatsApp é opcional: sem ele, o vendedor copia o link e manda por onde quiser.
-  const falta = [itens.length === 0 && "um produto", !nome.trim() && "o nome do cliente"].filter(Boolean) as string[];
+  const falta = [semItens && "um produto ou item avulso", !nome.trim() && "o nome do cliente"].filter(Boolean) as string[];
   const faltaTxt = falta.length ? `Adicione ${falta.length > 1 ? falta.slice(0, -1).join(", ") + " e " + falta.at(-1) : falta[0]} para gerar o link.` : "";
 
   const visiveis = filtro === "Ativos" ? lista.filter(ativo) : lista;
+
+  const adicionarAvulso = () => {
+    if (!descAvulso.trim() || valorAvulso <= 0) return;
+    setAvulsos([...avulsos, { descricao: descAvulso.trim(), valor: valorAvulso }]);
+    setDescAvulso("");
+    setValorAvulso(0);
+    setFormAvulso(false);
+  };
 
   const adicionar = (p: Produto) => {
     const v = p.variacoes.find((x) => x.estoque > 0) ?? p.variacoes[0];
@@ -90,7 +108,7 @@ export function Links() {
     // Protótipo: token previsível. Na plataforma, token aleatório gerado no servidor.
     const token = `novo${lista.length + 1}`;
     setLista([
-      { token, cliente: nome.trim(), vendedor: "Você", itens: itens.map((i) => i.p.nome).join(" + "), total, parcelas: n, status: "ativo", validade: "27/11, 18:00", criado: "25/11, 14:00" },
+      { token, cliente: nome.trim(), vendedor: "Você", itens: [...itens.map((i) => i.p.nome), ...avulsos.map((a) => a.descricao)].join(" + "), total, parcelas: n, status: "ativo", validade: "27/11, 18:00", criado: "25/11, 14:00" },
       ...lista,
     ]);
     setGerado(token);
@@ -114,7 +132,8 @@ export function Links() {
           <label htmlFor="busca-produto" className="mb-1.5 block text-sm font-medium">
             Produtos
           </label>
-          <div className="relative">
+          <div className="flex gap-2">
+          <div className="relative min-w-0 flex-1">
             <span className="campo flex h-11 items-center gap-2 rounded-xl px-3">
               <Icon name="search" className="size-4 text-faint" />
               <input
@@ -170,10 +189,65 @@ export function Links() {
               </ul>
             )}
           </div>
+          {/* Avulso: cobra algo fora do catálogo sem precisar buscar produto */}
+          <Botao tom="ghost" aria-expanded={formAvulso} onClick={() => setFormAvulso((v) => !v)} className="h-11 shrink-0 rounded-xl" title="Cobrar um valor sem produto do catálogo">
+            <Icon name="plus" className="size-4" /> Item avulso
+          </Botao>
+          </div>
+
+          {formAvulso && (
+            <div className="rise mt-2 rounded-[var(--radius-tile)] bg-snow p-3 ring-1 ring-line">
+              <div className="flex flex-wrap items-end gap-2">
+                <label className="block min-w-[200px] flex-1">
+                  <span className="mb-1 block text-xs font-medium text-muted">Descrição</span>
+                  <input
+                    autoFocus
+                    value={descAvulso}
+                    onChange={(e) => setDescAvulso(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && adicionarAvulso()}
+                    placeholder="Ex.: Revisão completa, montagem, frete especial"
+                    className="campo h-11 w-full rounded-xl px-3 text-sm"
+                  />
+                </label>
+                <label className="block w-36">
+                  <span className="mb-1 block text-xs font-medium text-muted">Valor</span>
+                  <input
+                    inputMode="numeric"
+                    value={valorAvulso ? reais(valorAvulso) : ""}
+                    onChange={(e) => setValorAvulso(centavosDe(e.target.value))}
+                    onKeyDown={(e) => e.key === "Enter" && adicionarAvulso()}
+                    placeholder="R$ 0,00"
+                    className="campo h-11 w-full rounded-xl px-3 text-right text-sm tabular"
+                  />
+                </label>
+                <Botao onClick={adicionarAvulso} disabled={!descAvulso.trim() || valorAvulso <= 0} className="h-11 rounded-xl">
+                  Adicionar
+                </Botao>
+              </div>
+              <p className="mt-2 flex items-center gap-1.5 text-xs font-medium text-warn">
+                <Icon name="info" className="size-3.5 shrink-0" /> Item avulso não baixa estoque. Para peças e bikes, prefira buscar o produto.
+              </p>
+            </div>
+          )}
         </div>
 
         <ul className="mt-3 space-y-2">
-          {itens.length === 0 && <li className="rounded-[var(--radius-tile)] border border-dashed border-line-2 p-5 text-center text-sm text-muted">Nenhum item ainda. Busque acima — ex.: “Big Wheel”.</li>}
+          {semItens && <li className="rounded-[var(--radius-tile)] border border-dashed border-line-2 p-5 text-center text-sm text-muted">Nenhum item ainda. Busque acima — ex.: “Big Wheel” — ou adicione um item avulso.</li>}
+          {avulsos.map((a, idx) => (
+            <li key={`avulso-${idx}`} className="tile flex items-center gap-3 p-2.5">
+              <span className="grid size-11 place-items-center rounded-lg bg-white text-muted">
+                <Icon name="tag" className="size-5" />
+              </span>
+              <span className="min-w-0 flex-1 text-sm">
+                <span className="block truncate font-semibold">{a.descricao}</span>
+                <span className="text-xs text-muted">Avulso · não baixa estoque</span>
+              </span>
+              <span className="font-semibold tabular">{reais(a.valor)}</span>
+              <button onClick={() => setAvulsos(avulsos.filter((_, j) => j !== idx))} className="grid size-8 place-items-center rounded-full hover:bg-white" aria-label={`Remover ${a.descricao}`}>
+                <Icon name="close" className="size-4" />
+              </button>
+            </li>
+          ))}
           {itens.map((i, idx) => (
             <li key={idx} className="tile flex items-center gap-3 p-2.5">
               <span className="grid size-11 place-items-center rounded-lg bg-white">
