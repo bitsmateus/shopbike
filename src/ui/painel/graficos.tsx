@@ -65,14 +65,14 @@ export function Anel({ valor, total, rotulo }: { valor: number; total: number; r
   const c = 2 * Math.PI * r;
   const f = valor / total;
   return (
-    <div className="relative grid size-32 shrink-0 place-items-center">
+    <div className="relative grid size-20 shrink-0 place-items-center">
       <svg viewBox="0 0 100 100" className="absolute inset-0 -rotate-90" aria-hidden>
         <circle cx="50" cy="50" r={r} fill="none" stroke="#1a191712" strokeWidth="7" />
         <circle cx="50" cy="50" r={r} fill="none" stroke="#1f7a3d" strokeWidth="7" strokeLinecap="round" strokeDasharray={`${c * f} ${c}`} />
       </svg>
-      <div className="max-w-[78px] text-center">
-        <div className="text-2xl leading-none font-bold tabular">{Math.round(f * 100)}%</div>
-        <div className="mt-1 text-[11px] leading-tight text-muted">{rotulo}</div>
+      <div className="max-w-[60px] text-center">
+        <div className="text-lg leading-none font-bold tabular">{Math.round(f * 100)}%</div>
+        <div className="mt-0.5 text-[10px] leading-tight text-muted">{rotulo}</div>
       </div>
     </div>
   );

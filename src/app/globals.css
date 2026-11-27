@@ -79,6 +79,12 @@ body {
 }
 
 /* ---------- Painel: vidro claro ---------- */
+/* Painel mais denso: base de 15px (em vez de 16px) reduz texto, espaçamentos,
+   botões e campos de todas as telas na mesma proporção. Não afeta a loja. */
+html:has(.painel-bg) {
+  font-size: 15px;
+}
+
 .painel-bg {
   background:
     radial-gradient(60rem 40rem at 100% -10%, #e306180d, transparent 60%),

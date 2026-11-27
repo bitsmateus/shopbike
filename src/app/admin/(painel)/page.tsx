@@ -36,33 +36,33 @@ export default function VisaoGeral() {
         </Card>
 
         <Card titulo="Antifraude · 30 dias" tom="red" className="xl:col-span-4" ferramentas={<Link href="/admin/antifraude" className="text-sm font-semibold text-red">Abrir fila</Link>}>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4">
             <Anel valor={resumoAntifraude.aprovadosAuto} total={resumoAntifraude.analisados30d} rotulo="aprovados sozinhos" />
-            <dl className="grid flex-1 grid-cols-2 gap-3 text-sm">
+            <dl className="grid flex-1 grid-cols-2 gap-x-3 gap-y-1.5 text-xs">
               <div>
                 <dt className="text-muted">Analisados</dt>
-                <dd className="text-xl font-bold tabular">{resumoAntifraude.analisados30d}</dd>
+                <dd className="text-base font-bold tabular">{resumoAntifraude.analisados30d}</dd>
               </div>
               <div>
                 <dt className="text-muted">Bloqueados</dt>
-                <dd className="text-xl font-bold tabular">{resumoAntifraude.bloqueados}</dd>
+                <dd className="text-base font-bold tabular">{resumoAntifraude.bloqueados}</dd>
               </div>
               <div>
                 <dt className="text-muted">Fraudes evitadas</dt>
-                <dd className="text-xl font-bold tabular">{resumoAntifraude.fraudesEvitadas}</dd>
+                <dd className="text-base font-bold tabular">{resumoAntifraude.fraudesEvitadas}</dd>
               </div>
               <div>
                 <dt className="text-muted">Chargebacks</dt>
-                <dd className="text-xl font-bold text-ok tabular">{resumoAntifraude.chargebacks}</dd>
+                <dd className="text-base font-bold text-ok tabular">{resumoAntifraude.chargebacks}</dd>
               </div>
             </dl>
           </div>
-          <p className="mt-4 rounded-2xl bg-white/70 p-3 text-sm">
+          <p className="mt-3 rounded-xl bg-white/70 px-3 py-2 text-xs">
             <strong className="tabular">{reais(resumoAntifraude.valorEvitado)}</strong> em pedidos fraudulentos barrados. Tempo médio de revisão: <strong>{resumoAntifraude.tempoMedioRevisao}</strong>.
           </p>
-          <div className="mt-4 space-y-2">
+          <div className="mt-3 space-y-1.5">
             {filaRevisao.map((p) => (
-              <Link key={p.numero} href={`/admin/antifraude?pedido=${p.numero}`} className="tile flex items-center gap-3 p-3 transition hover:bg-white">
+              <Link key={p.numero} href={`/admin/antifraude?pedido=${p.numero}`} className="tile flex items-center gap-2.5 px-2.5 py-2 transition hover:bg-white">
                 <NotaRisco nota={p.risco.nota} faixa={p.risco.faixa} />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-semibold">
