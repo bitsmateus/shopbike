@@ -4,8 +4,19 @@ import { dashboard, equipe, filaRevisao, integracaoLog, pedidos, resumoAntifraud
 import { reais, reaisCurto } from "@/lib/format";
 import { Icon } from "@/ui/icons";
 import { ProductArt } from "@/ui/product-art";
-import { Anel, BarrasHorizontais, GraficoVendas } from "@/ui/painel/graficos";
-import { BotaoIcone, Cabecalho, Card, Kpi, NotaRisco, StatusChip } from "@/ui/painel/ui";
+import { Anel, BarrasHorizontais } from "@/ui/painel/graficos";
+import { CardVendas } from "@/ui/painel/card-vendas";
+import { Cabecalho, Card, NotaRisco, StatusChip } from "@/ui/painel/ui";
+
+/** Para onde cada indicador leva ao ser clicado. */
+const destinoKpi: Record<string, string> = {
+  Vendas: "/admin/relatorios/vendas-por-periodo",
+  "Pedidos pagos": "/admin/pedidos",
+  "Ticket médio": "/admin/relatorios/relatorio-de-pedidos",
+  Conversão: "/admin/relatorios/taxa-de-conversao",
+  Visitas: "/admin/relatorios/analise-de-canal",
+  "Carrinhos abandonados": "/admin/recuperacao",
+};
 
 export default function VisaoGeral() {
   const acao = pedidos.filter((p) => !["Entregue", "Cancelado", "Enviado"].includes(p.status));
@@ -17,23 +28,14 @@ export default function VisaoGeral() {
       <Cabecalho
         titulo="Visão geral"
         kpis={[
-          { icon: "chart", rotulo: "Vendas no mês", valor: reaisCurto(dashboard.kpis[0].valor) },
-          { icon: "arrowUp", rotulo: "Projeção de novembro", valor: reaisCurto(dashboard.projecaoMes) },
-          { icon: "shield", rotulo: "Em análise", valor: `${filaRevisao.length} pedidos` },
+          { icon: "chart", rotulo: "Vendas no mês", valor: reaisCurto(dashboard.kpis[0].valor), href: "/admin/relatorios/vendas-por-periodo" },
+          { icon: "arrowUp", rotulo: "Projeção de novembro", valor: reaisCurto(dashboard.projecaoMes), href: "/admin/relatorios/vendas-por-periodo" },
+          { icon: "shield", rotulo: "Em análise", valor: `${filaRevisao.length} pedidos`, href: "/admin/antifraude" },
         ]}
       />
 
       <div className="grid gap-4 xl:grid-cols-12">
-        <Card titulo={`Vendas · ${dashboard.periodo}`} className="xl:col-span-8" ferramentas={<><BotaoIcone icon="filter" rotulo="Período" /><BotaoIcone icon="arrowDown" rotulo="Exportar planilha" /></>}>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 2xl:grid-cols-6">
-            {dashboard.kpis.map((k) => (
-              <Kpi key={k.rotulo} {...k} />
-            ))}
-          </div>
-          <div className="mt-5">
-            <GraficoVendas serie={dashboard.serie} />
-          </div>
-        </Card>
+        <CardVendas kpis={dashboard.kpis.map((k) => ({ ...k, href: destinoKpi[k.rotulo] }))} serie={dashboard.serie} />
 
         <Card titulo="Antifraude · 30 dias" tom="red" className="xl:col-span-4" ferramentas={<Link href="/admin/antifraude" className="text-sm font-semibold text-red">Abrir fila</Link>}>
           <div className="flex items-center gap-4">
@@ -80,7 +82,7 @@ export default function VisaoGeral() {
           <ul className="space-y-2">
             {acao.slice(0, 6).map((p) => (
               <li key={p.numero}>
-                <Link href={`/admin/pedidos?pedido=${p.numero}`} className="tile flex items-center gap-3 p-3 transition hover:bg-white">
+                <Link href={`/admin/pedidos?pedido=${p.numero}`} className="tile flex items-center gap-3 p-3">
                   <span className="w-14 text-sm font-bold tabular">#{p.numero}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm font-medium">{p.proximaAcao}</span>
@@ -95,10 +97,12 @@ export default function VisaoGeral() {
           </ul>
         </Card>
 
-        <Card titulo="Vendas por canal" className="xl:col-span-4">
+        <Card titulo="Vendas por canal" className="xl:col-span-4" ferramentas={<Link href="/admin/relatorios/analise-de-canal" className="text-sm font-semibold">Relatório</Link>}>
           <BarrasHorizontais itens={dashboard.canais.map((c) => ({ rotulo: c.canal, valor: c.valor, sub: `${c.pedidos} pedidos` }))} />
           <div className="mt-5 border-t border-black/5 pt-4">
-            <p className="mb-2 text-sm font-semibold">Vendedores</p>
+            <Link href="/admin/vendedores" className="mb-2 inline-flex items-center gap-1 text-sm font-semibold hover:text-red">
+              Vendedores <Icon name="chevronRight" className="size-4" />
+            </Link>
             <ol className="space-y-2">
               {equipe.map((e, i) => (
                 <li key={e.nome} className="flex items-center gap-3 text-sm">
@@ -113,15 +117,17 @@ export default function VisaoGeral() {
         </Card>
 
         <div className="grid min-w-0 gap-4 xl:col-span-3">
-          <Card titulo="Mais vendidos">
+          <Card titulo="Mais vendidos" ferramentas={<Link href="/admin/relatorios/top-produtos" className="text-sm font-semibold">Ver todos</Link>}>
             <ul className="space-y-2.5">
               {top.map((p) => (
-                <li key={p.id} className="flex items-center gap-3">
+                <li key={p.id}>
+                  <Link href={`/admin/catalogo/${p.id}`} className="clicavel -mx-2 flex items-center gap-3 rounded-xl px-2 py-1">
                   <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white/80">
                     <ProductArt kind={p.art} color={corHex(p)} className="size-10" />
                   </span>
                   <span className="min-w-0 flex-1 truncate text-sm font-medium">{p.nome}</span>
                   <span className="text-sm font-bold tabular">{p.vendidos30d}</span>
+                  </Link>
                 </li>
               ))}
             </ul>

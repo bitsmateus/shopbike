@@ -1,9 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import { reais, reaisCurto } from "@/lib/format";
 
 const CORES = { site: "#1a1917", link: "#e30618", ia: "#2c6bc8" } as const;
 
-/** Barras empilhadas por dia: site, link do vendedor e IA. */
-export function GraficoVendas({ serie }: { serie: { dia: number; site: number; link: number; ia: number }[] }) {
+/** Barras empilhadas por dia: site, link do vendedor e IA. Passe o mouse (ou toque) para ver os números do dia. */
+export function GraficoVendas({ serie, mes = "nov" }: { serie: { dia: number; site: number; link: number; ia: number }[]; mes?: string }) {
+  const [ativo, setAtivo] = useState<number | null>(null);
   const W = 720;
   const H = 170;
   const pad = { l: 44, r: 8, t: 10, b: 24 };
@@ -11,39 +15,88 @@ export function GraficoVendas({ serie }: { serie: { dia: number; site: number; l
   const bw = (W - pad.l - pad.r) / serie.length;
   const y = (v: number) => H - pad.b - (v / max) * (H - pad.t - pad.b);
   const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * max);
+  const d = ativo == null ? null : serie[ativo];
+  const total = d ? d.site + d.link + d.ia : 0;
+  // posição do quadro em % da largura, sem sair da área do gráfico
+  const xPct = ativo == null ? 0 : ((pad.l + ativo * bw + bw / 2) / W) * 100;
+
   return (
-    <figure>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Vendas por dia e canal em novembro">
+    <figure className="relative" onMouseLeave={() => setAtivo(null)}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full touch-none" role="img" aria-label="Vendas por dia e canal">
         {ticks.map((t) => (
           <g key={t}>
             <line x1={pad.l} x2={W - pad.r} y1={y(t)} y2={y(t)} stroke="#1a191714" />
-            <text x={pad.l - 8} y={y(t) + 4} textAnchor="end" fontSize="11" fill="#8b8983">
+            <text x={pad.l - 8} y={y(t) + 4} textAnchor="end" fontSize="11" fill="#6e6c67">
               {t === 0 ? "0" : `${Math.round(t / 100_000)}k`}
             </text>
           </g>
         ))}
-        {serie.map((d, i) => {
+        {serie.map((dia, i) => {
           const x = pad.l + i * bw + bw * 0.18;
           const w = bw * 0.64;
           let acc = 0;
+          const apagado = ativo != null && ativo !== i;
           return (
-            <g key={d.dia}>
-              <title>{`Dia ${d.dia}: site ${reais(d.site)} · link ${reais(d.link)} · IA ${reais(d.ia)}`}</title>
+            <g key={dia.dia} style={{ opacity: apagado ? 0.35 : 1, transition: "opacity .15s" }}>
+              {ativo === i && <rect x={pad.l + i * bw} y={pad.t} width={bw} height={H - pad.t - pad.b} rx={6} fill="#1a19170a" />}
               {(["site", "link", "ia"] as const).map((k) => {
                 const y0 = y(acc);
-                acc += d[k];
+                acc += dia[k];
                 const y1 = y(acc);
                 return <rect key={k} x={x} y={y1} width={w} height={Math.max(0, y0 - y1 - 1)} rx={Math.min(4, w / 2)} fill={CORES[k]} opacity={k === "site" ? 0.88 : 1} />;
               })}
-              {(i % 4 === 0 || i === serie.length - 1) && (
-                <text x={x + w / 2} y={H - 6} textAnchor="middle" fontSize="11" fill="#8b8983">
-                  {d.dia}
+              {(i % 4 === 0 || i === serie.length - 1 || ativo === i) && (
+                <text x={x + w / 2} y={H - 6} textAnchor="middle" fontSize="11" fontWeight={ativo === i ? 700 : 400} fill={ativo === i ? "#1a1917" : "#6e6c67"}>
+                  {dia.dia}
                 </text>
               )}
+              {/* área de captura do mouse: a coluna inteira do dia */}
+              <rect
+                x={pad.l + i * bw}
+                y={0}
+                width={bw}
+                height={H}
+                fill="transparent"
+                onMouseEnter={() => setAtivo(i)}
+                onTouchStart={() => setAtivo(i)}
+                style={{ cursor: "pointer" }}
+              />
             </g>
           );
         })}
       </svg>
+
+      {d && (
+        <div
+          role="status"
+          className="pointer-events-none absolute top-0 z-10 w-[210px] rounded-xl bg-ink px-3 py-2.5 text-xs text-white shadow-[var(--shadow-pop)]"
+          style={{ left: xPct > 55 ? `calc(${xPct}% - 232px)` : `calc(${xPct}% + 22px)` }}
+        >
+          <p className="mb-1.5 font-bold">
+            {d.dia} de {mes}
+          </p>
+          {(
+            [
+              ["Site", d.site, CORES.site],
+              ["Link do vendedor", d.link, CORES.link],
+              ["IA no WhatsApp", d.ia, CORES.ia],
+            ] as const
+          ).map(([n, v, c]) => (
+            <p key={n} className="flex items-center justify-between gap-3 py-0.5">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-white/80">
+                <span className="size-2 rounded-full ring-1 ring-white/40" style={{ background: c }} />
+                {n}
+              </span>
+              <span className="font-semibold tabular">{reais(v)}</span>
+            </p>
+          ))}
+          <p className="mt-1.5 flex justify-between border-t border-white/15 pt-1.5 font-bold">
+            <span>Total</span>
+            <span className="tabular">{reais(total)}</span>
+          </p>
+        </div>
+      )}
+
       <figcaption className="mt-2 flex flex-wrap gap-4 text-xs text-muted">
         {[
           ["Site", CORES.site],
@@ -55,6 +108,7 @@ export function GraficoVendas({ serie }: { serie: { dia: number; site: number; l
             {n}
           </span>
         ))}
+        <span className="ml-auto text-faint">Passe o mouse nas barras para ver os valores</span>
       </figcaption>
     </figure>
   );

@@ -198,3 +198,65 @@ html:has(.painel-bg) {
 .tabela tbody tr:hover {
   background: #ffffffb3;
 }
+
+/* ---------- Clicáveis: cursor e retorno ao passar o mouse ---------- */
+/* O Tailwind 4 deixa botões com cursor padrão; aqui todo clicável vira mãozinha. */
+button:not(:disabled),
+[role="button"],
+[role="tab"],
+[role="switch"],
+select,
+summary,
+label:has(> input[type="checkbox"]),
+label:has(> input[type="radio"]) {
+  cursor: pointer;
+}
+
+.painel-bg :is(a, button, [role="tab"]):not(:disabled) {
+  transition:
+    transform 0.15s var(--ease-out-soft),
+    background-color 0.15s,
+    box-shadow 0.15s,
+    color 0.15s,
+    opacity 0.15s;
+}
+
+/* Clique: leve afundada */
+.painel-bg :is(a, button):not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* Cards e linhas que levam a outra tela: sobem 1px e ganham sombra */
+.painel-bg :is(a.tile, button.tile, .clicavel):hover {
+  background-color: #fff;
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+}
+.painel-bg .clicavel:hover .seta {
+  opacity: 1;
+}
+
+/* Botões redondos de ícone e botões com fundo: escurecem levemente */
+.painel-bg button.glass:hover,
+.painel-bg a.glass:hover {
+  background-color: #ffffffe6;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Linhas de tabela clicáveis */
+.tabela tbody tr.cursor-pointer:hover {
+  background: #fff;
+  box-shadow: inset 3px 0 0 var(--color-red);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .painel-bg :is(a, button):active,
+  .painel-bg :is(a.tile, button.tile, .clicavel):hover {
+    transform: none;
+  }
+}
+
+/* Links de texto no topo dos cards ("Ver todos", "Abrir fila") */
+.painel-bg section > div:first-child a:not([class*="bg-"]):hover {
+  color: var(--color-red);
+}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn, numero, pct, reais, reaisCurto } from "@/lib/format";
 import type { Faixa } from "@/modules/antifraude/nota";
 import type { StatusPedido } from "@/mock/operacao";
@@ -25,14 +26,14 @@ export function BotaoIcone({ icon, rotulo, onClick }: { icon: IconName; rotulo: 
   );
 }
 
-export function Cabecalho({ titulo, kpis, acoes }: { titulo: string; kpis?: { icon: IconName; rotulo: string; valor: string }[]; acoes?: React.ReactNode }) {
+export function Cabecalho({ titulo, kpis, acoes }: { titulo: string; kpis?: { icon: IconName; rotulo: string; valor: string; href?: string }[]; acoes?: React.ReactNode }) {
   return (
     <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
       <h1 className="text-2xl leading-tight font-bold tracking-tight">{titulo}</h1>
       {kpis && (
         <dl className="flex flex-wrap gap-x-6 gap-y-2">
           {kpis.map((k) => (
-            <div key={k.rotulo} className="flex items-center gap-2.5">
+            <div key={k.rotulo} className={cn("relative flex items-center gap-2.5", k.href && "clicavel -mx-2 -my-1 rounded-full px-2 py-1")}>
               <span className="glass hidden size-8 place-items-center rounded-full sm:grid">
                 <Icon name={k.icon} className="size-4" />
               </span>
@@ -40,6 +41,7 @@ export function Cabecalho({ titulo, kpis, acoes }: { titulo: string; kpis?: { ic
                 <dt className="text-xs text-muted">{k.rotulo}</dt>
                 <dd className="text-base leading-tight font-bold tabular">{k.valor}</dd>
               </div>
+              {k.href && <Link href={k.href} className="absolute inset-0 rounded-full" aria-label={`${k.rotulo}: ${k.valor}. Abrir detalhes`} />}
             </div>
           ))}
         </dl>
@@ -93,13 +95,16 @@ export function NotaRisco({ nota, faixa, grande }: { nota: number; faixa: Faixa;
   );
 }
 
-export function Kpi({ rotulo, valor, tipo, variacao, meta }: { rotulo: string; valor: number; tipo: "dinheiro" | "numero" | "pct"; variacao: number; meta?: number }) {
+export function Kpi({ rotulo, valor, tipo, variacao, meta, href }: { rotulo: string; valor: number; tipo: "dinheiro" | "numero" | "pct"; variacao: number; meta?: number; href?: string }) {
   const txt = tipo === "dinheiro" ? reaisCurto(valor) : tipo === "pct" ? pct(valor, 2) : numero(valor);
   const sobe = variacao >= 0;
   const bom = rotulo.includes("abandonados") ? !sobe : sobe;
-  return (
-    <div className="tile px-3 py-2.5">
-      <div className="text-xs font-medium text-muted">{rotulo}</div>
+  const conteudo = (
+    <>
+      <div className="flex items-center justify-between gap-2 text-xs font-medium text-muted">
+        {rotulo}
+        {href && <Icon name="chevronRight" className="seta size-3.5 opacity-0 transition" />}
+      </div>
       <div className="mt-0.5 text-xl leading-tight font-bold tabular">{txt}</div>
       <div className={cn("mt-1 inline-flex items-center gap-1 text-xs font-semibold", bom ? "text-ok" : "text-red")}>
         <Icon name={sobe ? "arrowUp" : "arrowDown"} className="size-3.5" />
@@ -116,7 +121,14 @@ export function Kpi({ rotulo, valor, tipo, variacao, meta }: { rotulo: string; v
           </div>
         </div>
       )}
-    </div>
+    </>
+  );
+  return href ? (
+    <Link href={href} className="tile clicavel group block px-3 py-2.5" aria-label={`${rotulo}: ${txt}. Abrir detalhes`}>
+      {conteudo}
+    </Link>
+  ) : (
+    <div className="tile px-3 py-2.5">{conteudo}</div>
   );
 }
 
