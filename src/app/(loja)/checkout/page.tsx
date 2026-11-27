@@ -76,7 +76,7 @@ export default function CheckoutPage() {
               <Campo label="E-mail" type="email" autoComplete="email" placeholder="voce@email.com" className="sm:col-span-2" />
               <Campo label="Nome completo" autoComplete="name" placeholder="Seu nome" />
               <Campo label="CPF ou CNPJ" inputMode="numeric" placeholder="000.000.000-00" />
-              <Campo label="WhatsApp" type="tel" autoComplete="tel" placeholder="(48) 9 0000-0000" className="sm:col-span-2" />
+              <Campo label="WhatsApp" type="tel" autoComplete="tel" placeholder="(48) 90000-0000" className="sm:col-span-2" />
             </div>
             <label className="mt-3 flex items-center gap-2 text-sm text-muted">
               <input type="checkbox" defaultChecked className="size-4 accent-[var(--color-red)]" /> Quero receber o status do pedido no WhatsApp

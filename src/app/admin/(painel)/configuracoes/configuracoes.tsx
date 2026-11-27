@@ -35,7 +35,7 @@ export function Configuracoes() {
               <CampoPainel label="CNPJ" defaultValue="00.000.000/0001-00" />
               <CampoPainel label="Domínio" defaultValue="shopbike.com.br" readOnly />
               <CampoPainel label="E-mail de atendimento" defaultValue="atendimento@shopbike.com.br" />
-              <CampoPainel label="WhatsApp" defaultValue="(48) 9 0000-0000" />
+              <CampoPainel label="WhatsApp" defaultValue="(48) 90000-0000" />
               <CampoPainel label="Instagram" defaultValue="@shopbike" />
               <CampoPainel label="Horário" defaultValue="Seg a sex 8h–18h · sáb 8h–12h" />
             </div>

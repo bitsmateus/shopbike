@@ -57,7 +57,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48213",
     data: dias(0, 13),
-    cliente: { nome: "Rafael Medeiros", cpf: "***.482.119-**", email: "rafa.med@gmail.com", tel: "(48) 9 9812-4410", cidade: "Tubarão", uf: "SC", pedidosAnteriores: 3 },
+    cliente: { nome: "Rafael Medeiros", cpf: "***.482.119-**", email: "rafa.med@gmail.com", tel: "(48) 99812-4410", cidade: "Tubarão", uf: "SC", pedidosAnteriores: 3 },
     canal: "Site",
     pagamento: { forma: "Cartão", parcelas: 21, bandeira: "Visa", final: "4421", tid: "1032611251334", nsu: "882104", autorizacao: "A91K2", tresDS: true },
     itens: [{ nome: "Oggi Big Wheel 7.0 · 17 · Preto", sku: "OGBW7-17-PRE", qtd: 1, preco: 449_900 }],
@@ -70,7 +70,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48212",
     data: dias(0, 11),
-    cliente: { nome: "Lucas Ferreira Antunes", cpf: "***.903.441-**", email: "lucas.antunes.br@outlook.com", tel: "(11) 9 4410-2287", cidade: "Guarulhos", uf: "SP", pedidosAnteriores: 0 },
+    cliente: { nome: "Lucas Ferreira Antunes", cpf: "***.903.441-**", email: "lucas.antunes.br@outlook.com", tel: "(11) 94410-2287", cidade: "Guarulhos", uf: "SP", pedidosAnteriores: 0 },
     canal: "Site",
     pagamento: { forma: "Cartão", parcelas: 10, bandeira: "Mastercard", final: "0093", tid: "1032611251122", tresDS: false },
     itens: [{ nome: "Specialized Turbo Vado SL 4.0 · L · Preto", sku: "SPTV-L-PRE", qtd: 1, preco: 2_499_900 }],
@@ -82,7 +82,7 @@ export const pedidos: Pedido[] = [
     vinculos: [
       { tipo: "CPF", valor: "***.903.441-**" },
       { tipo: "E-mail", valor: "lucas.antunes.br@outlook.com", alerta: "Criado há 6 dias" },
-      { tipo: "Telefone", valor: "(11) 9 4410-2287" },
+      { tipo: "Telefone", valor: "(11) 94410-2287" },
       { tipo: "Cartão", valor: "5502 09•• •••• 0093", alerta: "Titular: M. SOUZA" },
       { tipo: "Aparelho", valor: "fp_7c1e…a90" },
     ],
@@ -90,7 +90,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48211",
     data: dias(0, 10),
-    cliente: { nome: "Jéssica Pacheco", cpf: "***.118.702-**", email: "jessica.pacheco@hotmail.com", tel: "(48) 9 9134-0091", cidade: "Laguna", uf: "SC", pedidosAnteriores: 1 },
+    cliente: { nome: "Jéssica Pacheco", cpf: "***.118.702-**", email: "jessica.pacheco@hotmail.com", tel: "(48) 99134-0091", cidade: "Laguna", uf: "SC", pedidosAnteriores: 1 },
     canal: "Link",
     vendedor: "Diego",
     pagamento: { forma: "Pix", parcelas: 1, tresDS: false },
@@ -107,7 +107,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48210",
     data: dias(0, 9),
-    cliente: { nome: "Paulo H. Castro", cpf: "***.664.230-**", email: "phc.compras@proton.me", tel: "(21) 9 7720-1180", cidade: "Duque de Caxias", uf: "RJ", pedidosAnteriores: 0 },
+    cliente: { nome: "Paulo H. Castro", cpf: "***.664.230-**", email: "phc.compras@proton.me", tel: "(21) 97720-1180", cidade: "Duque de Caxias", uf: "RJ", pedidosAnteriores: 0 },
     canal: "Site",
     pagamento: { forma: "2 cartões", parcelas: 12, bandeira: "Visa / Elo", final: "1180 / 7741", tresDS: false },
     itens: [{ nome: "Specialized Allez E5 · 56 · Vermelho", sku: "SPAL-56-VER", qtd: 2, preco: 689_900 }],
@@ -126,7 +126,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48209",
     data: dias(1, 17),
-    cliente: { nome: "Ana Clara Bez", cpf: "***.390.551-**", email: "anaclarabez@gmail.com", tel: "(48) 9 9988-1020", cidade: "Criciúma", uf: "SC", pedidosAnteriores: 0 },
+    cliente: { nome: "Ana Clara Bez", cpf: "***.390.551-**", email: "anaclarabez@gmail.com", tel: "(48) 99988-1020", cidade: "Criciúma", uf: "SC", pedidosAnteriores: 0 },
     canal: "IA",
     pagamento: { forma: "Pix", parcelas: 1, tresDS: false },
     itens: [{ nome: "Caloi Cecci Aro 16 · Vermelho", sku: "CLCC-Único-VER", qtd: 1, preco: 89_900 }],
@@ -140,7 +140,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48208",
     data: dias(1, 15),
-    cliente: { nome: "Marcos Vieira", cpf: "***.002.981-**", email: "marcosvieira.mtb@gmail.com", tel: "(48) 9 9601-3344", cidade: "Florianópolis", uf: "SC", pedidosAnteriores: 5 },
+    cliente: { nome: "Marcos Vieira", cpf: "***.002.981-**", email: "marcosvieira.mtb@gmail.com", tel: "(48) 99601-3344", cidade: "Florianópolis", uf: "SC", pedidosAnteriores: 5 },
     canal: "Site",
     pagamento: { forma: "Cartão", parcelas: 1, bandeira: "Elo", final: "3320", tid: "1032611241551", nsu: "771022", autorizacao: "77QX1", tresDS: true },
     itens: [
@@ -157,7 +157,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48207",
     data: dias(1, 11),
-    cliente: { nome: "Gabriela Nunes", cpf: "***.771.664-**", email: "gabi.nunes@yahoo.com.br", tel: "(48) 9 8810-7712", cidade: "Imbituba", uf: "SC", pedidosAnteriores: 0 },
+    cliente: { nome: "Gabriela Nunes", cpf: "***.771.664-**", email: "gabi.nunes@yahoo.com.br", tel: "(48) 98810-7712", cidade: "Imbituba", uf: "SC", pedidosAnteriores: 0 },
     canal: "Link",
     vendedor: "Carla",
     pagamento: { forma: "Pix + cartão", parcelas: 6, bandeira: "Visa", final: "8812", tresDS: true },
@@ -171,7 +171,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48206",
     data: dias(2, 16),
-    cliente: { nome: "Tiago Rocha", cpf: "***.230.118-**", email: "tiago.rocha@empresa.com.br", tel: "(48) 9 9142-8811", cidade: "Tubarão", uf: "SC", pedidosAnteriores: 2 },
+    cliente: { nome: "Tiago Rocha", cpf: "***.230.118-**", email: "tiago.rocha@empresa.com.br", tel: "(48) 99142-8811", cidade: "Tubarão", uf: "SC", pedidosAnteriores: 2 },
     canal: "Site",
     pagamento: { forma: "Cartão", parcelas: 18, bandeira: "Mastercard", final: "5510", tresDS: true },
     itens: [{ nome: "Specialized Rockhopper Sport 29 · L · Verde", sku: "SPRH-L-VER", qtd: 1, preco: 649_900 }],
@@ -185,7 +185,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48205",
     data: dias(2, 12),
-    cliente: { nome: "Bruna Silveira", cpf: "***.551.002-**", email: "bru.silveira@gmail.com", tel: "(51) 9 9311-0021", cidade: "Porto Alegre", uf: "RS", pedidosAnteriores: 0 },
+    cliente: { nome: "Bruna Silveira", cpf: "***.551.002-**", email: "bru.silveira@gmail.com", tel: "(51) 99311-0021", cidade: "Porto Alegre", uf: "RS", pedidosAnteriores: 0 },
     canal: "Site",
     pagamento: { forma: "Pix", parcelas: 1, tresDS: false },
     itens: [{ nome: "Caloi E-Vibe Easy Rider · Grafite", sku: "CLEV-Único-GRA", qtd: 1, preco: 699_900 }],
@@ -203,7 +203,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48204",
     data: dias(3, 10),
-    cliente: { nome: "Henrique Lopes", cpf: "***.440.903-**", email: "henrique.lopes@gmail.com", tel: "(48) 9 9900-4412", cidade: "Braço do Norte", uf: "SC", pedidosAnteriores: 1 },
+    cliente: { nome: "Henrique Lopes", cpf: "***.440.903-**", email: "henrique.lopes@gmail.com", tel: "(48) 99900-4412", cidade: "Braço do Norte", uf: "SC", pedidosAnteriores: 1 },
     canal: "Site",
     pagamento: { forma: "Cartão", parcelas: 3, bandeira: "Visa", final: "0041", tresDS: false },
     itens: [{ nome: "Pneu Pirelli Scorpion XC RC 29x2.2", sku: "PRXC-29-PRE", qtd: 2, preco: 39_900 }],
@@ -216,7 +216,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48197",
     data: dias(3, 16),
-    cliente: { nome: "Renata Duarte", cpf: "***.208.337-**", email: "renata.duarte88@gmail.com", tel: "(47) 9 9620-1185", cidade: "Joinville", uf: "SC", pedidosAnteriores: 0 },
+    cliente: { nome: "Renata Duarte", cpf: "***.208.337-**", email: "renata.duarte88@gmail.com", tel: "(47) 99620-1185", cidade: "Joinville", uf: "SC", pedidosAnteriores: 0 },
     canal: "Site",
     pagamento: { forma: "Cartão", parcelas: 12, bandeira: "Visa", final: "6621", tresDS: false },
     itens: [{ nome: "Specialized Rockhopper Sport 29 · M · Preto", sku: "SPRH-M-PRE", qtd: 1, preco: 649_900 }],
@@ -234,7 +234,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48194",
     data: dias(4, 14),
-    cliente: { nome: "Fábio Martins", cpf: "***.771.902-**", email: "fabio.m.compras@outlook.com", tel: "(41) 9 8830-2219", cidade: "Curitiba", uf: "PR", pedidosAnteriores: 0 },
+    cliente: { nome: "Fábio Martins", cpf: "***.771.902-**", email: "fabio.m.compras@outlook.com", tel: "(41) 98830-2219", cidade: "Curitiba", uf: "PR", pedidosAnteriores: 0 },
     canal: "Site",
     pagamento: { forma: "Cartão", parcelas: 18, bandeira: "Mastercard", final: "2208", tresDS: false },
     itens: [{ nome: "Oggi Big Wheel 7.0 · 19 · Preto", sku: "OGBW7-19-PRE", qtd: 1, preco: 449_900 }],
@@ -247,7 +247,7 @@ export const pedidos: Pedido[] = [
   pedido({
     numero: "48192",
     data: dias(4, 9),
-    cliente: { nome: "Diego Albuquerque", cpf: "***.064.513-**", email: "d.albuquerque@yahoo.com", tel: "(48) 9 9177-0034", cidade: "Palhoça", uf: "SC", pedidosAnteriores: 0 },
+    cliente: { nome: "Diego Albuquerque", cpf: "***.064.513-**", email: "d.albuquerque@yahoo.com", tel: "(48) 99177-0034", cidade: "Palhoça", uf: "SC", pedidosAnteriores: 0 },
     canal: "Link",
     vendedor: "Carla",
     pagamento: { forma: "2 cartões", parcelas: 10, bandeira: "Visa / Visa", final: "1902 / 7713", tresDS: false },
@@ -267,7 +267,7 @@ export const listaBloqueio = [
   { tipo: "CPF", valor: "***.301.884-**", origem: "Fraude confirmada", quem: "Mateus", quando: "30/10/2026" },
   { tipo: "Cartão", valor: "4984 12•• •••• 7710", origem: "Teste de cartão (18 tentativas)", quem: "Sistema", quando: "02/11/2026" },
   { tipo: "Aparelho", valor: "fp_02bd…11f", origem: "Vínculo com pedido 47102", quem: "Sistema", quando: "02/11/2026" },
-  { tipo: "Telefone", valor: "(21) 9 6611-••••", origem: "Golpe relatado pela loja", quem: "Gerência", quando: "05/11/2026" },
+  { tipo: "Telefone", valor: "(21) 96611-••••", origem: "Golpe relatado pela loja", quem: "Gerência", quando: "05/11/2026" },
   { tipo: "E-mail", valor: "compras.rapida2026@•••", origem: "Fraude confirmada", quem: "Mateus", quando: "08/11/2026" },
 ];
 

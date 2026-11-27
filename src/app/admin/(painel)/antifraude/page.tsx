@@ -15,7 +15,7 @@ export default async function AntifraudePage({ searchParams }: { searchParams: P
         kpis={[
           { icon: "shield", rotulo: "Em revisão", valor: `${filaRevisao.length}` },
           { icon: "ban", rotulo: "Bloqueados (30d)", valor: `${resumoAntifraude.bloqueados}` },
-          { icon: "check", rotulo: "Fraude evitada (30d)", valor: reaisCurto(resumoAntifraude.valorEvitado) },
+          { icon: "check", rotulo: "Valor barrado (30d)", valor: reaisCurto(resumoAntifraude.valorEvitado) },
         ]}
       />
       <Antifraude inicial={pedido} />

@@ -4,7 +4,8 @@ import { useState } from "react";
 import type { Pedido } from "@/mock/operacao";
 import { cn, reais } from "@/lib/format";
 import { Icon } from "@/ui/icons";
-import { Botao, NotaRisco, StatusChip } from "./ui";
+import { BASE_NOTA } from "@/modules/antifraude/nota";
+import { Botao, NotaRisco, ReguaNota, StatusChip } from "./ui";
 
 const abas = ["Produtos", "Entrega", "Pagamento", "Cliente", "Histórico", "Antifraude"] as const;
 
@@ -143,27 +144,33 @@ export function PedidoDrawer({ p, fechar, abaInicial = "Produtos" }: { p: Pedido
   );
 }
 
+/** Hash de aparelho vira frase que ajuda a decidir; o hash completo fica no tooltip. */
+function valorVinculo(p: Pedido, v: Pedido["vinculos"][number]) {
+  if (v.tipo === "Aparelho" && v.valor.startsWith("fp_")) return p.cliente.pedidosAnteriores === 0 ? "Aparelho novo (1º pedido)" : `Visto em ${p.cliente.pedidosAnteriores + 1} pedidos`;
+  return v.valor;
+}
+
 export function AnaliseRisco({ p }: { p: Pedido }) {
+  const motivos = [...p.risco.motivos].sort((a, b) => Math.abs(b.peso) - Math.abs(a.peso));
+  const maior = Math.max(BASE_NOTA, ...motivos.map((m) => Math.abs(m.peso)));
   return (
     <div className="space-y-5">
       <div className="flex items-center gap-4">
         <NotaRisco nota={p.risco.nota} faixa={p.risco.faixa} grande />
-        <div className="text-sm">
-          <p className="font-semibold">{p.risco.faixa === "aprova" ? "Aprovação automática" : p.risco.faixa === "revisao" ? "Revisão manual" : "Bloqueado automaticamente"}</p>
-          <p className="text-muted">Base 8 + regras abaixo · 0–29 aprova · 30–59 revisão · 60+ bloqueia</p>
+        <div className="min-w-0 flex-1 text-sm">
+          <p className="mb-2 font-semibold">{p.risco.faixa === "aprova" ? "Aprovação automática" : p.risco.faixa === "revisao" ? "Revisão manual" : "Bloqueado automaticamente"}</p>
+          <ReguaNota nota={p.risco.nota} />
         </div>
       </div>
       <div>
         <p className="mb-2 text-sm font-semibold">Motivos da nota</p>
+        {/* do maior peso para o menor; barra fina proporcional ao peso atrás do número */}
         <ul className="space-y-1.5">
-          <li className="flex justify-between rounded-xl bg-snow px-3 py-1.5 text-sm">
-            <span className="text-muted">Base</span>
-            <span className="font-semibold tabular">+8</span>
-          </li>
-          {p.risco.motivos.map((m) => (
-            <li key={m.codigo} className="flex justify-between gap-3 rounded-xl bg-snow px-3 py-1.5 text-sm">
-              <span>{m.descricao}</span>
-              <span className={cn("font-bold tabular", m.peso > 0 ? "text-danger" : "text-ok")}>
+          {[{ codigo: "base", descricao: "Base", peso: BASE_NOTA }, ...motivos].map((m) => (
+            <li key={m.codigo} className="relative flex justify-between gap-3 overflow-hidden rounded-[var(--radius-tile)] bg-snow px-3 py-1.5 text-sm">
+              <span className={cn("absolute inset-y-auto bottom-0 left-0 h-1", m.codigo === "base" ? "bg-line-2" : m.peso > 0 ? "bg-danger/30" : "bg-ok/30")} style={{ width: `${(Math.abs(m.peso) / maior) * 100}%` }} aria-hidden />
+              <span className={cn(m.codigo === "base" && "text-muted")}>{m.descricao}</span>
+              <span className="font-semibold tabular">
                 {m.peso > 0 ? "+" : ""}
                 {m.peso}
               </span>
@@ -175,9 +182,14 @@ export function AnaliseRisco({ p }: { p: Pedido }) {
         <p className="mb-2 text-sm font-semibold">Dados ligados</p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {p.vinculos.map((v) => (
-            <li key={v.tipo + v.valor} className={cn("rounded-xl px-3 py-2 text-sm ring-1", v.alerta ? "bg-danger-50 ring-danger/20" : "bg-white ring-line")}>
+            <li
+              key={v.tipo + v.valor}
+              className={cn("rounded-[var(--radius-tile)] bg-white px-3 py-2 text-sm ring-1 ring-line", v.alerta && "shadow-[inset_3px_0_0_var(--color-danger)]")}
+            >
               <span className="block text-xs text-muted">{v.tipo}</span>
-              <span className="block truncate font-medium">{v.valor}</span>
+              <span className="block truncate font-medium" title={v.valor}>
+                {valorVinculo(p, v)}
+              </span>
               {v.alerta && (
                 <span className="mt-1 flex items-center gap-1 text-xs font-semibold text-danger">
                   <Icon name="alert" className="size-3.5" /> {v.alerta}

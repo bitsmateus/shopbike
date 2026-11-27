@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cn, numero, pct, reais, reaisCurto } from "@/lib/format";
-import type { Faixa } from "@/modules/antifraude/nota";
+import { FAIXAS, faixaDaNota, type Faixa } from "@/modules/antifraude/nota";
 import type { StatusPedido } from "@/mock/operacao";
 import { Icon, type IconName } from "@/ui/icons";
 
@@ -138,21 +138,48 @@ export function StatusChip({ status }: { status: StatusPedido }) {
   return <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap", corSignificado[significadoStatus[status]])}>{status}</span>;
 }
 
-/**
- * Risco em tabela: só o número, cor a partir de 40.
- * < 40 cinza · 40 a 69 ponto âmbar · 70 ou mais badge de erro.
- */
+/* ---------- Escala de risco: as mesmas faixas que decidem (0–29 aprova · 30–59 revisão · 60+ bloqueia) ---------- */
+const faixaTexto: Record<Faixa, string> = { aprova: "aprovação automática (0 a 29)", revisao: "revisão manual (30 a 59)", bloqueia: "bloqueio (60 ou mais)" };
+/** Em listas e tabelas: aprova = número cinza sem fundo · revisão = badge âmbar · bloqueia = badge de erro. */
+const corFaixaLista: Record<Faixa, string> = { aprova: "text-faint", revisao: "bg-warn-50 text-warn", bloqueia: "bg-danger-50 text-danger" };
+
+/** Risco em tabela: só o número, pintado pela faixa de decisão. */
 export function RiscoNumero({ nota }: { nota: number }) {
-  const titulo = `Nota de risco ${nota} de 100`;
-  if (nota >= 70) return <span title={titulo} className="inline-flex rounded-full bg-danger-50 px-2 py-0.5 text-sm font-semibold text-danger tabular">{nota}</span>;
-  if (nota >= 40)
-    return (
-      <span title={titulo} className="inline-flex items-center gap-1.5 text-sm font-semibold text-warn tabular">
-        <span className="size-1.5 rounded-full bg-current" />
-        {nota}
-      </span>
-    );
-  return <span title={titulo} className="text-sm font-semibold text-faint tabular">{nota}</span>;
+  const faixa = faixaDaNota(nota);
+  return (
+    <span title={`Nota de risco ${nota} de 100: ${faixaTexto[faixa]}`} className={cn("inline-flex rounded-full text-sm font-semibold tabular", faixa !== "aprova" && "px-2 py-0.5", corFaixaLista[faixa])}>
+      {nota}
+    </span>
+  );
+}
+
+/**
+ * Régua da nota (0 a 100) com as três faixas e um marcador no valor.
+ * Mostra "X pontos do bloqueio" quando falta menos de 10 para bloquear.
+ */
+export function ReguaNota({ nota }: { nota: number }) {
+  const bloqueio = FAIXAS.revisao + 1;
+  const falta = bloqueio - nota;
+  return (
+    <div>
+      <div className="relative h-1.5 rounded-full" role="img" aria-label={`Nota ${nota} na escala de 0 a 100`}>
+        <div className="flex h-full overflow-hidden rounded-full">
+          <span className="bg-ok" style={{ width: `${FAIXAS.aprova + 1}%` }} />
+          <span className="bg-warn-400" style={{ width: `${FAIXAS.revisao - FAIXAS.aprova}%` }} />
+          <span className="flex-1 bg-danger" />
+        </div>
+        <span className="absolute -top-1 h-3.5 w-0.5 -translate-x-1/2 rounded-full bg-ink ring-2 ring-white" style={{ left: `${Math.min(100, Math.max(0, nota))}%` }} />
+      </div>
+      <div className="mt-1.5 flex justify-between text-xs text-muted tabular">
+        <span>0–{FAIXAS.aprova} aprova</span>
+        <span>
+          {FAIXAS.aprova + 1}–{FAIXAS.revisao} revisão
+        </span>
+        <span>{bloqueio}+ bloqueia</span>
+      </div>
+      {falta > 0 && falta < 10 && <p className="mt-1 text-xs font-semibold text-warn">{plural(falta, "ponto do bloqueio automático", "pontos do bloqueio automático")}</p>}
+    </div>
+  );
 }
 
 /**
@@ -186,17 +213,15 @@ export function BarraLote({ texto, acoes, limpar }: { texto: string; acoes: { ro
 /** "1 pedido selecionado" / "2 pedidos selecionados". */
 export const plural = (n: number, um: string, varios: string) => `${n} ${n === 1 ? um : varios}`;
 
-const faixaTexto: Record<Faixa, string> = { aprova: "aprovação automática (0 a 29)", revisao: "revisão manual (30 a 59)", bloqueia: "bloqueio (60 ou mais)" };
-
-/** Nota de risco do antifraude (0 a 100). A cor segue a faixa de decisão da regra. */
+/** Nota de risco com rótulo ("Risco 58"), pintada pela faixa de decisão (mesma regra de RiscoNumero). */
 export function NotaRisco({ nota, faixa, grande, rotulo = true }: { nota: number; faixa: Faixa; grande?: boolean; rotulo?: boolean }) {
-  const cor = faixa === "aprova" ? "text-ok bg-ok-50" : faixa === "revisao" ? "text-warn bg-warn-50" : "text-danger bg-danger-50";
+  const cor = grande ? (faixa === "aprova" ? "text-ok bg-ok-50" : faixa === "revisao" ? "text-warn bg-warn-50" : "text-danger bg-danger-50") : corFaixaLista[faixa];
   return (
     <span
       title={`Nota de risco ${nota} de 100: ${faixaTexto[faixa]}`}
       className={cn("inline-flex shrink-0 items-center gap-1.5 rounded-full font-bold whitespace-nowrap tabular", cor, grande ? "px-3 py-1.5 text-lg" : "px-2 py-1 text-xs")}
     >
-      <span className={cn("rounded-full bg-current", grande ? "size-2.5" : "size-1.5")} />
+      {(grande || faixa !== "aprova") && <span className={cn("rounded-full bg-current", grande ? "size-2.5" : "size-1.5")} />}
       {rotulo && !grande && <span className="font-semibold">Risco</span>}
       {nota}
     </span>

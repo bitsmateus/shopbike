@@ -55,7 +55,7 @@ export function PagarLink({ link }: { link: LinkPagamento }) {
                 <Campo label="Nome completo" defaultValue={link.cliente} />
                 <Campo label="CPF" placeholder="000.000.000-00" inputMode="numeric" />
                 <Campo label="E-mail" type="email" placeholder="voce@email.com" />
-                <Campo label="WhatsApp" type="tel" placeholder="(48) 9 0000-0000" />
+                <Campo label="WhatsApp" type="tel" placeholder="(48) 90000-0000" />
               </div>
             </section>
             <section className="rounded-[28px] p-5 ring-1 ring-line md:p-6">

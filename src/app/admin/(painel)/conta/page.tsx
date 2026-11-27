@@ -22,7 +22,7 @@ export default function ContaPage() {
           <div className="grid gap-3">
             <CampoPainel label="Nome" defaultValue="Gerência" />
             <CampoPainel label="E-mail" defaultValue="gerencia@shopbike.com.br" />
-            <CampoPainel label="WhatsApp para alertas" defaultValue="(48) 9 0000-0000" />
+            <CampoPainel label="WhatsApp para alertas" defaultValue="(48) 90000-0000" />
           </div>
           <Botao tom="ink" className="mt-4" onClick={() => avisar("Perfil salvo")}>
             Salvar

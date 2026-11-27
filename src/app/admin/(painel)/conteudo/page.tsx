@@ -95,7 +95,7 @@ export default function ConteudoPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               <CampoPainel label="Endereço" defaultValue="Rua exemplo, 000 · Centro" className="sm:col-span-2" />
               <CampoPainel label="Cidade" defaultValue="Tubarão/SC" />
-              <CampoPainel label="WhatsApp" defaultValue="(48) 9 0000-0000" />
+              <CampoPainel label="WhatsApp" defaultValue="(48) 90000-0000" />
               <CampoPainel label="Seg a sex" defaultValue="8h às 18h" />
               <CampoPainel label="Sábado" defaultValue="8h às 12h" />
             </div>

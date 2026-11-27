@@ -24,16 +24,16 @@ export type Cliente = {
 };
 
 export const clientes: Cliente[] = [
-  { id: "c1", nome: "Rafael Medeiros", tipo: "PF", doc: "***.482.119-**", email: "rafa.med@gmail.com", tel: "(48) 9 9812-4410", cidade: "Tubarão", uf: "SC", grupo: "Ciclista frequente", pedidos: 4, totalGasto: 712_400, ultimaCompra: "25/11/2026", desde: "03/2021", marketing: true, aniversario: "14/12", origem: "Site" },
-  { id: "c2", nome: "Jéssica Pacheco", tipo: "PF", doc: "***.118.702-**", email: "jessica.pacheco@hotmail.com", tel: "(48) 9 9134-0091", cidade: "Laguna", uf: "SC", grupo: "Varejo", pedidos: 2, totalGasto: 345_700, ultimaCompra: "25/11/2026", desde: "06/2025", marketing: true, aniversario: "02/03", origem: "Link (Diego)" },
-  { id: "c3", nome: "Marcos Vieira", tipo: "PF", doc: "***.002.981-**", email: "marcosvieira.mtb@gmail.com", tel: "(48) 9 9601-3344", cidade: "Florianópolis", uf: "SC", grupo: "Ciclista frequente", pedidos: 6, totalGasto: 1_184_900, ultimaCompra: "24/11/2026", desde: "01/2019", marketing: true, aniversario: "29/11", origem: "Site" },
+  { id: "c1", nome: "Rafael Medeiros", tipo: "PF", doc: "***.482.119-**", email: "rafa.med@gmail.com", tel: "(48) 99812-4410", cidade: "Tubarão", uf: "SC", grupo: "Ciclista frequente", pedidos: 4, totalGasto: 712_400, ultimaCompra: "25/11/2026", desde: "03/2021", marketing: true, aniversario: "14/12", origem: "Site" },
+  { id: "c2", nome: "Jéssica Pacheco", tipo: "PF", doc: "***.118.702-**", email: "jessica.pacheco@hotmail.com", tel: "(48) 99134-0091", cidade: "Laguna", uf: "SC", grupo: "Varejo", pedidos: 2, totalGasto: 345_700, ultimaCompra: "25/11/2026", desde: "06/2025", marketing: true, aniversario: "02/03", origem: "Link (Diego)" },
+  { id: "c3", nome: "Marcos Vieira", tipo: "PF", doc: "***.002.981-**", email: "marcosvieira.mtb@gmail.com", tel: "(48) 99601-3344", cidade: "Florianópolis", uf: "SC", grupo: "Ciclista frequente", pedidos: 6, totalGasto: 1_184_900, ultimaCompra: "24/11/2026", desde: "01/2019", marketing: true, aniversario: "29/11", origem: "Site" },
   { id: "c4", nome: "Bike Point Criciúma Ltda", tipo: "PJ", doc: "12.***.***/0001-90", email: "compras@bikepointcri.com.br", tel: "(48) 3433-1020", cidade: "Criciúma", uf: "SC", grupo: "Lojista (B2B)", pedidos: 11, totalGasto: 4_812_300, ultimaCompra: "18/11/2026", desde: "08/2022", marketing: false, aniversario: "—", origem: "Painel" },
-  { id: "c5", nome: "Tiago Rocha", tipo: "PF", doc: "***.230.118-**", email: "tiago.rocha@empresa.com.br", tel: "(48) 9 9142-8811", cidade: "Tubarão", uf: "SC", grupo: "Equipe de pedal", pedidos: 3, totalGasto: 801_200, ultimaCompra: "23/11/2026", desde: "02/2024", marketing: true, aniversario: "07/01", origem: "IA no WhatsApp" },
-  { id: "c6", nome: "Ana Clara Bez", tipo: "PF", doc: "***.390.551-**", email: "anaclarabez@gmail.com", tel: "(48) 9 9988-1020", cidade: "Criciúma", uf: "SC", grupo: "Varejo", pedidos: 1, totalGasto: 84_800, ultimaCompra: "24/11/2026", desde: "11/2026", marketing: false, aniversario: "30/11", origem: "IA no WhatsApp" },
-  { id: "c7", nome: "Gabriela Nunes", tipo: "PF", doc: "***.771.664-**", email: "gabi.nunes@yahoo.com.br", tel: "(48) 9 8810-7712", cidade: "Imbituba", uf: "SC", grupo: "Varejo", pedidos: 1, totalGasto: 219_900, ultimaCompra: "24/11/2026", desde: "11/2026", marketing: true, aniversario: "19/08", origem: "Link (Carla)" },
-  { id: "c8", nome: "Henrique Lopes", tipo: "PF", doc: "***.440.903-**", email: "henrique.lopes@gmail.com", tel: "(48) 9 9900-4412", cidade: "Braço do Norte", uf: "SC", grupo: "Varejo", pedidos: 2, totalGasto: 52_400, ultimaCompra: "22/11/2026", desde: "04/2023", marketing: false, aniversario: "11/05", origem: "Site" },
+  { id: "c5", nome: "Tiago Rocha", tipo: "PF", doc: "***.230.118-**", email: "tiago.rocha@empresa.com.br", tel: "(48) 99142-8811", cidade: "Tubarão", uf: "SC", grupo: "Equipe de pedal", pedidos: 3, totalGasto: 801_200, ultimaCompra: "23/11/2026", desde: "02/2024", marketing: true, aniversario: "07/01", origem: "IA no WhatsApp" },
+  { id: "c6", nome: "Ana Clara Bez", tipo: "PF", doc: "***.390.551-**", email: "anaclarabez@gmail.com", tel: "(48) 99988-1020", cidade: "Criciúma", uf: "SC", grupo: "Varejo", pedidos: 1, totalGasto: 84_800, ultimaCompra: "24/11/2026", desde: "11/2026", marketing: false, aniversario: "30/11", origem: "IA no WhatsApp" },
+  { id: "c7", nome: "Gabriela Nunes", tipo: "PF", doc: "***.771.664-**", email: "gabi.nunes@yahoo.com.br", tel: "(48) 98810-7712", cidade: "Imbituba", uf: "SC", grupo: "Varejo", pedidos: 1, totalGasto: 219_900, ultimaCompra: "24/11/2026", desde: "11/2026", marketing: true, aniversario: "19/08", origem: "Link (Carla)" },
+  { id: "c8", nome: "Henrique Lopes", tipo: "PF", doc: "***.440.903-**", email: "henrique.lopes@gmail.com", tel: "(48) 99900-4412", cidade: "Braço do Norte", uf: "SC", grupo: "Varejo", pedidos: 2, totalGasto: 52_400, ultimaCompra: "22/11/2026", desde: "04/2023", marketing: false, aniversario: "11/05", origem: "Site" },
   { id: "c9", nome: "Pedal Sul Assessoria Esportiva", tipo: "PJ", doc: "33.***.***/0001-07", email: "contato@pedalsul.com.br", tel: "(48) 3626-0000", cidade: "Tubarão", uf: "SC", grupo: "Equipe de pedal", pedidos: 7, totalGasto: 2_290_000, ultimaCompra: "10/11/2026", desde: "03/2020", marketing: true, aniversario: "—", origem: "Painel" },
-  { id: "c10", nome: "Camila Souza", tipo: "PF", doc: "***.551.220-**", email: "camila.s@gmail.com", tel: "(48) 9 9711-0442", cidade: "Gravatal", uf: "SC", grupo: "Varejo", pedidos: 1, totalGasto: 449_900, ultimaCompra: "28/09/2026", desde: "09/2026", marketing: true, aniversario: "26/11", origem: "Site" },
+  { id: "c10", nome: "Camila Souza", tipo: "PF", doc: "***.551.220-**", email: "camila.s@gmail.com", tel: "(48) 99711-0442", cidade: "Gravatal", uf: "SC", grupo: "Varejo", pedidos: 1, totalGasto: 449_900, ultimaCompra: "28/09/2026", desde: "09/2026", marketing: true, aniversario: "26/11", origem: "Site" },
 ];
 
 export const conversasCliente = [
@@ -142,10 +142,10 @@ export const recuperacoes: Recuperacao[] = [
 ];
 
 export const leads = [
-  { nome: "Fernanda Lima", contato: "(48) 9 9120-•••", origem: "Pop-up home", interesse: "Speed", quando: "25/11, 11:40", crm: "Enviado" },
+  { nome: "Fernanda Lima", contato: "(48) 99120-•••", origem: "Pop-up home", interesse: "Speed", quando: "25/11, 11:40", crm: "Enviado" },
   { nome: "João Pedro", contato: "jp.bike@•••", origem: "Avise-me (Turbo Vado L)", interesse: "Elétrica", quando: "25/11, 09:02", crm: "Enviado" },
-  { nome: "Larissa M.", contato: "(48) 9 8812-•••", origem: "Pop-up home", interesse: "Infantil", quando: "24/11, 20:15", crm: "Enviado" },
-  { nome: "Carlos E.", contato: "(48) 9 9933-•••", origem: "Avaliar minha bike usada", interesse: "Seminova / troca", quando: "24/11, 17:48", crm: "Pendente" },
+  { nome: "Larissa M.", contato: "(48) 98812-•••", origem: "Pop-up home", interesse: "Infantil", quando: "24/11, 20:15", crm: "Enviado" },
+  { nome: "Carlos E.", contato: "(48) 99933-•••", origem: "Avaliar minha bike usada", interesse: "Seminova / troca", quando: "24/11, 17:48", crm: "Pendente" },
   { nome: "Sabrina P.", contato: "sabrina•••@gmail.com", origem: "Rodapé · newsletter", interesse: "—", quando: "24/11, 08:30", crm: "Enviado" },
 ];
 
@@ -184,12 +184,12 @@ export const eventosNotificacao = [
 ];
 
 export const logEnvios = [
-  { quando: "25/11, 13:34", evento: "Pagamento aprovado", canal: "WhatsApp", destino: "(48) 9 9812-••••", status: "Lida" },
+  { quando: "25/11, 13:34", evento: "Pagamento aprovado", canal: "WhatsApp", destino: "(48) 99812-••••", status: "Lida" },
   { quando: "25/11, 13:34", evento: "Pagamento aprovado", canal: "E-mail", destino: "rafa•••@gmail.com", status: "Entregue" },
-  { quando: "25/11, 11:22", evento: "Confirmação do antifraude", canal: "WhatsApp", destino: "(11) 9 4410-••••", status: "Enviada" },
-  { quando: "25/11, 10:40", evento: "Carrinho abandonado (30 min)", canal: "WhatsApp", destino: "(48) 9 9120-••••", status: "Respondeu" },
-  { quando: "25/11, 10:02", evento: "Pix gerado (lembrete em 15 min)", canal: "WhatsApp", destino: "(48) 9 9134-••••", status: "Lida" },
-  { quando: "24/11, 17:55", evento: "Enviado com rastreio", canal: "WhatsApp", destino: "(48) 9 9601-••••", status: "Lida" },
+  { quando: "25/11, 11:22", evento: "Confirmação do antifraude", canal: "WhatsApp", destino: "(11) 94410-••••", status: "Enviada" },
+  { quando: "25/11, 10:40", evento: "Carrinho abandonado (30 min)", canal: "WhatsApp", destino: "(48) 99120-••••", status: "Respondeu" },
+  { quando: "25/11, 10:02", evento: "Pix gerado (lembrete em 15 min)", canal: "WhatsApp", destino: "(48) 99134-••••", status: "Lida" },
+  { quando: "24/11, 17:55", evento: "Enviado com rastreio", canal: "WhatsApp", destino: "(48) 99601-••••", status: "Lida" },
   { quando: "24/11, 17:55", evento: "Enviado com rastreio", canal: "E-mail", destino: "marcos•••@gmail.com", status: "Falhou" },
 ];
 
@@ -240,7 +240,7 @@ export const auditoria = [
   { quando: "25/11, 09:30", quem: "Juliano", acao: "Imprimiu etiquetas", alvo: "3 pedidos", detalhe: "#48209, #48201, #48196", ip: "177.•••.12.42" },
   { quando: "24/11, 18:02", quem: "Gerência", acao: "Estornou pagamento", alvo: "Pedido #48166", detalhe: "Parcial · R$ 399,00 · troca T-0140", ip: "177.•••.12.40" },
   { quando: "24/11, 16:55", quem: "Gerência", acao: "Desativou usuário", alvo: "antigo@shopbike.com.br", detalhe: "Acesso revogado e sessões encerradas", ip: "177.•••.12.40" },
-  { quando: "24/11, 15:20", quem: "Mateus (NX)", acao: "Incluiu na lista de bloqueio", alvo: "Telefone (21) 9 6611-••••", detalhe: "Golpe relatado pela loja", ip: "189.•••.80.2" },
+  { quando: "24/11, 15:20", quem: "Mateus (NX)", acao: "Incluiu na lista de bloqueio", alvo: "Telefone (21) 96611-••••", detalhe: "Golpe relatado pela loja", ip: "189.•••.80.2" },
 ];
 
 export const acessos = [
