@@ -36,14 +36,6 @@ export const clientes: Cliente[] = [
   { id: "c10", nome: "Camila Souza", tipo: "PF", doc: "***.551.220-**", email: "camila.s@gmail.com", tel: "(48) 99711-0442", cidade: "Gravatal", uf: "SC", grupo: "Varejo", pedidos: 1, totalGasto: 449_900, ultimaCompra: "28/09/2026", desde: "09/2026", marketing: true, aniversario: "26/11", origem: "Site" },
 ];
 
-export const conversasCliente = [
-  { quando: "25/11, 10:02", quem: "Cliente", texto: "Oi! Tem a Big Wheel 7.0 no tamanho 17?" },
-  { quando: "25/11, 10:02", quem: "IA ShopBike", texto: "Tem sim! Na cor preta e vermelha. Em até 21x de R$ 214,24 ou R$ 4.049,10 no Pix. Quer que um vendedor monte o pedido?" },
-  { quando: "25/11, 10:05", quem: "Cliente", texto: "Quero, pode ser preta." },
-  { quando: "25/11, 10:09", quem: "Diego (vendedor)", texto: "Rafael, segue o link de pagamento: shopbike.com.br/pagar/…" },
-  { quando: "25/11, 13:34", quem: "Sistema", texto: "Pagamento aprovado · pedido #48213" },
-];
-
 // ---------- Trocas ----------
 export type Troca = {
   id: string;
@@ -142,11 +134,11 @@ export const recuperacoes: Recuperacao[] = [
 ];
 
 export const leads = [
-  { nome: "Fernanda Lima", contato: "(48) 99120-•••", origem: "Pop-up home", interesse: "Speed", quando: "25/11, 11:40", crm: "Enviado" },
-  { nome: "João Pedro", contato: "jp.bike@•••", origem: "Avise-me (Turbo Vado L)", interesse: "Elétrica", quando: "25/11, 09:02", crm: "Enviado" },
-  { nome: "Larissa M.", contato: "(48) 98812-•••", origem: "Pop-up home", interesse: "Infantil", quando: "24/11, 20:15", crm: "Enviado" },
-  { nome: "Carlos E.", contato: "(48) 99933-•••", origem: "Avaliar minha bike usada", interesse: "Seminova / troca", quando: "24/11, 17:48", crm: "Pendente" },
-  { nome: "Sabrina P.", contato: "sabrina•••@gmail.com", origem: "Rodapé · newsletter", interesse: "—", quando: "24/11, 08:30", crm: "Enviado" },
+  { nome: "Fernanda Lima", contato: "(48) 99120-•••", completo: "(48) 99120-3381", origem: "Pop-up home", interesse: "Speed", quando: "25/11, 11:40", crm: "Enviado" },
+  { nome: "João Pedro", contato: "jp.bike@•••", completo: "jp.bike@gmail.com", origem: "Avise-me (Turbo Vado L)", interesse: "Elétrica", quando: "25/11, 09:02", crm: "Enviado" },
+  { nome: "Larissa M.", contato: "(48) 98812-•••", completo: "(48) 98812-4507", origem: "Pop-up home", interesse: "Infantil", quando: "24/11, 20:15", crm: "Enviado" },
+  { nome: "Carlos E.", contato: "(48) 99933-•••", completo: "(48) 99933-127", motivo: "Falha às 17:48 · telefone incompleto (10 dígitos)", origem: "Avaliar minha bike usada", interesse: "Seminova / troca", quando: "24/11, 17:48", crm: "Pendente" },
+  { nome: "Sabrina P.", contato: "sabrina•••@gmail.com", completo: "sabrina.p@gmail.com", origem: "Rodapé · newsletter", interesse: "—", quando: "24/11, 08:30", crm: "Enviado" },
 ];
 
 export const avaliacoesPendentes = [

@@ -245,7 +245,7 @@ function Listas() {
               <Icon name="copy" className="size-4" /> Copiar lista
             </Botao>
           </div>
-          {i === 1 && <p className="mt-3 text-xs text-muted">Venda B2B completa é da Fase 2.</p>}
+          {i === 1 && <p className="mt-3 text-xs text-muted">Venda B2B completa chega em breve.</p>}
         </Card>
       ))}
     </div>

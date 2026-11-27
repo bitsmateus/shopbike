@@ -64,6 +64,8 @@
 }
 
 html {
+  /* reserva o espaço da barra de rolagem: trocar de tela não faz o layout pular */
+  scrollbar-gutter: stable;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
 }
@@ -97,6 +99,91 @@ body {
   padding-inline: clamp(16px, 3vw, 32px);
 }
 
+/* Componentes base em camada própria: as classes utilitárias (text-right, bg-*, border-*)
+   ganham deles. Antes, fora de camada, eles venciam qualquer utilitário. */
+@layer components {
+  .glass {
+    background: var(--color-paper);
+    border: 1px solid var(--color-borda-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .glass-strong {
+    background: #ffffffe6;
+    backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid #ffffff;
+    box-shadow: var(--shadow-pop);
+  }
+
+  .tile {
+    background: var(--color-snow);
+    border: 1px solid var(--color-borda-card);
+    border-radius: var(--radius-tile);
+  }
+
+  .tabela {
+    width: 100%;
+    font-size: 0.875rem;
+    border-collapse: collapse;
+  }
+
+  .tabela th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    padding: 9px 10px;
+    border-bottom: 1px solid #1a19170d;
+    white-space: nowrap;
+  }
+
+  .tabela td {
+    height: 56px;
+    padding: 8px 10px;
+    border-bottom: 1px solid #1a19170d;
+    vertical-align: middle;
+  }
+
+  .tabela tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .tabela th:first-child,
+  .tabela td:first-child {
+    padding-left: 16px;
+  }
+
+  .tabela th:last-child,
+  .tabela td:last-child {
+    padding-right: 16px;
+  }
+
+  .tabela tbody tr {
+    transition: background 0.15s;
+  }
+
+  .campo {
+    border: 1px solid var(--color-borda-campo);
+    background-color: var(--color-paper);
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+
+  .campo:hover {
+    border-color: var(--color-faint);
+  }
+
+  .campo:focus-within {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-paper),
+      0 0 0 4px var(--color-focus);
+  }
+}
+
 /* ---------- Painel: vidro claro ---------- */
 /* Raiz em 16px: text-xs = 12px, text-sm = 14px, espaços e raios na grade de 4/8.
    A densidade vem de paddings menores nos componentes, não de encolher a raiz. */
@@ -106,11 +193,6 @@ body {
 }
 
 /* Cards: branco sólido sobre fundo cinza-claro, com borda visível e sombra. */
-.glass {
-  background: var(--color-paper);
-  border: 1px solid var(--color-borda-card);
-  box-shadow: var(--shadow-card);
-}
 
 /* Faixa do menu fixo: o conteúdo que passa por trás fica desfocado. */
 .topnav {
@@ -118,18 +200,7 @@ body {
   backdrop-filter: blur(12px) saturate(140%);
 }
 
-.glass-strong {
-  background: #ffffffe6;
-  backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid #ffffff;
-  box-shadow: var(--shadow-pop);
-}
 
-.tile {
-  background: var(--color-snow);
-  border: 1px solid var(--color-borda-card);
-  border-radius: var(--radius-tile);
-}
 
 .scrollbar-none {
   scrollbar-width: none;
@@ -177,42 +248,6 @@ body {
 
 /* ---------- Painel: tabela padrão ---------- */
 /* Mesma escala da tabela de Pedidos: cabeçalho 12px/700, célula 14px, linha 56px */
-.tabela {
-  width: 100%;
-  font-size: 0.875rem;
-  border-collapse: collapse;
-}
-.tabela th {
-  text-align: left;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  padding: 9px 10px;
-  border-bottom: 1px solid #1a19170d;
-  white-space: nowrap;
-}
-.tabela td {
-  height: 56px;
-  padding: 8px 10px;
-  border-bottom: 1px solid #1a19170d;
-  vertical-align: middle;
-}
-.tabela tr:last-child td {
-  border-bottom: 0;
-}
-.tabela th:first-child,
-.tabela td:first-child {
-  padding-left: 16px;
-}
-.tabela th:last-child,
-.tabela td:last-child {
-  padding-right: 16px;
-}
-.tabela tbody tr {
-  transition: background 0.15s;
-}
 .tabela tbody tr:hover {
   background: var(--color-snow);
 }
@@ -276,22 +311,6 @@ label:has(> input[type="radio"]) {
 
 /* Campo de formulário: borda com contraste (3,5:1) e um anel de foco só.
    Vale para input/select/textarea com a classe e para o "wrapper" que contém um input. */
-.campo {
-  border: 1px solid var(--color-borda-campo);
-  background-color: var(--color-paper);
-  transition:
-    border-color 0.15s,
-    box-shadow 0.15s;
-}
-.campo:hover {
-  border-color: var(--color-faint);
-}
-.campo:focus-within {
-  outline: none;
-  box-shadow:
-    0 0 0 2px var(--color-paper),
-    0 0 0 4px var(--color-focus);
-}
 .campo:focus-visible,
 .campo :focus-visible {
   outline: none;

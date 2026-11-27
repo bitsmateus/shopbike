@@ -133,7 +133,7 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
                   className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", ativa ? "bg-white text-ink shadow-[var(--shadow-soft)] ring-1 ring-black/5" : "text-muted hover:text-ink")}
                 >
                   {s.rotulo}
-                  {s.fase === 2 && <span className="ml-1.5 rounded-full bg-info-50 px-1.5 py-0.5 text-xs font-bold text-info">F2</span>}
+                  {s.fase === 2 && <span className="ml-1.5 text-xs font-medium text-faint">Em breve</span>}
                 </Link>
               );
             })}

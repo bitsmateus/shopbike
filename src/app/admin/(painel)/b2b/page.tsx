@@ -77,7 +77,7 @@ export default function B2BPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-3 text-xs text-muted">Lojista aprovado vê os preços da lista própria no site, depois de entrar na conta. Lista de presentes e produtos personalizados também ficam na Fase 2.</p>
+          <p className="mt-3 text-xs text-muted">Lojista aprovado vê os preços da lista própria no site, depois de entrar na conta. Lista de presentes e produtos personalizados chegam em breve.</p>
         </Card>
       </div>
     </>

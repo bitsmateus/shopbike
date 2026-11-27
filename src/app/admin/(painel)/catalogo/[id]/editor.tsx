@@ -212,7 +212,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
             </div>
           </Card>
 
-          <Card titulo="Descrição" ferramentas={<Botao tom="ghost" onClick={() => avisar("Sugestão de descrição gerada pela IA (Fase 2)")}><Icon name="star" className="size-4" /> Sugerir com IA</Botao>}>
+          <Card titulo="Descrição" ferramentas={<Botao tom="ghost" onClick={() => avisar("Sugestão de descrição pela IA: chega em breve")}><Icon name="star" className="size-4" /> Sugerir com IA</Botao>}>
             <div id="descricao" className="scroll-mt-28">
               <CampoPainel label="Descrição curta" defaultValue={p.descricao.split(".")[0]} />
               <p className="mt-4 mb-1.5 text-sm font-medium text-ink-2">Descrição completa</p>

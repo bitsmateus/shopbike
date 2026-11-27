@@ -16,7 +16,7 @@ export default function RelatoriosPage() {
         titulo="Relatórios"
         kpis={[
           { icon: "chart", rotulo: "Disponíveis na Fase 1", valor: `${relatorios.filter((r) => r.fase === 1).length}` },
-          { icon: "clock", rotulo: "Na Fase 2", valor: `${relatorios.filter((r) => r.fase === 2).length}` },
+          { icon: "clock", rotulo: "Em breve", valor: `${relatorios.filter((r) => r.fase === 2).length}` },
           { icon: "arrowDown", rotulo: "Exportação", valor: "XLSX e CSV" },
         ]}
       />
@@ -36,7 +36,7 @@ export default function RelatoriosPage() {
                   <li key={r.slug}>
                     <Link href={`/admin/relatorios/${r.slug}`} className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium hover:bg-white">
                       <span className="flex-1">{r.titulo}</span>
-                      {r.fase === 2 && <Chip tom="info">Fase 2</Chip>}
+                      {r.fase === 2 && <Chip tom="apagado">Em breve</Chip>}
                       <Icon name="chevronRight" className="size-4 text-faint" />
                     </Link>
                   </li>
