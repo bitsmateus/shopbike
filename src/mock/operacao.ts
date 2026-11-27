@@ -295,22 +295,22 @@ export type LinkPagamento = {
 };
 
 export const links: LinkPagamento[] = [
-  { token: "k7Qp2x", cliente: "Jéssica Pacheco", vendedor: "Diego", itens: "Explorer Comp 29 + Capacete Align II", total: 339_800, parcelas: 21, status: "em_uso", validade: "26/11 18:00", criado: "25/11 10:12" },
-  { token: "9fLm3a", cliente: "Gabriela Nunes", vendedor: "Carla", itens: "Hacker Sport 29", total: 219_900, parcelas: 6, status: "pago", validade: "25/11 18:00", criado: "24/11 11:02" },
-  { token: "Xa81Pd", cliente: "Rodrigo Mendes", vendedor: "Diego", itens: "Big Wheel 7.0 + revisão", total: 469_900, parcelas: 21, status: "ativo", validade: "27/11 18:00", criado: "25/11 09:40" },
-  { token: "c2Rt0z", cliente: "Fernanda Lima", vendedor: "Carla", itens: "Rockhopper Sport 29", total: 649_900, parcelas: 18, status: "expirado", validade: "22/11 18:00", criado: "20/11 15:21" },
-  { token: "Mm4Lq8", cliente: "João P. Martins", vendedor: "Diego", itens: "Allez E5", total: 689_900, parcelas: 12, status: "cancelado", validade: "21/11 18:00", criado: "20/11 08:55" },
+  { token: "k7Qp2x", cliente: "Jéssica Pacheco", vendedor: "Diego", itens: "Explorer Comp 29 + Capacete Align II", total: 339_800, parcelas: 21, status: "em_uso", validade: "26/11, 18:00", criado: "25/11, 10:12" },
+  { token: "9fLm3a", cliente: "Gabriela Nunes", vendedor: "Carla", itens: "Hacker Sport 29", total: 219_900, parcelas: 6, status: "pago", validade: "25/11, 18:00", criado: "24/11, 11:02" },
+  { token: "Xa81Pd", cliente: "Rodrigo Mendes", vendedor: "Diego", itens: "Big Wheel 7.0 + revisão", total: 469_900, parcelas: 21, status: "ativo", validade: "27/11, 18:00", criado: "25/11, 09:40" },
+  { token: "c2Rt0z", cliente: "Fernanda Lima", vendedor: "Carla", itens: "Rockhopper Sport 29", total: 649_900, parcelas: 18, status: "expirado", validade: "22/11, 18:00", criado: "20/11, 15:21" },
+  { token: "Mm4Lq8", cliente: "João P. Martins", vendedor: "Diego", itens: "Allez E5", total: 689_900, parcelas: 12, status: "cancelado", validade: "21/11, 18:00", criado: "20/11, 08:55" },
 ];
 
 export const integracaoLog = [
-  { quando: "25/11 13:58", endpoint: "PUT /api/v1/estoque", origem: "Bruning", resultado: "ok", detalhe: "142 SKUs atualizados" },
-  { quando: "25/11 13:45", endpoint: "GET /api/v1/pedidos?status=pago", origem: "Bruning", resultado: "ok", detalhe: "3 pedidos entregues" },
-  { quando: "25/11 13:45", endpoint: "PUT /api/v1/pedidos/48209/nota", origem: "Bruning", resultado: "ok", detalhe: "NF 21.884 vinculada" },
-  { quando: "25/11 13:30", endpoint: "PUT /api/v1/precos", origem: "Bruning", resultado: "ok", detalhe: "18 preços alterados" },
-  { quando: "25/11 13:15", endpoint: "PUT /api/v1/produtos", origem: "Bruning", resultado: "erro", detalhe: "SKU OGVL-58-PRE sem produto pai — aguardando cadastro" },
-  { quando: "25/11 13:00", endpoint: "PUT /api/v1/estoque", origem: "Bruning", resultado: "ok", detalhe: "97 SKUs atualizados" },
-  { quando: "25/11 12:44", endpoint: "POST /webhooks/pix", origem: "Pix", resultado: "ok", detalhe: "Pedido 48203 pago" },
-  { quando: "25/11 12:30", endpoint: "POST /oauth2/token", origem: "Rede", resultado: "ok", detalhe: "Token renovado" },
+  { quando: "25/11, 13:58", endpoint: "PUT /api/v1/estoque", origem: "Bruning", resultado: "ok", detalhe: "142 SKUs atualizados" },
+  { quando: "25/11, 13:45", endpoint: "GET /api/v1/pedidos?status=pago", origem: "Bruning", resultado: "ok", detalhe: "3 pedidos entregues" },
+  { quando: "25/11, 13:45", endpoint: "PUT /api/v1/pedidos/48209/nota", origem: "Bruning", resultado: "ok", detalhe: "NF 21.884 vinculada" },
+  { quando: "25/11, 13:30", endpoint: "PUT /api/v1/precos", origem: "Bruning", resultado: "ok", detalhe: "18 preços alterados" },
+  { quando: "25/11, 13:15", endpoint: "PUT /api/v1/produtos", origem: "Bruning", resultado: "erro", detalhe: "SKU OGVL-58-PRE sem produto pai — aguardando cadastro" },
+  { quando: "25/11, 13:00", endpoint: "PUT /api/v1/estoque", origem: "Bruning", resultado: "ok", detalhe: "97 SKUs atualizados" },
+  { quando: "25/11, 12:44", endpoint: "POST /webhooks/pix", origem: "Pix", resultado: "ok", detalhe: "Pedido 48203 pago" },
+  { quando: "25/11, 12:30", endpoint: "POST /oauth2/token", origem: "Rede", resultado: "ok", detalhe: "Token renovado" },
 ];
 
 export const dashboard = {

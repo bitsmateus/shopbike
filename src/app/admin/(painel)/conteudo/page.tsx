@@ -26,9 +26,9 @@ const posts = [
 ];
 
 const formularios = [
-  ["Contato", "Paula R.", "Vocês fazem bike fit?", "25/11 10:20", "Novo"],
-  ["Trabalhe conosco", "André M.", "Mecânico com 5 anos de experiência", "24/11 15:02", "Lido"],
-  ["Contato", "Empresa XPTO", "Orçamento de 20 bikes para a equipe", "23/11 09:45", "Respondido"],
+  ["Contato", "Paula R.", "Vocês fazem bike fit?", "25/11, 10:20", "Novo"],
+  ["Trabalhe conosco", "André M.", "Mecânico com 5 anos de experiência", "24/11, 15:02", "Lido"],
+  ["Contato", "Empresa XPTO", "Orçamento de 20 bikes para a equipe", "23/11, 09:45", "Respondido"],
 ];
 
 export default function ConteudoPage() {

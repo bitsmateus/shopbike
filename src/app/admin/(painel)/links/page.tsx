@@ -15,7 +15,8 @@ export default function LinksPage() {
         kpis={[
           { icon: "link", rotulo: "Ativos", valor: `${links.filter((l) => l.status === "ativo" || l.status === "em_uso").length}` },
           { icon: "check", rotulo: "Pagos no mês", valor: reaisCurto(pagos.reduce((s, l) => s + l.total, 0) + 7_191_000) },
-          { icon: "card", rotulo: "Parcelamento", valor: "até 21x" },
+          // Indicador (não configuração): links pagos ÷ links enviados nos últimos 30 dias (valor do protótipo)
+          { icon: "chart", rotulo: "Conversão (30 dias)", valor: "38%" },
         ]}
       />
       <Links />

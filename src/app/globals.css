@@ -49,6 +49,8 @@
   /* Superfícies do painel */
   --color-fundo-painel: #f4f3f1;
   --color-borda-card: #1a191714;
+  --color-borda-campo: #8c8984; /* 3,5:1 sobre branco: borda de campo visível */
+  --color-barra: #c9c6c1; /* barras secundárias de mini-gráficos */
 
   --radius-card: 16px;
   --radius-tile: 12px;
@@ -174,16 +176,17 @@ body {
 }
 
 /* ---------- Painel: tabela padrão ---------- */
+/* Mesma escala da tabela de Pedidos: cabeçalho 12px/700, célula 14px, linha 56px */
 .tabela {
   width: 100%;
-  font-size: 13.5px;
+  font-size: 0.875rem;
   border-collapse: collapse;
 }
 .tabela th {
   text-align: left;
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
   color: var(--color-muted);
   padding: 9px 10px;
@@ -191,6 +194,7 @@ body {
   white-space: nowrap;
 }
 .tabela td {
+  height: 56px;
   padding: 8px 10px;
   border-bottom: 1px solid #1a19170d;
   vertical-align: middle;
@@ -268,6 +272,36 @@ label:has(> input[type="radio"]) {
   .painel-bg :is(a.tile, button.tile, .clicavel):hover {
     transform: none;
   }
+}
+
+/* Campo de formulário: borda com contraste (3,5:1) e um anel de foco só.
+   Vale para input/select/textarea com a classe e para o "wrapper" que contém um input. */
+.campo {
+  border: 1px solid var(--color-borda-campo);
+  background-color: var(--color-paper);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.campo:hover {
+  border-color: var(--color-faint);
+}
+.campo:focus-within {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-paper),
+    0 0 0 4px var(--color-focus);
+}
+.campo:focus-visible,
+.campo :focus-visible {
+  outline: none;
+}
+
+/* Controles nativos no preto do sistema (nunca o vermelho da marca) */
+input[type="range"],
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--color-ink);
 }
 
 /* Placeholder legível (#6e6c67 ≈ 5:1), não preto a 50% */

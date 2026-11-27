@@ -53,6 +53,7 @@ const paths: Record<string, React.ReactNode> = {
       <path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.4-1.9-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-1.9Z" />
     </>
   ),
+  devolver: <path d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11" />,
   info: (
     <>
       <circle cx="12" cy="12" r="8.5" />

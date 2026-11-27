@@ -37,11 +37,11 @@ export const clientes: Cliente[] = [
 ];
 
 export const conversasCliente = [
-  { quando: "25/11 10:02", quem: "Cliente", texto: "Oi! Tem a Big Wheel 7.0 no tamanho 17?" },
-  { quando: "25/11 10:02", quem: "IA ShopBike", texto: "Tem sim! Na cor preta e vermelha. Em até 21x de R$ 214,24 ou R$ 4.049,10 no Pix. Quer que um vendedor monte o pedido?" },
-  { quando: "25/11 10:05", quem: "Cliente", texto: "Quero, pode ser preta." },
-  { quando: "25/11 10:09", quem: "Diego (vendedor)", texto: "Rafael, segue o link de pagamento: shopbike.com.br/pagar/…" },
-  { quando: "25/11 13:34", quem: "Sistema", texto: "Pagamento aprovado · pedido #48213" },
+  { quando: "25/11, 10:02", quem: "Cliente", texto: "Oi! Tem a Big Wheel 7.0 no tamanho 17?" },
+  { quando: "25/11, 10:02", quem: "IA ShopBike", texto: "Tem sim! Na cor preta e vermelha. Em até 21x de R$ 214,24 ou R$ 4.049,10 no Pix. Quer que um vendedor monte o pedido?" },
+  { quando: "25/11, 10:05", quem: "Cliente", texto: "Quero, pode ser preta." },
+  { quando: "25/11, 10:09", quem: "Diego (vendedor)", texto: "Rafael, segue o link de pagamento: shopbike.com.br/pagar/…" },
+  { quando: "25/11, 13:34", quem: "Sistema", texto: "Pagamento aprovado · pedido #48213" },
 ];
 
 // ---------- Trocas ----------
@@ -60,12 +60,12 @@ export type Troca = {
 };
 
 export const trocas: Troca[] = [
-  { id: "T-0142", pedido: "48190", cliente: "Camila Souza", produto: "Camisa ShopBike Team · M · Preto", motivo: "Tamanho não serviu", tipo: "Troca", resolucao: "Troca por outro tamanho", status: "Solicitado", aberto: "25/11 09:12", valor: 17_990 },
-  { id: "T-0141", pedido: "48175", cliente: "Henrique Lopes", produto: "Capacete Specialized Align II · G · Branco", motivo: "Produto com defeito", tipo: "Troca", resolucao: "A definir", status: "Aprovado", aberto: "24/11 16:40", valor: 39_900, reversa: "LR882041993BR" },
-  { id: "T-0140", pedido: "48166", cliente: "Marcos Vieira", produto: "Pneu Pirelli Scorpion XC RC 29x2.2", motivo: "Arrependimento (7 dias)", tipo: "Devolução", resolucao: "Estorno", status: "Em trânsito", aberto: "23/11 11:05", valor: 39_900, reversa: "LR882041201BR" },
-  { id: "T-0139", pedido: "48120", cliente: "Tiago Rocha", produto: "Corrente Sram GX Eagle 12v", motivo: "Produto diferente do anunciado", tipo: "Troca", resolucao: "Vale-compra", status: "Recebido", aberto: "20/11 14:22", valor: 32_900 },
-  { id: "T-0138", pedido: "48098", cliente: "Ana Clara Bez", produto: "Garrafa ShopBike 750 ml · Vermelho", motivo: "Avaria no transporte", tipo: "Troca", resolucao: "Troca por outro tamanho", status: "Concluído", aberto: "15/11 10:10", valor: 4_990 },
-  { id: "T-0137", pedido: "48071", cliente: "Rafael Medeiros", produto: "Cassete Shimano Deore M6100 12v", motivo: "Arrependimento (7 dias)", tipo: "Devolução", resolucao: "Estorno", status: "Recusado", aberto: "12/11 18:31", valor: 64_900 },
+  { id: "T-0142", pedido: "48190", cliente: "Camila Souza", produto: "Camisa ShopBike Team · M · Preto", motivo: "Tamanho não serviu", tipo: "Troca", resolucao: "Troca por outro tamanho", status: "Solicitado", aberto: "25/11, 09:12", valor: 17_990 },
+  { id: "T-0141", pedido: "48175", cliente: "Henrique Lopes", produto: "Capacete Specialized Align II · G · Branco", motivo: "Produto com defeito", tipo: "Troca", resolucao: "A definir", status: "Aprovado", aberto: "24/11, 16:40", valor: 39_900, reversa: "LR882041993BR" },
+  { id: "T-0140", pedido: "48166", cliente: "Marcos Vieira", produto: "Pneu Pirelli Scorpion XC RC 29x2.2", motivo: "Arrependimento (7 dias)", tipo: "Devolução", resolucao: "Estorno", status: "Em trânsito", aberto: "23/11, 11:05", valor: 39_900, reversa: "LR882041201BR" },
+  { id: "T-0139", pedido: "48120", cliente: "Tiago Rocha", produto: "Corrente Sram GX Eagle 12v", motivo: "Produto diferente do anunciado", tipo: "Troca", resolucao: "Vale-compra", status: "Recebido", aberto: "20/11, 14:22", valor: 32_900 },
+  { id: "T-0138", pedido: "48098", cliente: "Ana Clara Bez", produto: "Garrafa ShopBike 750 ml · Vermelho", motivo: "Avaria no transporte", tipo: "Troca", resolucao: "Troca por outro tamanho", status: "Concluído", aberto: "15/11, 10:10", valor: 4_990 },
+  { id: "T-0137", pedido: "48071", cliente: "Rafael Medeiros", produto: "Cassete Shimano Deore M6100 12v", motivo: "Arrependimento (7 dias)", tipo: "Devolução", resolucao: "Estorno", status: "Recusado", aberto: "12/11, 18:31", valor: 64_900 },
 ];
 
 export const motivosTroca = [
@@ -142,11 +142,11 @@ export const recuperacoes: Recuperacao[] = [
 ];
 
 export const leads = [
-  { nome: "Fernanda Lima", contato: "(48) 9 9120-•••", origem: "Pop-up home", interesse: "Speed", quando: "25/11 11:40", crm: "Enviado" },
-  { nome: "João Pedro", contato: "jp.bike@•••", origem: "Avise-me (Turbo Vado L)", interesse: "Elétrica", quando: "25/11 09:02", crm: "Enviado" },
-  { nome: "Larissa M.", contato: "(48) 9 8812-•••", origem: "Pop-up home", interesse: "Infantil", quando: "24/11 20:15", crm: "Enviado" },
-  { nome: "Carlos E.", contato: "(48) 9 9933-•••", origem: "Avaliar minha bike usada", interesse: "Seminova / troca", quando: "24/11 17:48", crm: "Pendente" },
-  { nome: "Sabrina P.", contato: "sabrina•••@gmail.com", origem: "Rodapé · newsletter", interesse: "—", quando: "24/11 08:30", crm: "Enviado" },
+  { nome: "Fernanda Lima", contato: "(48) 9 9120-•••", origem: "Pop-up home", interesse: "Speed", quando: "25/11, 11:40", crm: "Enviado" },
+  { nome: "João Pedro", contato: "jp.bike@•••", origem: "Avise-me (Turbo Vado L)", interesse: "Elétrica", quando: "25/11, 09:02", crm: "Enviado" },
+  { nome: "Larissa M.", contato: "(48) 9 8812-•••", origem: "Pop-up home", interesse: "Infantil", quando: "24/11, 20:15", crm: "Enviado" },
+  { nome: "Carlos E.", contato: "(48) 9 9933-•••", origem: "Avaliar minha bike usada", interesse: "Seminova / troca", quando: "24/11, 17:48", crm: "Pendente" },
+  { nome: "Sabrina P.", contato: "sabrina•••@gmail.com", origem: "Rodapé · newsletter", interesse: "—", quando: "24/11, 08:30", crm: "Enviado" },
 ];
 
 export const avaliacoesPendentes = [
@@ -184,13 +184,13 @@ export const eventosNotificacao = [
 ];
 
 export const logEnvios = [
-  { quando: "25/11 13:34", evento: "Pagamento aprovado", canal: "WhatsApp", destino: "(48) 9 9812-••••", status: "Lida" },
-  { quando: "25/11 13:34", evento: "Pagamento aprovado", canal: "E-mail", destino: "rafa•••@gmail.com", status: "Entregue" },
-  { quando: "25/11 11:22", evento: "Confirmação do antifraude", canal: "WhatsApp", destino: "(11) 9 4410-••••", status: "Enviada" },
-  { quando: "25/11 10:40", evento: "Carrinho abandonado (30 min)", canal: "WhatsApp", destino: "(48) 9 9120-••••", status: "Respondeu" },
-  { quando: "25/11 10:02", evento: "Pix gerado (lembrete em 15 min)", canal: "WhatsApp", destino: "(48) 9 9134-••••", status: "Lida" },
-  { quando: "24/11 17:55", evento: "Enviado com rastreio", canal: "WhatsApp", destino: "(48) 9 9601-••••", status: "Lida" },
-  { quando: "24/11 17:55", evento: "Enviado com rastreio", canal: "E-mail", destino: "marcos•••@gmail.com", status: "Falhou" },
+  { quando: "25/11, 13:34", evento: "Pagamento aprovado", canal: "WhatsApp", destino: "(48) 9 9812-••••", status: "Lida" },
+  { quando: "25/11, 13:34", evento: "Pagamento aprovado", canal: "E-mail", destino: "rafa•••@gmail.com", status: "Entregue" },
+  { quando: "25/11, 11:22", evento: "Confirmação do antifraude", canal: "WhatsApp", destino: "(11) 9 4410-••••", status: "Enviada" },
+  { quando: "25/11, 10:40", evento: "Carrinho abandonado (30 min)", canal: "WhatsApp", destino: "(48) 9 9120-••••", status: "Respondeu" },
+  { quando: "25/11, 10:02", evento: "Pix gerado (lembrete em 15 min)", canal: "WhatsApp", destino: "(48) 9 9134-••••", status: "Lida" },
+  { quando: "24/11, 17:55", evento: "Enviado com rastreio", canal: "WhatsApp", destino: "(48) 9 9601-••••", status: "Lida" },
+  { quando: "24/11, 17:55", evento: "Enviado com rastreio", canal: "E-mail", destino: "marcos•••@gmail.com", status: "Falhou" },
 ];
 
 // ---------- Usuários, perfis e auditoria ----------
@@ -233,22 +233,22 @@ export const perfis: { nome: string; usuarios: number; permite: (typeof permisso
 ];
 
 export const auditoria = [
-  { quando: "25/11 13:52", quem: "Gerência", acao: "Aprovou pedido no antifraude", alvo: "Pedido #48198", detalhe: "Nota 41 · motivo: cliente confirmou pelo WhatsApp", ip: "177.•••.12.40" },
-  { quando: "25/11 12:10", quem: "Priscila", acao: "Alterou preço promocional", alvo: "Oggi Big Wheel 7.0", detalhe: "R$ 4.699,00 → R$ 4.499,00 até 30/11", ip: "177.•••.12.41" },
-  { quando: "25/11 11:47", quem: "Mateus (NX)", acao: "Alterou peso de regra", alvo: "Regra: Pix pago por CPF diferente", detalhe: "+25 → +30", ip: "189.•••.80.2" },
-  { quando: "25/11 10:09", quem: "Diego", acao: "Gerou link de pagamento", alvo: "Link k7Qp2x", detalhe: "R$ 3.398,00 · até 21x · desconto 0%", ip: "177.•••.12.44" },
-  { quando: "25/11 09:30", quem: "Juliano", acao: "Imprimiu etiquetas", alvo: "3 pedidos", detalhe: "#48209, #48201, #48196", ip: "177.•••.12.42" },
-  { quando: "24/11 18:02", quem: "Gerência", acao: "Estornou pagamento", alvo: "Pedido #48166", detalhe: "Parcial · R$ 399,00 · troca T-0140", ip: "177.•••.12.40" },
-  { quando: "24/11 16:55", quem: "Gerência", acao: "Desativou usuário", alvo: "antigo@shopbike.com.br", detalhe: "Acesso revogado e sessões encerradas", ip: "177.•••.12.40" },
-  { quando: "24/11 15:20", quem: "Mateus (NX)", acao: "Incluiu na lista de bloqueio", alvo: "Telefone (21) 9 6611-••••", detalhe: "Golpe relatado pela loja", ip: "189.•••.80.2" },
+  { quando: "25/11, 13:52", quem: "Gerência", acao: "Aprovou pedido no antifraude", alvo: "Pedido #48198", detalhe: "Nota 41 · motivo: cliente confirmou pelo WhatsApp", ip: "177.•••.12.40" },
+  { quando: "25/11, 12:10", quem: "Priscila", acao: "Alterou preço promocional", alvo: "Oggi Big Wheel 7.0", detalhe: "R$ 4.699,00 → R$ 4.499,00 até 30/11", ip: "177.•••.12.41" },
+  { quando: "25/11, 11:47", quem: "Mateus (NX)", acao: "Alterou peso de regra", alvo: "Regra: Pix pago por CPF diferente", detalhe: "+25 → +30", ip: "189.•••.80.2" },
+  { quando: "25/11, 10:09", quem: "Diego", acao: "Gerou link de pagamento", alvo: "Link k7Qp2x", detalhe: "R$ 3.398,00 · até 21x · desconto 0%", ip: "177.•••.12.44" },
+  { quando: "25/11, 09:30", quem: "Juliano", acao: "Imprimiu etiquetas", alvo: "3 pedidos", detalhe: "#48209, #48201, #48196", ip: "177.•••.12.42" },
+  { quando: "24/11, 18:02", quem: "Gerência", acao: "Estornou pagamento", alvo: "Pedido #48166", detalhe: "Parcial · R$ 399,00 · troca T-0140", ip: "177.•••.12.40" },
+  { quando: "24/11, 16:55", quem: "Gerência", acao: "Desativou usuário", alvo: "antigo@shopbike.com.br", detalhe: "Acesso revogado e sessões encerradas", ip: "177.•••.12.40" },
+  { quando: "24/11, 15:20", quem: "Mateus (NX)", acao: "Incluiu na lista de bloqueio", alvo: "Telefone (21) 9 6611-••••", detalhe: "Golpe relatado pela loja", ip: "189.•••.80.2" },
 ];
 
 export const acessos = [
-  { quando: "25/11 13:40", quem: "Gerência", evento: "Login com 2FA", ip: "177.•••.12.40", local: "Tubarão/SC", ok: true },
-  { quando: "25/11 11:02", quem: "Mateus (NX)", evento: "Login com 2FA", ip: "189.•••.80.2", local: "Tubarão/SC", ok: true },
-  { quando: "25/11 08:58", quem: "Diego", evento: "Login com 2FA", ip: "177.•••.12.44", local: "Tubarão/SC", ok: true },
-  { quando: "25/11 03:14", quem: "gerencia@shopbike.com.br", evento: "Senha incorreta (3x) · bloqueado 15 min", ip: "45.•••.210.9", local: "São Paulo/SP", ok: false },
-  { quando: "24/11 19:30", quem: "Priscila", evento: "Login sem 2FA", ip: "177.•••.12.41", local: "Tubarão/SC", ok: true },
+  { quando: "25/11, 13:40", quem: "Gerência", evento: "Login com 2FA", ip: "177.•••.12.40", local: "Tubarão/SC", ok: true },
+  { quando: "25/11, 11:02", quem: "Mateus (NX)", evento: "Login com 2FA", ip: "189.•••.80.2", local: "Tubarão/SC", ok: true },
+  { quando: "25/11, 08:58", quem: "Diego", evento: "Login com 2FA", ip: "177.•••.12.44", local: "Tubarão/SC", ok: true },
+  { quando: "25/11, 03:14", quem: "gerencia@shopbike.com.br", evento: "Senha incorreta (3x) · bloqueado 15 min", ip: "45.•••.210.9", local: "São Paulo/SP", ok: false },
+  { quando: "24/11, 19:30", quem: "Priscila", evento: "Login sem 2FA", ip: "177.•••.12.41", local: "Tubarão/SC", ok: true },
 ];
 
 // ---------- Configurações ----------
@@ -285,10 +285,10 @@ export const regrasParcelamento = [
 ];
 
 export const importacoes = [
-  { arquivo: "catalogo-climba-completo.xlsx", tipo: "Produtos (XLSX)", quando: "22/11 15:02", linhas: 7_395, ok: 7_383, erros: 12, status: "Concluída" },
-  { arquivo: "fotos-lote-04.zip", tipo: "Fotos (ZIP)", quando: "23/11 10:40", linhas: 2_840, ok: 2_801, erros: 39, status: "Concluída" },
-  { arquivo: "tags-black-friday.xlsx", tipo: "Tags (XLSX)", quando: "25/11 08:10", linhas: 214, ok: 214, erros: 0, status: "Concluída" },
-  { arquivo: "fotos-lote-05.zip", tipo: "Fotos (ZIP)", quando: "25/11 13:55", linhas: 1_920, ok: 1_210, erros: 4, status: "Processando" },
+  { arquivo: "catalogo-climba-completo.xlsx", tipo: "Produtos (XLSX)", quando: "22/11, 15:02", linhas: 7_395, ok: 7_383, erros: 12, status: "Concluída" },
+  { arquivo: "fotos-lote-04.zip", tipo: "Fotos (ZIP)", quando: "23/11, 10:40", linhas: 2_840, ok: 2_801, erros: 39, status: "Concluída" },
+  { arquivo: "tags-black-friday.xlsx", tipo: "Tags (XLSX)", quando: "25/11, 08:10", linhas: 214, ok: 214, erros: 0, status: "Concluída" },
+  { arquivo: "fotos-lote-05.zip", tipo: "Fotos (ZIP)", quando: "25/11, 13:55", linhas: 1_920, ok: 1_210, erros: 4, status: "Processando" },
 ];
 
 export const arvoreCategorias = [

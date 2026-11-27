@@ -48,23 +48,26 @@ export function useAviso() {
   return { avisar, aviso };
 }
 
-/** Painel lateral de detalhe (drawer). */
-export function Gaveta({ titulo, sub, fechar, children, rodape, largura = "max-w-2xl" }: { titulo: React.ReactNode; sub?: React.ReactNode; fechar: () => void; children: React.ReactNode; rodape?: React.ReactNode; largura?: string }) {
+/**
+ * Painel lateral de detalhe (drawer). Fundo branco sólido (nada da página de trás aparece),
+ * até 560px, rodapé fixo: ação destrutiva à esquerda, primária à direita.
+ */
+export function Gaveta({ titulo, sub, fechar, children, rodape, largura = "max-w-[560px]" }: { titulo: React.ReactNode; sub?: React.ReactNode; fechar: () => void; children: React.ReactNode; rodape?: React.ReactNode; largura?: string }) {
   return (
     <div className="fixed inset-0 z-50" role="dialog" aria-modal aria-label={typeof titulo === "string" ? titulo : "Detalhe"}>
-      <button className="absolute inset-0 bg-ink/20" aria-label="Fechar" onClick={fechar} />
-      <aside className={cn("glass-strong drawer-in absolute inset-y-2 right-2 flex w-[calc(100%-16px)] flex-col overflow-hidden rounded-[26px]", largura)}>
-        <header className="flex items-start gap-3 border-b border-black/5 p-5">
+      <button className="absolute inset-0 bg-ink/20 backdrop-blur-[2px]" aria-label="Fechar" onClick={fechar} />
+      <aside className={cn("drawer-in absolute inset-y-2 right-2 flex w-[calc(100%-16px)] flex-col overflow-hidden rounded-[var(--radius-card)] bg-paper shadow-[var(--shadow-pop)]", largura)}>
+        <header className="flex items-start gap-3 border-b border-line p-5">
           <div className="min-w-0 flex-1">
-            <h2 className="text-xl font-bold tracking-tight">{titulo}</h2>
+            <h2 className="text-2xl leading-tight font-bold tracking-tight">{titulo}</h2>
             {sub && <div className="mt-1 text-sm text-muted">{sub}</div>}
           </div>
-          <button onClick={fechar} className="grid size-10 shrink-0 place-items-center rounded-full bg-white ring-1 ring-black/5" aria-label="Fechar">
+          <button onClick={fechar} className="grid size-10 shrink-0 place-items-center rounded-full bg-white ring-1 ring-line hover:bg-snow" aria-label="Fechar">
             <Icon name="close" />
           </button>
         </header>
         <div className="flex-1 overflow-y-auto p-5">{children}</div>
-        {rodape && <footer className="flex flex-wrap justify-end gap-2 border-t border-black/5 p-4">{rodape}</footer>}
+        {rodape && <footer className="flex flex-wrap justify-end gap-2 border-t border-line p-4 [&>*:first-child:not(:last-child)]:mr-auto">{rodape}</footer>}
       </aside>
     </div>
   );

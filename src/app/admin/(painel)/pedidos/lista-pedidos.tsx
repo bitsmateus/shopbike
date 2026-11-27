@@ -108,7 +108,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
     <>
       <Card className="p-3 md:p-4">
         <div className="flex flex-wrap items-center gap-2">
-          <label className="flex h-11 min-w-[260px] flex-1 items-center gap-2 rounded-full bg-snow px-4 ring-1 ring-black/5 focus-within:ring-ink">
+          <label className="flex h-11 min-w-[260px] flex-1 items-center gap-2 rounded-full bg-snow px-4 campo">
             <Icon name="search" className="size-4 text-faint" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Número, NF, CPF, nome, e-mail, produto ou SKU" className="h-full flex-1 bg-transparent text-sm font-medium outline-none" aria-label="Buscar pedidos" />
           </label>

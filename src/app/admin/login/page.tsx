@@ -22,8 +22,8 @@ export default function LoginPage() {
           >
             <h1 className="text-2xl font-bold tracking-tight">Entrar no painel</h1>
             <p className="text-sm text-muted">Use o seu acesso da equipe ShopBike.</p>
-            <input autoComplete="username" placeholder="E-mail" aria-label="E-mail" className="h-12 w-full rounded-xl bg-white px-4 ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink" />
-            <input type="password" autoComplete="current-password" placeholder="Senha" aria-label="Senha" className="h-12 w-full rounded-xl bg-white px-4 ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink" />
+            <input autoComplete="username" placeholder="E-mail" aria-label="E-mail" className="h-12 w-full rounded-xl bg-white px-4 campo" />
+            <input type="password" autoComplete="current-password" placeholder="Senha" aria-label="Senha" className="h-12 w-full rounded-xl bg-white px-4 campo" />
             <button className="h-12 w-full rounded-full bg-ink font-semibold text-white">Continuar</button>
           </form>
         ) : (
@@ -41,7 +41,7 @@ export default function LoginPage() {
             <p className="text-sm text-muted">Digite o código de 6 dígitos do seu app autenticador.</p>
             <div className="flex justify-between gap-2">
               {Array.from({ length: 6 }, (_, i) => (
-                <input key={i} inputMode="numeric" maxLength={1} aria-label={`Dígito ${i + 1}`} className="h-14 w-full rounded-xl bg-white text-center text-xl font-bold ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink" />
+                <input key={i} inputMode="numeric" maxLength={1} aria-label={`Dígito ${i + 1}`} className="h-14 w-full rounded-xl bg-white text-center text-xl font-bold campo" />
               ))}
             </div>
             <button className="h-12 w-full rounded-full bg-ink font-semibold text-white">Entrar</button>

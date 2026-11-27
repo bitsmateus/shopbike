@@ -277,7 +277,7 @@ export function CampoPainel({ label, dica, className, ...rest }: { label: string
   return (
     <label className={cn("block", className)}>
       <span className="mb-1.5 block text-sm font-medium text-ink-2">{label}</span>
-      <input {...rest} className="h-10 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none transition read-only:bg-snow read-only:text-muted focus:ring-2 focus:ring-ink" />
+      <input {...rest} className="h-10 w-full rounded-xl bg-white px-3 text-sm campo transition read-only:bg-snow read-only:text-muted" />
       {dica && <span className="mt-1 block text-xs text-muted">{dica}</span>}
     </label>
   );
@@ -287,7 +287,7 @@ export function SelectPainel({ label, opcoes, className, ...rest }: { label: str
   return (
     <label className={cn("block", className)}>
       <span className="mb-1.5 block text-sm font-medium text-ink-2">{label}</span>
-      <select {...rest} className="h-10 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink">
+      <select {...rest} className="h-10 w-full rounded-xl bg-white px-3 text-sm campo">
         {opcoes.map((o) => (
           <option key={o}>{o}</option>
         ))}

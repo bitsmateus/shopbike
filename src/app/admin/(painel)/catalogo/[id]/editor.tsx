@@ -289,7 +289,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
               <CampoPainel label="Título da página" defaultValue={`${p.nome} | ShopBike`} dica={`${(p.nome + " | ShopBike").length} de 60 caracteres`} />
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-ink-2">Descrição para o Google</span>
-                <textarea value={seoDesc} onChange={(e) => setSeoDesc(e.target.value)} className="h-20 w-full resize-none rounded-xl bg-white p-3 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink" />
+                <textarea value={seoDesc} onChange={(e) => setSeoDesc(e.target.value)} className="h-20 w-full resize-none rounded-xl bg-white p-3 text-sm campo" />
                 <span className="text-xs text-muted">{seoDesc.length} de 160 caracteres</span>
               </label>
               <CampoPainel label="URL canônica" defaultValue={`https://shopbike.com.br/p/${slug}`} />
@@ -345,10 +345,10 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
           <Card titulo="Histórico de alterações">
             <ol id="historico" className="scroll-mt-28 space-y-3 text-sm">
               {[
-                ["25/11 12:10", "Priscila", "Preço promocional R$ 4.699,00 → R$ 4.499,00 até 30/11"],
-                ["25/11 08:10", "Importação", "Etiqueta “Promoção” aplicada (tags-black-friday.xlsx)"],
-                ["24/11 13:58", "Bruning", "Estoque 17·Preto 2 → 3"],
-                ["20/11 16:30", "Priscila", "3 fotos novas e vídeo adicionados"],
+                ["25/11, 12:10", "Priscila", "Preço promocional R$ 4.699,00 → R$ 4.499,00 até 30/11"],
+                ["25/11, 08:10", "Importação", "Etiqueta “Promoção” aplicada (tags-black-friday.xlsx)"],
+                ["24/11, 13:58", "Bruning", "Estoque 17·Preto 2 → 3"],
+                ["20/11, 16:30", "Priscila", "3 fotos novas e vídeo adicionados"],
               ].map(([q, quem, o]) => (
                 <li key={q + o} className="flex gap-3">
                   <span className="w-24 shrink-0 text-xs text-muted tabular">{q}</span>

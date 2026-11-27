@@ -209,7 +209,7 @@ function Regras() {
                   type="number"
                   value={r.peso}
                   onChange={(e) => setRegras(regras.map((x, j) => (j === i ? { ...x, peso: Number(e.target.value) } : x)))}
-                  className={cn("h-9 w-16 rounded-lg bg-white text-center font-bold ring-1 ring-black/10 outline-none tabular focus:ring-ink", r.peso > 0 ? "text-danger" : "text-ok")}
+                  className={cn("h-9 w-16 rounded-lg bg-white text-center font-bold campo tabular", r.peso > 0 ? "text-danger" : "text-ok")}
                 />
               </label>
             </li>
@@ -284,7 +284,7 @@ function Bloqueio() {
             <option key={t}>{t}</option>
           ))}
         </select>
-        <input value={valor} onChange={(e) => setValor(e.target.value)} placeholder="Valor a bloquear" className="h-10 min-w-[220px] flex-1 rounded-full bg-white px-4 text-sm ring-1 ring-black/10 outline-none focus:ring-ink" aria-label="Valor" />
+        <input value={valor} onChange={(e) => setValor(e.target.value)} placeholder="Valor a bloquear" className="h-10 min-w-[220px] flex-1 rounded-full bg-white px-4 text-sm campo" aria-label="Valor" />
         <Botao tom="ink">
           <Icon name="ban" className="size-4" /> Bloquear
         </Botao>

@@ -46,7 +46,7 @@ export function Moderacao() {
               value={resposta[i] ?? ""}
               onChange={(e) => setResposta({ ...resposta, [i]: e.target.value })}
               placeholder={a.tipo === "Pergunta" ? "Responder publicamente na página do produto…" : "Resposta pública da loja (opcional)…"}
-              className="mt-3 h-20 w-full resize-none rounded-xl bg-white p-3 text-sm ring-1 ring-black/10 outline-none focus:ring-ink"
+              className="mt-3 h-20 w-full resize-none rounded-xl bg-white p-3 text-sm campo"
             />
             <div className="mt-3 flex flex-wrap gap-2">
               <Botao tom="ink" onClick={() => tirar(i, a.tipo === "Pergunta" ? "Resposta publicada" : "Avaliação publicada")}>

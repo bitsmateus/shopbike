@@ -8,49 +8,100 @@ import { cn, reais } from "@/lib/format";
 import { parcelasPermitidas, valorParcela } from "@/modules/precos/parcelamento";
 import { Icon } from "@/ui/icons";
 import { ProductArt } from "@/ui/product-art";
-import { Botao, Card } from "@/ui/painel/ui";
+import { Abas, useAviso } from "@/ui/painel/controles";
+import { Botao, Card, Chip, plural, type Tom } from "@/ui/painel/ui";
 
 type Item = { p: Produto; sku: string; rotulo: string; qtd: number };
 
 const LIMITE_DESCONTO = 5; // % do perfil Vendedor (protótipo)
+const PASSO_DESCONTO = 0.5;
 
-const statusLink: Record<LinkPagamento["status"], [string, string]> = {
-  ativo: ["Ativo", "bg-ok-50 text-ok"],
-  em_uso: ["Pagamento em andamento", "bg-warn-50 text-warn"],
-  pago: ["Pago", "bg-info-50 text-info"],
-  expirado: ["Expirado", "bg-cloud text-faint"],
-  cancelado: ["Cancelado", "bg-cloud text-faint"],
+/* Ativo = aguardando o cliente (azul) · em andamento = alerta · pago = verde · expirado/cancelado = neutro */
+const statusLink: Record<LinkPagamento["status"], [string, Tom]> = {
+  ativo: ["Ativo", "info"],
+  em_uso: ["Pagamento em andamento", "warn"],
+  pago: ["Pago", "ok"],
+  expirado: ["Expirado", "apagado"],
+  cancelado: ["Cancelado", "apagado"],
 };
+
+const filtrosLista = ["Ativos", "Todos"] as const;
+const ativo = (l: LinkPagamento) => l.status === "ativo" || l.status === "em_uso";
+
+/** Iniciais da pessoa cujo nome está ao lado (cliente), não do vendedor. */
+const iniciais = (nome: string) =>
+  nome
+    .split(" ")
+    .filter(Boolean)
+    .map((p) => p[0])
+    .filter((_, i, a) => i === 0 || i === a.length - 1)
+    .join("")
+    .toUpperCase();
+
+/** Máscara (48) 99999-9999 / (48) 9999-9999. */
+function mascaraWhats(v: string) {
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 2) return d.length ? `(${d}` : "";
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+}
+
+const estoqueTotal = (p: Produto) => p.variacoes.reduce((s, v) => s + v.estoque, 0);
+const pct = (n: number) => n.toLocaleString("pt-BR", { maximumFractionDigits: 1 });
 
 export function Links() {
   const [busca, setBusca] = useState("");
+  const [ativoIdx, setAtivoIdx] = useState(0);
   const [itens, setItens] = useState<Item[]>([]);
   const [desconto, setDesconto] = useState(0);
   const [parcelas, setParcelas] = useState(21);
-  const [cliente, setCliente] = useState("");
+  const [nome, setNome] = useState("");
+  const [whats, setWhats] = useState("");
   const [lista, setLista] = useState(linksIniciais);
+  const [filtro, setFiltro] = useState<(typeof filtrosLista)[number]>("Ativos");
   const [gerado, setGerado] = useState<string | null>(null);
+  const { avisar, aviso } = useAviso();
 
   const sugestoes = useMemo(() => (busca.length < 2 ? [] : produtos.filter((p) => `${p.nome} ${p.marca}`.toLowerCase().includes(busca.toLowerCase())).slice(0, 5)), [busca]);
   const subtotal = itens.reduce((s, i) => s + i.p.preco * i.qtd, 0);
   const total = Math.round(subtotal * (1 - desconto / 100));
   const maxParcelas = parcelasPermitidas(total);
   const n = Math.min(parcelas, maxParcelas);
+  const whatsOk = whats.replace(/\D/g, "").length >= 10;
+
+  // O que falta para gerar o link (texto ao lado do botão desabilitado)
+  const falta = [itens.length === 0 && "um produto", !nome.trim() && "o nome do cliente", !whatsOk && "o WhatsApp"].filter(Boolean) as string[];
+  const faltaTxt = falta.length ? `Adicione ${falta.length > 1 ? falta.slice(0, -1).join(", ") + " e " + falta.at(-1) : falta[0]} para gerar o link.` : "";
+
+  const visiveis = filtro === "Ativos" ? lista.filter(ativo) : lista;
 
   const adicionar = (p: Produto) => {
     const v = p.variacoes.find((x) => x.estoque > 0) ?? p.variacoes[0];
     setItens([...itens, { p, sku: v.sku, rotulo: `${v.tamanho} · ${v.cor}`, qtd: 1 }]);
     setBusca("");
+    setAtivoIdx(0);
   };
+
+  const ajustarDesconto = (v: number) => setDesconto(Math.min(LIMITE_DESCONTO, Math.max(0, Math.round(v / PASSO_DESCONTO) * PASSO_DESCONTO)));
 
   const gerar = () => {
     // Protótipo: token previsível. Na plataforma, token aleatório gerado no servidor.
     const token = `novo${lista.length + 1}`;
     setLista([
-      { token, cliente: cliente || "Cliente", vendedor: "Você", itens: itens.map((i) => i.p.nome).join(" + "), total, parcelas: n, status: "ativo", validade: "27/11 18:00", criado: "25/11 14:00" },
+      { token, cliente: nome.trim(), vendedor: "Você", itens: itens.map((i) => i.p.nome).join(" + "), total, parcelas: n, status: "ativo", validade: "27/11, 18:00", criado: "25/11, 14:00" },
       ...lista,
     ]);
     setGerado(token);
+  };
+
+  const copiar = async (texto: string) => {
+    try {
+      await navigator.clipboard.writeText(texto);
+      avisar("Link copiado");
+    } catch {
+      avisar("Não foi possível copiar: selecione o link e use Ctrl C");
+    }
   };
 
   return (
@@ -58,34 +109,73 @@ export function Links() {
       <Card titulo="Novo link de pagamento">
         <p className="-mt-2 mb-4 text-sm text-muted">Monte o pedido com os itens reais do catálogo. O link abre o checkout da loja, com antifraude, 3DS e baixa de estoque.</p>
 
-        <label className="block">
-          <span className="mb-1.5 block text-sm font-medium">Produtos</span>
+        <div>
+          <label htmlFor="busca-produto" className="mb-1.5 block text-sm font-medium">
+            Produtos
+          </label>
           <div className="relative">
-            <span className="flex h-11 items-center gap-2 rounded-xl bg-white px-3 ring-1 ring-black/10 focus-within:ring-ink">
+            <span className="campo flex h-11 items-center gap-2 rounded-xl px-3">
               <Icon name="search" className="size-4 text-faint" />
-              <input value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Buscar produto ou SKU…" className="flex-1 bg-transparent text-sm outline-none" />
+              <input
+                id="busca-produto"
+                value={busca}
+                onChange={(e) => {
+                  setBusca(e.target.value);
+                  setAtivoIdx(0);
+                }}
+                onKeyDown={(e) => {
+                  if (!sugestoes.length) return;
+                  if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    setAtivoIdx((i) => (i + 1) % sugestoes.length);
+                  } else if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    setAtivoIdx((i) => (i - 1 + sugestoes.length) % sugestoes.length);
+                  } else if (e.key === "Enter") {
+                    e.preventDefault();
+                    adicionar(sugestoes[ativoIdx]);
+                  } else if (e.key === "Escape") setBusca("");
+                }}
+                placeholder="Buscar produto ou SKU…"
+                className="flex-1 bg-transparent text-sm font-medium"
+                role="combobox"
+                aria-expanded={sugestoes.length > 0}
+                aria-controls="sugestoes-produto"
+                aria-activedescendant={sugestoes.length ? `sug-${sugestoes[ativoIdx]?.id}` : undefined}
+              />
             </span>
             {sugestoes.length > 0 && (
-              <ul className="glass-strong absolute inset-x-0 top-[calc(100%+6px)] z-10 rounded-2xl p-1.5">
-                {sugestoes.map((p) => (
-                  <li key={p.id}>
-                    <button type="button" onClick={() => adicionar(p)} className="flex w-full items-center gap-3 rounded-xl p-2 text-left text-sm hover:bg-snow">
-                      <ProductArt kind={p.art} color={p.cores[0].hex} className="size-9" />
-                      <span className="flex-1 font-medium">{p.nome}</span>
-                      <span className="font-semibold tabular">{reais(p.preco)}</span>
-                    </button>
-                  </li>
-                ))}
+              <ul id="sugestoes-produto" role="listbox" className="absolute inset-x-0 top-[calc(100%+6px)] z-10 rounded-[var(--radius-tile)] bg-paper p-1.5 shadow-[0_12px_32px_-12px_rgb(26_25_23/0.35)] ring-1 ring-line">
+                {sugestoes.map((p, i) => {
+                  const est = estoqueTotal(p);
+                  return (
+                    <li key={p.id} id={`sug-${p.id}`} role="option" aria-selected={i === ativoIdx}>
+                      <button
+                        type="button"
+                        onMouseEnter={() => setAtivoIdx(i)}
+                        onClick={() => adicionar(p)}
+                        className={cn("flex h-12 w-full items-center gap-3 rounded-lg px-2 text-left text-sm", i === ativoIdx && "bg-fundo-painel")}
+                      >
+                        <ProductArt kind={p.art} color={p.cores[0].hex} className="size-9" />
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate font-medium">{p.nome}</span>
+                          <span className={cn("block text-xs", est ? "text-muted" : "text-danger")}>{est ? `${est} em estoque` : "Sem estoque"}</span>
+                        </span>
+                        <span className="font-semibold tabular">{reais(p.preco)}</span>
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>
-        </label>
+        </div>
 
         <ul className="mt-3 space-y-2">
-          {itens.length === 0 && <li className="rounded-2xl border border-dashed border-line-2 p-5 text-center text-sm text-muted">Nenhum item ainda. Busque acima — ex.: “Big Wheel”.</li>}
+          {itens.length === 0 && <li className="rounded-[var(--radius-tile)] border border-dashed border-line-2 p-5 text-center text-sm text-muted">Nenhum item ainda. Busque acima — ex.: “Big Wheel”.</li>}
           {itens.map((i, idx) => (
             <li key={idx} className="tile flex items-center gap-3 p-2.5">
-              <span className="grid size-11 place-items-center rounded-xl bg-snow">
+              <span className="grid size-11 place-items-center rounded-lg bg-white">
                 <ProductArt kind={i.p.art} color={i.p.cores[0].hex} className="size-10" />
               </span>
               <span className="min-w-0 flex-1 text-sm">
@@ -107,7 +197,7 @@ export function Links() {
                 </select>
               </span>
               <span className="font-semibold tabular">{reais(i.p.preco)}</span>
-              <button onClick={() => setItens(itens.filter((_, j) => j !== idx))} className="grid size-8 place-items-center rounded-full hover:bg-white" aria-label="Remover">
+              <button onClick={() => setItens(itens.filter((_, j) => j !== idx))} className="grid size-8 place-items-center rounded-full hover:bg-white" aria-label={`Remover ${i.p.nome}`}>
                 <Icon name="close" className="size-4" />
               </button>
             </li>
@@ -116,28 +206,55 @@ export function Links() {
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <label className="block">
-            <span className="mb-1.5 block text-sm font-medium">Cliente (nome e WhatsApp)</span>
-            <input value={cliente} onChange={(e) => setCliente(e.target.value)} placeholder="Ex.: Rodrigo · (48) 9…" className="h-11 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none focus:ring-ink" />
+            <span className="mb-1.5 block text-sm font-medium">Nome do cliente</span>
+            <input value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Ex.: Rodrigo Mendes" autoComplete="off" className="campo h-11 w-full rounded-xl px-3 text-sm" />
           </label>
           <label className="block">
-            <span className="mb-1.5 flex justify-between text-sm font-medium">
-              Desconto <span className="text-xs text-muted">limite do seu perfil: {LIMITE_DESCONTO}%</span>
-            </span>
+            <span className="mb-1.5 block text-sm font-medium">WhatsApp</span>
             <input
-              type="range"
-              min={0}
-              max={LIMITE_DESCONTO}
-              step={0.5}
-              value={desconto}
-              onChange={(e) => setDesconto(Number(e.target.value))}
-              className="mt-3 w-full accent-[var(--color-red)]"
-              aria-label="Desconto"
+              value={whats}
+              onChange={(e) => setWhats(mascaraWhats(e.target.value))}
+              placeholder="(48) 99999-9999"
+              inputMode="tel"
+              autoComplete="off"
+              className="campo h-11 w-full rounded-xl px-3 text-sm tabular"
             />
-            <span className="text-xs text-muted tabular">{desconto}%</span>
           </label>
+
+          <div>
+            <span className="mb-1.5 flex items-baseline justify-between text-sm font-medium">
+              <label htmlFor="desconto">Desconto</label>
+              <span className="text-xs text-muted">limite do seu perfil: {LIMITE_DESCONTO}%</span>
+            </span>
+            {/* campo numérico com −/+ (passo de 0,5%): preciso, sem slider */}
+            <div className="campo flex h-11 w-full items-center rounded-xl">
+              <button type="button" onClick={() => ajustarDesconto(desconto - PASSO_DESCONTO)} disabled={desconto <= 0} className="grid size-11 place-items-center rounded-l-xl text-ink hover:bg-snow disabled:text-faint" aria-label="Diminuir desconto">
+                <Icon name="minus" className="size-4" />
+              </button>
+              <input
+                id="desconto"
+                inputMode="decimal"
+                value={pct(desconto)}
+                onChange={(e) => {
+                  const v = Number(e.target.value.replace(",", ".").replace(/[^\d.]/g, ""));
+                  if (!Number.isNaN(v)) ajustarDesconto(v);
+                }}
+                className="w-full min-w-0 flex-1 bg-transparent text-center text-sm font-semibold tabular"
+                aria-describedby="desconto-ajuda"
+              />
+              <span className="pr-1 text-sm text-muted">%</span>
+              <button type="button" onClick={() => ajustarDesconto(desconto + PASSO_DESCONTO)} disabled={desconto >= LIMITE_DESCONTO} className="grid size-11 place-items-center rounded-r-xl text-ink hover:bg-snow disabled:text-faint" aria-label="Aumentar desconto">
+                <Icon name="plus" className="size-4" />
+              </button>
+            </div>
+            <span id="desconto-ajuda" className="mt-1 block text-xs text-muted">
+              Passos de 0,5%{desconto > 0 && subtotal > 0 ? ` · −${reais(subtotal - total)}` : ""}
+            </span>
+          </div>
+
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium">Parcelas máximas</span>
-            <select value={parcelas} onChange={(e) => setParcelas(Number(e.target.value))} className="h-11 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10">
+            <select value={parcelas} onChange={(e) => setParcelas(Number(e.target.value))} className="campo h-11 w-full rounded-xl px-3 text-sm">
               {[1, 3, 6, 10, 12, 18, 21].map((x) => (
                 <option key={x} value={x}>
                   até {x}x
@@ -147,7 +264,7 @@ export function Links() {
           </label>
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium">Validade</span>
-            <select className="h-11 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10">
+            <select className="campo h-11 w-full rounded-xl px-3 text-sm">
               <option>48 horas</option>
               <option>24 horas</option>
               <option>7 dias</option>
@@ -155,8 +272,8 @@ export function Links() {
           </label>
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center gap-4 rounded-2xl bg-snow p-4 ring-1 ring-black/5">
-          <div className="flex-1">
+        <div className="mt-5 flex flex-wrap items-center gap-4 rounded-[var(--radius-card)] bg-snow p-4 ring-1 ring-line">
+          <div className="min-w-[180px] flex-1">
             <p className="text-sm text-muted">Total do link</p>
             <p className="text-2xl font-bold tabular">{reais(total)}</p>
             {total > 0 && (
@@ -165,20 +282,27 @@ export function Links() {
               </p>
             )}
           </div>
-          <Botao disabled={itens.length === 0} onClick={gerar} className="h-12 px-6">
-            <Icon name="link" className="size-4" /> Gerar link
-          </Botao>
+          <div className="flex flex-col items-end gap-1.5">
+            <Botao disabled={falta.length > 0} onClick={gerar} className="h-12 px-6" aria-describedby="gerar-ajuda">
+              <Icon name="link" className="size-4" /> Gerar link
+            </Botao>
+            {faltaTxt && (
+              <p id="gerar-ajuda" className="max-w-[240px] text-right text-xs text-muted">
+                {faltaTxt}
+              </p>
+            )}
+          </div>
         </div>
 
         {gerado && (
-          <div className="rise mt-4 rounded-2xl bg-ok-50 p-4">
+          <div className="rise mt-4 rounded-[var(--radius-card)] bg-ok-50 p-4">
             <p className="text-sm font-semibold text-ok">Link criado · uso único · estoque reservado por 48 h</p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
               <code className="flex-1 truncate rounded-xl bg-white px-3 py-2 text-sm">shopbike.com.br/pagar/{gerado}</code>
-              <Botao tom="ghost">
+              <Botao tom="ghost" onClick={() => copiar(`https://shopbike.com.br/pagar/${gerado}`)}>
                 <Icon name="copy" className="size-4" /> Copiar
               </Botao>
-              <Botao tom="ink">
+              <Botao tom="ink" onClick={() => avisar(`Link enviado no WhatsApp para ${whats}`)}>
                 <Icon name="whatsapp" className="size-4" /> Enviar no WhatsApp
               </Botao>
             </div>
@@ -186,19 +310,22 @@ export function Links() {
         )}
       </Card>
 
-      <Card titulo="Links recentes" ferramentas={<span className="text-sm text-muted">{lista.length}</span>}>
+      <Card titulo="Links recentes" ferramentas={<Abas abas={filtrosLista} ativa={filtro} onChange={setFiltro} contagem={{ Ativos: lista.filter(ativo).length, Todos: lista.length }} />}>
         <ul className="space-y-2">
-          {lista.map((l) => (
+          {visiveis.length === 0 && <li className="rounded-[var(--radius-tile)] border border-dashed border-line-2 p-5 text-center text-sm text-muted">Nenhum link ativo agora.</li>}
+          {visiveis.map((l) => (
             <li key={l.token} className="tile p-3.5">
               <div className="flex items-start gap-3">
-                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-sm font-bold text-white">{l.vendedor[0]}</span>
+                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-cloud text-xs font-bold text-ink-2" aria-hidden>
+                  {iniciais(l.cliente)}
+                </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="font-semibold">{l.cliente}</span>
-                    <span className={cn("rounded-full px-2 py-0.5 text-[11px] font-semibold", statusLink[l.status][1])}>{statusLink[l.status][0]}</span>
+                    <Chip tom={statusLink[l.status][1]}>{statusLink[l.status][0]}</Chip>
                   </div>
                   <p className="truncate text-sm text-muted">{l.itens}</p>
-                  <p className="mt-1 text-xs text-faint">
+                  <p className="mt-1 text-xs text-muted">
                     {l.vendedor} · criado {l.criado} · válido até {l.validade}
                   </p>
                 </div>
@@ -207,21 +334,31 @@ export function Links() {
                   <p className="text-xs text-muted">até {l.parcelas}x</p>
                 </div>
               </div>
-              {(l.status === "ativo" || l.status === "em_uso") && (
-                <div className="mt-3 flex gap-2 border-t border-black/5 pt-3">
-                  <Link href={`/pagar/${l.token}`} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-xs font-semibold ring-1 ring-black/10">
+              {ativo(l) && (
+                <div className="mt-3 flex gap-2 border-t border-line pt-3">
+                  <Link href={`/pagar/${l.token}`} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-[13px] font-semibold ring-1 ring-line hover:bg-snow">
                     <Icon name="eye" className="size-3.5" /> Ver como cliente
                   </Link>
-                  <button className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-xs font-semibold ring-1 ring-black/10">
+                  <button onClick={() => avisar(`Link reenviado no WhatsApp para ${l.cliente}`)} className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-[13px] font-semibold ring-1 ring-line hover:bg-snow">
                     <Icon name="whatsapp" className="size-3.5" /> Reenviar
                   </button>
-                  <button className="ml-auto inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold text-danger">Cancelar</button>
+                  <button
+                    onClick={() => {
+                      setLista((ls) => ls.map((x) => (x.token === l.token ? { ...x, status: "cancelado" } : x)));
+                      avisar(`Link de ${l.cliente} cancelado · reserva de estoque liberada`);
+                    }}
+                    className="ml-auto inline-flex h-8 items-center rounded-full px-3 text-[13px] font-semibold text-danger hover:bg-danger-50"
+                  >
+                    Cancelar
+                  </button>
                 </div>
               )}
             </li>
           ))}
         </ul>
+        <p className="mt-3 text-xs text-muted">{plural(lista.filter(ativo).length, "link ativo", "links ativos")} de {lista.length}</p>
       </Card>
+      {aviso}
     </div>
   );
 }

@@ -13,7 +13,7 @@ export function PedidoDrawer({ p, fechar, abaInicial = "Produtos" }: { p: Pedido
   return (
     <div className="fixed inset-0 z-50" role="dialog" aria-modal aria-label={`Pedido ${p.numero}`}>
       <button className="absolute inset-0 bg-ink/20" aria-label="Fechar" onClick={fechar} />
-      <aside className="glass-strong drawer-in absolute inset-y-2 right-2 flex w-[calc(100%-16px)] max-w-2xl flex-col overflow-hidden rounded-[26px]">
+      <aside className="drawer-in absolute inset-y-2 right-2 flex w-[calc(100%-16px)] max-w-2xl flex-col overflow-hidden rounded-[var(--radius-card)] bg-paper shadow-[var(--shadow-pop)]">
         <header className="border-b border-black/5 p-5">
           <div className="flex items-start gap-3">
             <div className="flex-1">
