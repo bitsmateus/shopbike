@@ -156,12 +156,12 @@ export function AnaliseRisco({ p }: { p: Pedido }) {
       <div>
         <p className="mb-2 text-sm font-semibold">Motivos da nota</p>
         <ul className="space-y-1.5">
-          <li className="flex justify-between rounded-xl bg-snow px-3 py-2 text-sm">
+          <li className="flex justify-between rounded-xl bg-snow px-3 py-1.5 text-sm">
             <span className="text-muted">Base</span>
             <span className="font-semibold tabular">+8</span>
           </li>
           {p.risco.motivos.map((m) => (
-            <li key={m.codigo} className="flex justify-between gap-3 rounded-xl bg-snow px-3 py-2 text-sm">
+            <li key={m.codigo} className="flex justify-between gap-3 rounded-xl bg-snow px-3 py-1.5 text-sm">
               <span>{m.descricao}</span>
               <span className={cn("font-bold tabular", m.peso > 0 ? "text-red" : "text-ok")}>
                 {m.peso > 0 ? "+" : ""}
@@ -175,7 +175,7 @@ export function AnaliseRisco({ p }: { p: Pedido }) {
         <p className="mb-2 text-sm font-semibold">Dados ligados</p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {p.vinculos.map((v) => (
-            <li key={v.tipo + v.valor} className={cn("rounded-xl p-3 text-sm ring-1", v.alerta ? "bg-red-50 ring-red-100" : "bg-white ring-line")}>
+            <li key={v.tipo + v.valor} className={cn("rounded-xl px-3 py-2 text-sm ring-1", v.alerta ? "bg-red-50 ring-red-100" : "bg-white ring-line")}>
               <span className="block text-xs text-muted">{v.tipo}</span>
               <span className="block truncate font-medium">{v.valor}</span>
               {v.alerta && (

@@ -15,9 +15,9 @@
   --color-red-100: #fbdde0;
 
   --color-ink: #1a1917;
-  --color-ink-2: #2b2a27;
-  --color-muted: #5f5d58;
-  --color-faint: #8b8983;
+  --color-ink-2: #252421;
+  --color-muted: #4a4844;
+  --color-faint: #6e6c67;
 
   --color-paper: #ffffff;
   --color-snow: #f7f6f5;
@@ -34,8 +34,8 @@
 
   --color-nx: #2c6bc8;
 
-  --radius-card: 22px;
-  --radius-tile: 16px;
+  --radius-card: 16px;
+  --radius-tile: 12px;
 
   --shadow-soft: 0 1px 2px #1a19170a, 0 8px 24px -12px #1a19171f;
   --shadow-pop: 0 24px 60px -18px #1a191740, 0 2px 6px #1a191714;
@@ -53,6 +53,7 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-weight: 500;
   font-feature-settings: "tnum" 0;
 }
 
@@ -155,22 +156,22 @@ body {
 /* ---------- Painel: tabela padrão ---------- */
 .tabela {
   width: 100%;
-  font-size: 14px;
+  font-size: 13.5px;
   border-collapse: collapse;
 }
 .tabela th {
   text-align: left;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-muted);
-  padding: 12px 10px;
+  padding: 9px 10px;
   border-bottom: 1px solid #1a19170d;
   white-space: nowrap;
 }
 .tabela td {
-  padding: 12px 10px;
+  padding: 8px 10px;
   border-bottom: 1px solid #1a19170d;
   vertical-align: middle;
 }
@@ -179,11 +180,11 @@ body {
 }
 .tabela th:first-child,
 .tabela td:first-child {
-  padding-left: 20px;
+  padding-left: 16px;
 }
 .tabela th:last-child,
 .tabela td:last-child {
-  padding-right: 20px;
+  padding-right: 16px;
 }
 .tabela tbody tr {
   transition: background 0.15s;

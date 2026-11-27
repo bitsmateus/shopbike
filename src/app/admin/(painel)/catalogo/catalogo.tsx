@@ -95,10 +95,10 @@ export function Catalogo() {
             <tbody>
               {lista.map((p) => (
                 <tr key={p.id} onClick={() => router.push(`/admin/catalogo/${p.id}`)} className="cursor-pointer border-b border-black/5 last:border-0 hover:bg-white/70">
-                  <td className="py-2.5 pl-5">
+                  <td className="py-2 pl-4">
                     <span className="flex items-center gap-3">
-                      <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-white/80">
-                        <ProductArt kind={p.art} color={p.cores[0].hex} className="size-11" />
+                      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/80">
+                        <ProductArt kind={p.art} color={p.cores[0].hex} className="size-9" />
                       </span>
                       <span>
                         <span className="block font-semibold">{p.nome}</span>

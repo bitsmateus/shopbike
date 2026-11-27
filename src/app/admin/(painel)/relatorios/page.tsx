@@ -27,7 +27,7 @@ export default function RelatoriosPage() {
               <span className="grid size-10 place-items-center rounded-full bg-white ring-1 ring-black/5">
                 <Icon name={icones[g] ?? "doc"} className="size-[18px]" />
               </span>
-              <h2 className="text-lg font-bold">{g}</h2>
+              <h2 className="text-base font-bold">{g}</h2>
             </div>
             <ul className="space-y-1">
               {relatorios

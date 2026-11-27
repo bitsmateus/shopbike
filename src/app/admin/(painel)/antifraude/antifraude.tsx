@@ -14,9 +14,9 @@ export function Antifraude({ inicial }: { inicial?: string }) {
   const [aba, setAba] = useState<(typeof abas)[number]>("Fila de revisão");
   return (
     <>
-      <div className="glass scrollbar-none mb-4 inline-flex max-w-full overflow-x-auto rounded-full p-1.5" role="tablist">
+      <div className="glass scrollbar-none mb-3 inline-flex max-w-full overflow-x-auto rounded-full p-1" role="tablist">
         {abas.map((a) => (
-          <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)} className={cn("shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition", aba === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}>
+          <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)} className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", aba === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}>
             {a}
             {a === "Fila de revisão" && <span className="ml-2 rounded-full bg-red px-1.5 py-0.5 text-[11px] text-white">{filaRevisao.length}</span>}
           </button>
@@ -102,13 +102,13 @@ function Fila({ inicial }: { inicial?: string }) {
       </div>
 
       {p ? (
-        <Card className="p-5 md:p-6">
+        <Card className="p-4">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <p className="text-sm text-muted">
                 Pedido #{p.numero} · {p.canal} · {new Date(p.data).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
               </p>
-              <h2 className="mt-1 text-2xl font-bold tracking-tight">{p.cliente.nome}</h2>
+              <h2 className="mt-1 text-xl font-bold tracking-tight">{p.cliente.nome}</h2>
               <p className="text-sm text-muted">
                 {p.itens.map((i) => i.nome).join(" + ")} · <strong className="text-ink tabular">{reais(p.total)}</strong> · {p.pagamento.forma} {p.pagamento.parcelas > 1 && `${p.pagamento.parcelas}x`}
               </p>
@@ -293,7 +293,7 @@ function Bloqueio() {
         <table className="w-full min-w-[640px] text-sm">
           <thead>
             <tr className="border-b border-black/5 text-left text-xs font-semibold tracking-wide text-muted uppercase">
-              <th className="py-3">Tipo</th>
+              <th className="py-2">Tipo</th>
               <th>Valor</th>
               <th>Origem</th>
               <th>Quem incluiu</th>
@@ -303,7 +303,7 @@ function Bloqueio() {
           <tbody>
             {lista.map((b, i) => (
               <tr key={i} className="border-b border-black/5 last:border-0">
-                <td className="py-3">
+                <td className="py-2">
                   <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold ring-1 ring-black/5">{b.tipo}</span>
                 </td>
                 <td className="font-medium">{b.valor}</td>

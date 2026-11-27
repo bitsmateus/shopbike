@@ -83,7 +83,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
       <div className="flex flex-wrap items-center gap-4">
         <span className="grid size-20 place-items-center rounded-[20px] bg-white/80 ring-1 ring-black/5">{!novo && <ProductArt kind={p.art} color={p.cores[0].hex} className="size-[72px]" />}</span>
         <div className="min-w-0 flex-1">
-          <h1 className="text-[clamp(26px,3vw,40px)] leading-tight font-bold tracking-tight">{titulo || "Novo produto"}</h1>
+          <h1 className="text-2xl leading-tight font-bold tracking-tight">{titulo || "Novo produto"}</h1>
           <p className="text-sm text-muted">{novo ? "Preencha os dados e salve como rascunho." : `${p.marca} · ${p.variacoes.length} variações · código ERP ${p.variacoes[0]?.sku.split("-")[0]}`}</p>
         </div>
       </div>

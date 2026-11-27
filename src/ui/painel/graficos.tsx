@@ -5,7 +5,7 @@ const CORES = { site: "#1a1917", link: "#e30618", ia: "#2c6bc8" } as const;
 /** Barras empilhadas por dia: site, link do vendedor e IA. */
 export function GraficoVendas({ serie }: { serie: { dia: number; site: number; link: number; ia: number }[] }) {
   const W = 720;
-  const H = 220;
+  const H = 170;
   const pad = { l: 44, r: 8, t: 10, b: 24 };
   const max = Math.max(...serie.map((d) => d.site + d.link + d.ia)) * 1.1;
   const bw = (W - pad.l - pad.r) / serie.length;

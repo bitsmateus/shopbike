@@ -50,10 +50,10 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
       </a>
       <header className="sticky top-0 z-40 px-[clamp(12px,1.6vw,28px)] pt-3">
         <div className="mx-auto flex max-w-[1840px] flex-wrap items-center gap-3 xl:flex-nowrap">
-          <Link href="/admin" className="glass flex h-14 shrink-0 items-center rounded-full px-5" aria-label="Painel ShopBike">
+          <Link href="/admin" className="glass flex h-12 shrink-0 items-center rounded-full px-4" aria-label="Painel ShopBike">
             <LogoSistema compact />
           </Link>
-          <nav aria-label="Áreas do painel" className="glass scrollbar-none order-3 flex h-14 w-full min-w-0 items-center gap-1 overflow-x-auto rounded-full p-1.5 xl:order-none xl:mx-auto xl:w-auto">
+          <nav aria-label="Áreas do painel" className="glass scrollbar-none order-3 flex h-12 w-full min-w-0 items-center gap-0.5 overflow-x-auto rounded-full p-1 xl:order-none xl:mx-auto xl:w-auto">
             {areas
               .filter((a) => !a.noMenu)
               .map((a) => {
@@ -64,7 +64,7 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
                     href={a.href}
                     aria-current={ativa ? "page" : undefined}
                     className={cn(
-                      "relative inline-flex h-full shrink-0 items-center gap-2 rounded-full px-4 text-[15px] font-semibold transition",
+                      "relative inline-flex h-full shrink-0 items-center gap-2 rounded-full px-3.5 text-sm font-semibold transition",
                       ativa ? "bg-ink text-white shadow-[0_6px_16px_-8px_#1a191799]" : "text-ink-2 hover:bg-white/70",
                     )}
                   >
@@ -75,14 +75,14 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
               })}
           </nav>
           <div className="relative ml-auto flex items-center gap-2 xl:ml-0">
-            <button onClick={() => setBusca(true)} className="glass grid size-12 place-items-center rounded-full" aria-label="Buscar">
+            <button onClick={() => setBusca(true)} className="glass grid size-11 place-items-center rounded-full" aria-label="Buscar">
               <Icon name="search" />
             </button>
-            <button onClick={() => setAvisos((v) => !v)} aria-expanded={avisos} className="glass relative grid size-12 place-items-center rounded-full" aria-label="Notificações, 3 novas">
+            <button onClick={() => setAvisos((v) => !v)} aria-expanded={avisos} className="glass relative grid size-11 place-items-center rounded-full" aria-label="Notificações, 3 novas">
               <Icon name="bell" />
               <span className="absolute top-3 right-3.5 size-2 rounded-full bg-red ring-2 ring-white" />
             </button>
-            <Link href="/admin/conta" className="glass flex h-12 items-center gap-2 rounded-full pr-1.5 pl-1.5 2xl:pr-4" aria-label="Minha conta">
+            <Link href="/admin/conta" className="glass flex h-11 items-center gap-2 rounded-full pr-1.5 pl-1.5 2xl:pr-4" aria-label="Minha conta">
               <span className="grid size-9 place-items-center rounded-full bg-ink text-sm font-bold text-white">GE</span>
               <span className="hidden text-left text-sm leading-tight 2xl:block">
                 <span className="block font-semibold">Gerência</span>
@@ -121,9 +121,9 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
         })}
       </nav>
 
-      <main id="painel" className="mx-auto max-w-[1840px] px-[clamp(12px,1.6vw,28px)] pt-5 pb-28 md:pl-[100px] md:pb-12">
+      <main id="painel" className="mx-auto max-w-[1840px] px-[clamp(12px,1.6vw,28px)] pt-4 pb-28 md:pl-[96px] md:pb-12">
         {area?.subs && (
-          <nav aria-label={`Seções de ${area.rotulo}`} className="scrollbar-none mb-4 flex gap-1 overflow-x-auto">
+          <nav aria-label={`Seções de ${area.rotulo}`} className="scrollbar-none mb-3 flex gap-1 overflow-x-auto">
             {area.subs.map((s) => {
               const ativa = casa(path, s.href);
               return (

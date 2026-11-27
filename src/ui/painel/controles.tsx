@@ -7,14 +7,14 @@ import { Icon } from "@/ui/icons";
 /** Abas em cápsula (padrão Solvik). */
 export function Abas<T extends string>({ abas, ativa, onChange, contagem }: { abas: readonly T[]; ativa: T; onChange: (a: T) => void; contagem?: Partial<Record<T, number>> }) {
   return (
-    <div className="glass scrollbar-none inline-flex max-w-full overflow-x-auto rounded-full p-1.5" role="tablist">
+    <div className="glass scrollbar-none inline-flex max-w-full overflow-x-auto rounded-full p-1" role="tablist">
       {abas.map((a) => (
         <button
           key={a}
           role="tab"
           aria-selected={ativa === a}
           onClick={() => onChange(a)}
-          className={cn("shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition", ativa === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}
+          className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", ativa === a ? "bg-ink text-white" : "text-ink-2 hover:bg-white/70")}
         >
           {a}
           {contagem?.[a] != null && <span className={cn("ml-1.5 text-xs tabular", ativa === a ? "text-white/70" : "text-faint")}>{contagem[a]}</span>}

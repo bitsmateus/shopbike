@@ -47,7 +47,7 @@ export default async function RelatorioPage({ params }: Props) {
       <div className="mb-5 flex flex-wrap items-end gap-3">
         <div className="flex-1">
           <p className="text-sm text-muted">{r.grupo}</p>
-          <h1 className="text-[clamp(28px,3vw,44px)] leading-none font-bold tracking-tight">{r.titulo}</h1>
+          <h1 className="text-2xl leading-tight font-bold tracking-tight">{r.titulo}</h1>
         </div>
         {r.fase === 2 && <BadgeFase2 />}
         <label className="glass flex h-11 items-center gap-2 rounded-full px-4 text-sm">
@@ -81,9 +81,9 @@ export default async function RelatorioPage({ params }: Props) {
               ["Conversão", pct((pedidos / visitas) * 100, 2)],
             ]
         ).map(([k, v], i) => (
-          <div key={k} className="glass rounded-[18px] p-4">
-            <p className="text-sm text-muted">{k}</p>
-            <p className="mt-1 text-[26px] font-bold tracking-tight tabular">{v}</p>
+          <div key={k} className="glass rounded-2xl px-3 py-2.5">
+            <p className="text-xs font-medium text-muted">{k}</p>
+            <p className="mt-1 text-xl font-bold tabular">{v}</p>
             <p className={`text-xs font-semibold ${i === 3 ? "text-red" : "text-ok"}`}>{i === 3 ? "↓ 0,2 p.p." : `↑ ${8 + i * 3}%`} vs. período anterior</p>
           </div>
         ))}

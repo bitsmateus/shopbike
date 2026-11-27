@@ -5,10 +5,10 @@ import { Icon, type IconName } from "@/ui/icons";
 
 export function Card({ titulo, ferramentas, className, children, tom }: { titulo?: string; ferramentas?: React.ReactNode; className?: string; children: React.ReactNode; tom?: "red" }) {
   return (
-    <section className={cn("glass rise min-w-0 rounded-[var(--radius-card)] p-5", tom === "red" && "bg-[linear-gradient(160deg,#fdf0f1cc,#ffffffb3)]", className)}>
+    <section className={cn("glass rise min-w-0 rounded-[var(--radius-card)] p-4", tom === "red" && "bg-[linear-gradient(160deg,#fdf0f1cc,#ffffffb3)]", className)}>
       {(titulo || ferramentas) && (
-        <div className="mb-4 flex items-center justify-between gap-3">
-          {titulo && <h2 className="text-lg font-bold tracking-tight">{titulo}</h2>}
+        <div className="mb-3 flex items-center justify-between gap-3">
+          {titulo && <h2 className="text-[15px] font-bold">{titulo}</h2>}
           {ferramentas && <div className="flex items-center gap-1.5">{ferramentas}</div>}
         </div>
       )}
@@ -27,18 +27,18 @@ export function BotaoIcone({ icon, rotulo, onClick }: { icon: IconName; rotulo: 
 
 export function Cabecalho({ titulo, kpis, acoes }: { titulo: string; kpis?: { icon: IconName; rotulo: string; valor: string }[]; acoes?: React.ReactNode }) {
   return (
-    <div className="mb-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-      <h1 className="text-[clamp(30px,3.4vw,48px)] leading-none font-bold tracking-tight">{titulo}</h1>
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+      <h1 className="text-2xl leading-tight font-bold tracking-tight">{titulo}</h1>
       {kpis && (
-        <dl className="flex flex-wrap gap-x-7 gap-y-3">
+        <dl className="flex flex-wrap gap-x-6 gap-y-2">
           {kpis.map((k) => (
             <div key={k.rotulo} className="flex items-center gap-2.5">
-              <span className="glass hidden size-10 place-items-center rounded-full sm:grid">
-                <Icon name={k.icon} className="size-[18px]" />
+              <span className="glass hidden size-8 place-items-center rounded-full sm:grid">
+                <Icon name={k.icon} className="size-4" />
               </span>
               <div>
                 <dt className="text-xs text-muted">{k.rotulo}</dt>
-                <dd className="text-lg leading-tight font-bold tabular">{k.valor}</dd>
+                <dd className="text-base leading-tight font-bold tabular">{k.valor}</dd>
               </div>
             </div>
           ))}
@@ -86,7 +86,7 @@ export function StatusChip({ status }: { status: StatusPedido }) {
 export function NotaRisco({ nota, faixa, grande }: { nota: number; faixa: Faixa; grande?: boolean }) {
   const cor = faixa === "aprova" ? "text-ok bg-ok-50" : faixa === "revisao" ? "text-warn bg-warn-50" : "text-white bg-red";
   return (
-    <span className={cn("inline-flex items-center gap-1.5 rounded-full font-bold tabular", cor, grande ? "px-4 py-2 text-2xl" : "px-2.5 py-1 text-xs")}>
+    <span className={cn("inline-flex items-center gap-1.5 rounded-full font-bold tabular", cor, grande ? "px-3 py-1.5 text-lg" : "px-2.5 py-1 text-xs")}>
       <span className={cn("rounded-full", grande ? "size-2.5" : "size-1.5", faixa === "bloqueia" ? "bg-white" : "bg-current")} />
       {nota}
     </span>
@@ -98,15 +98,15 @@ export function Kpi({ rotulo, valor, tipo, variacao, meta }: { rotulo: string; v
   const sobe = variacao >= 0;
   const bom = rotulo.includes("abandonados") ? !sobe : sobe;
   return (
-    <div className="tile p-4">
-      <div className="text-sm text-muted">{rotulo}</div>
-      <div className="mt-1 text-[26px] leading-tight font-bold tracking-tight tabular">{txt}</div>
+    <div className="tile px-3 py-2.5">
+      <div className="text-xs font-medium text-muted">{rotulo}</div>
+      <div className="mt-0.5 text-xl leading-tight font-bold tabular">{txt}</div>
       <div className={cn("mt-1 inline-flex items-center gap-1 text-xs font-semibold", bom ? "text-ok" : "text-red")}>
         <Icon name={sobe ? "arrowUp" : "arrowDown"} className="size-3.5" />
         {Math.abs(variacao).toLocaleString("pt-BR")}% vs. out
       </div>
       {meta && (
-        <div className="mt-3">
+        <div className="mt-2">
           <div className="flex justify-between text-[11px] text-muted">
             <span>Meta {reaisCurto(meta)}</span>
             <span className="tabular">{Math.round((valor / meta) * 100)}%</span>
@@ -141,7 +141,7 @@ export function CampoPainel({ label, dica, className, ...rest }: { label: string
   return (
     <label className={cn("block", className)}>
       <span className="mb-1.5 block text-sm font-medium text-ink-2">{label}</span>
-      <input {...rest} className="h-11 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none transition read-only:bg-snow read-only:text-muted focus:ring-2 focus:ring-ink" />
+      <input {...rest} className="h-10 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none transition read-only:bg-snow read-only:text-muted focus:ring-2 focus:ring-ink" />
       {dica && <span className="mt-1 block text-xs text-muted">{dica}</span>}
     </label>
   );
@@ -151,7 +151,7 @@ export function SelectPainel({ label, opcoes, className, ...rest }: { label: str
   return (
     <label className={cn("block", className)}>
       <span className="mb-1.5 block text-sm font-medium text-ink-2">{label}</span>
-      <select {...rest} className="h-11 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink">
+      <select {...rest} className="h-10 w-full rounded-xl bg-white px-3 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-ink">
         {opcoes.map((o) => (
           <option key={o}>{o}</option>
         ))}

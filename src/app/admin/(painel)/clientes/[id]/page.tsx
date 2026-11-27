@@ -49,7 +49,7 @@ export default async function PerfilCliente({ params }: Props) {
             <div className="flex items-center gap-4">
               <span className="grid size-16 place-items-center rounded-full bg-ink text-xl font-bold text-white">{iniciais}</span>
               <div>
-                <h1 className="text-2xl leading-tight font-bold tracking-tight">{c.nome}</h1>
+                <h1 className="text-xl leading-tight font-bold tracking-tight">{c.nome}</h1>
                 <p className="text-sm text-muted">
                   Cliente desde {c.desde} · via {c.origem}
                 </p>
@@ -137,9 +137,9 @@ export default async function PerfilCliente({ params }: Props) {
               ["Ticket médio", reaisCurto(Math.round(c.totalGasto / Math.max(1, c.pedidos)))],
               ["Última compra", c.ultimaCompra],
             ].map(([k, v]) => (
-              <div key={k} className="glass rounded-[18px] p-4">
-                <p className="text-sm text-muted">{k}</p>
-                <p className="mt-1 text-2xl font-bold tracking-tight tabular">{v}</p>
+              <div key={k} className="glass rounded-2xl px-3 py-2.5">
+                <p className="text-xs font-medium text-muted">{k}</p>
+                <p className="mt-1 text-xl font-bold tabular">{v}</p>
               </div>
             ))}
           </div>

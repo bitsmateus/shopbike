@@ -83,7 +83,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
           <table className="w-full min-w-[1080px] text-sm">
             <thead>
               <tr className="border-b border-black/5 text-left text-xs font-semibold tracking-wide text-muted uppercase">
-                <th className="w-10 py-3.5 pl-5">
+                <th className="w-10 py-2.5 pl-5">
                   <input
                     type="checkbox"
                     aria-label="Selecionar todos"
@@ -92,7 +92,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
                     className="size-4 accent-[var(--color-ink)]"
                   />
                 </th>
-                <th className="py-3.5">Pedido</th>
+                <th className="py-2.5">Pedido</th>
                 <th>Cliente</th>
                 <th>Canal</th>
                 <th>Pagamento</th>
@@ -105,7 +105,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
             <tbody>
               {lista.map((p) => (
                 <tr key={p.numero} onClick={() => setAberto(p.numero)} className="cursor-pointer border-b border-black/5 transition last:border-0 hover:bg-white/70">
-                  <td className="py-3.5 pl-5" onClick={(e) => e.stopPropagation()}>
+                  <td className="py-2 pl-4" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
                       aria-label={`Selecionar pedido ${p.numero}`}
@@ -114,7 +114,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
                       className="size-4 accent-[var(--color-ink)]"
                     />
                   </td>
-                  <td className="py-3.5">
+                  <td className="py-2.5">
                     <span className="font-bold tabular">#{p.numero}</span>
                     <span className="block text-xs text-muted">{new Date(p.data).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</span>
                   </td>

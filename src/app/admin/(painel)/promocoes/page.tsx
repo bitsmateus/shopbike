@@ -28,7 +28,7 @@ export default function PromocoesPage() {
             <div className="flex items-start gap-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-bold">{p.nome}</h2>
+                  <h2 className="text-base font-bold">{p.nome}</h2>
                   <Chip tom={p.status === "Ativa" ? "red" : p.status === "Agendada" ? "info" : "apagado"}>{p.status}</Chip>
                 </div>
                 <p className="text-sm text-muted">{p.periodo}</p>
