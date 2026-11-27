@@ -161,7 +161,7 @@ export function ListaPedidos({ inicial }: { inicial?: string }) {
           </Botao>
         </div>
 
-        <div className="scrollbar-none mt-3 flex gap-1.5 overflow-x-auto" role="group" aria-label="Status">
+        <div className="scrollbar-none -mx-1 mt-2 flex gap-1.5 overflow-x-auto px-1 py-1" role="group" aria-label="Status">
           {filtrosStatus.map((s) => (
             <button
               key={s}

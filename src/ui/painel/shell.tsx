@@ -122,7 +122,7 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
 
       <main id="painel" className="mx-auto max-w-[1840px] px-[clamp(12px,1.6vw,28px)] pt-3 pb-28 md:pl-[96px] md:pb-12">
         {area?.subs && (
-          <nav aria-label={`Seções de ${area.rotulo}`} className="scrollbar-none mb-3 flex gap-1 overflow-x-auto">
+          <nav aria-label={`Seções de ${area.rotulo}`} className="scrollbar-none -mx-1 mb-2 flex gap-1 overflow-x-auto px-1 py-1">
             {area.subs.map((s) => {
               const ativa = casa(path, s.href);
               return (
