@@ -57,7 +57,7 @@ export function Moderacao() {
                   <Icon name="whatsapp" className="size-4" /> Chamar cliente
                 </Botao>
               )}
-              <Botao tom="ghost" className="text-red" onClick={() => tirar(i, "Removida (fica no histórico)")}>
+              <Botao tom="ghost" className="text-danger" onClick={() => tirar(i, "Removida (fica no histórico)")}>
                 Não publicar
               </Botao>
             </div>

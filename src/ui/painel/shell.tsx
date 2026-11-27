@@ -99,8 +99,8 @@ export function PainelShell({ children }: { children: React.ReactNode }) {
         className="glass fixed inset-x-3 bottom-3 z-40 flex justify-around rounded-full p-1.5 md:inset-x-auto md:top-1/2 md:bottom-auto md:left-5 md:-translate-y-1/2 md:flex-col md:gap-1"
       >
         {dock.map((d) => {
-          const ativo = d.href && d.href !== "/" && (d.href === "/admin/configuracoes" ? area?.href === "/admin/configuracoes" : casa(path, d.href));
-          const cls = cn("group relative grid size-11 place-items-center rounded-full transition", ativo ? "bg-ink text-white" : "text-ink-2 hover:bg-snow");
+          // A barra lateral não marca item ativo: aba (seção) e subaba (página) já dizem onde se está.
+          const cls = "group relative grid size-11 place-items-center rounded-full text-ink-2 transition hover:bg-snow";
           const tip = (
             <span className="pointer-events-none absolute left-[calc(100%+12px)] hidden rounded-full bg-ink px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-white opacity-0 transition group-hover:opacity-100 md:block">
               {d.rotulo}

@@ -58,7 +58,7 @@ export default function ContaPage() {
                     <span className="block font-medium">{d}</span>
                     <span className="text-xs text-muted">{l}</span>
                   </span>
-                  {atual ? <Chip tom="ok">Esta</Chip> : <button className="text-xs font-semibold text-red">Encerrar</button>}
+                  {atual ? <Chip tom="ok">Esta</Chip> : <button className="text-xs font-semibold text-danger">Encerrar</button>}
                 </li>
               ))}
             </ul>

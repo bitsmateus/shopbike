@@ -41,7 +41,7 @@ export default function VendedoresPage() {
                   </div>
                   <div className="mt-3 flex items-center gap-3">
                     <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-black/5">
-                      <div className={`h-full rounded-full ${p >= 100 ? "bg-ok" : "bg-red"}`} style={{ width: `${Math.min(100, p)}%` }} />
+                      <div className={`h-full rounded-full ${p >= 100 ? "bg-ok" : "bg-ink"}`} style={{ width: `${Math.min(100, p)}%` }} />
                     </div>
                     <span className="w-44 text-right text-sm tabular">
                       <strong>{reaisCurto(v.vendas)}</strong> de {reaisCurto(v.meta)}

@@ -82,7 +82,7 @@ export function CardVendas({ kpis, serie }: { kpis: KpiDado[]; serie: Dia[] }) {
                 className={cn("flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-snow", periodo === x.id && "font-bold")}
               >
                 {x.rotulo}
-                {periodo === x.id && <Icon name="check" className="size-4 text-red" />}
+                {periodo === x.id && <Icon name="check" className="size-4 text-danger" />}
               </button>
             </li>
           ))}

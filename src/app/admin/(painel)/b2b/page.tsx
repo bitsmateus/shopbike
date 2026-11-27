@@ -39,7 +39,7 @@ export default function B2BPage() {
                 <p className="mt-1 text-xs text-muted">Documentos: {p.docs}</p>
                 <div className="mt-3 flex gap-2">
                   <Botao tom="ink">Aprovar com lista Lojista</Botao>
-                  <Botao tom="ghost" className="text-red">
+                  <Botao tom="ghost" className="text-danger">
                     Recusar
                   </Botao>
                 </div>

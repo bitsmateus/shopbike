@@ -127,7 +127,7 @@ export function Trocas() {
               <>
                 <Botao
                   tom="ghost"
-                  className="text-red"
+                  className="text-danger"
                   onClick={() => {
                     setLista(lista.map((x) => (x.id === aberta.id ? { ...x, status: "Recusado" } : x)));
                     setAberta(null);

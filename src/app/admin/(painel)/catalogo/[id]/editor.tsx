@@ -186,7 +186,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
                         </td>
                         <td className="text-xs">{v.sku}</td>
                         <td className="text-xs text-muted">789123456{String(7890 + i).slice(-4)}</td>
-                        <td className={cn("text-right font-bold tabular", v.estoque === 0 && "text-red")}>
+                        <td className={cn("text-right font-bold tabular", v.estoque === 0 && "text-danger")}>
                           <span className="inline-flex items-center gap-1">
                             <Icon name="lock" className="size-3 text-faint" />
                             {v.estoque}
@@ -393,7 +393,7 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
                   key={s}
                   aria-pressed={selos.includes(s)}
                   onClick={() => setSelos(selos.includes(s) ? selos.filter((x) => x !== s) : [...selos, s])}
-                  className={cn("rounded-full px-2.5 py-1 text-xs font-semibold ring-1", selos.includes(s) ? "bg-red text-white ring-red" : "bg-white ring-black/10")}
+                  className={cn("rounded-full px-2.5 py-1 text-xs font-semibold ring-1", selos.includes(s) ? "bg-ink text-white ring-ink" : "bg-white ring-black/10")}
                 >
                   {s}
                 </button>
@@ -404,13 +404,13 @@ export function EditorProduto({ p: original }: { p: Produto | null }) {
           </Card>
           <Card titulo="Qualidade do cadastro">
             <div className="flex items-center gap-3">
-              <span className={cn("grid size-14 place-items-center rounded-full text-lg font-bold tabular", nota >= 80 ? "bg-ok-50 text-ok" : nota >= 50 ? "bg-warn-50 text-warn" : "bg-red-50 text-red")}>{nota}</span>
+              <span className={cn("grid size-14 place-items-center rounded-full text-lg font-bold tabular", nota >= 80 ? "bg-ok-50 text-ok" : nota >= 50 ? "bg-warn-50 text-warn" : "bg-danger-50 text-danger")}>{nota}</span>
               <p className="text-sm text-muted">Cadastro completo vende mais e aparece melhor no Google.</p>
             </div>
             <ul className="mt-3 space-y-1.5 text-sm">
               {checklist.map(([ok, t]) => (
                 <li key={t} className="flex items-center gap-2">
-                  <Icon name={ok ? "check" : "alert"} className={cn("size-4", ok ? "text-ok" : "text-red")} />
+                  <Icon name={ok ? "check" : "alert"} className={cn("size-4", ok ? "text-ok" : "text-danger")} />
                   {t}
                 </li>
               ))}

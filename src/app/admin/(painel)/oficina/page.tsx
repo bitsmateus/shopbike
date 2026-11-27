@@ -57,7 +57,7 @@ export default function OficinaPage() {
                   {dias.map((d) => {
                     const a = agenda[`${d}|${h}`];
                     return a ? (
-                      <div key={d + h} className={cn("min-h-16 rounded-xl p-2 text-xs ring-1", a.servico.includes("Vistoria") ? "bg-red-50 ring-red-100" : "bg-white ring-black/5")}>
+                      <div key={d + h} className={cn("min-h-16 rounded-xl p-2 text-xs ring-1", a.servico.includes("Vistoria") ? "bg-danger-50 ring-danger/20" : "bg-white ring-black/5")}>
                         <p className="font-semibold">{a.cliente}</p>
                         <p className="text-muted">{a.servico}</p>
                         <p className="mt-1 text-[10px] font-semibold text-faint">{a.origem}</p>

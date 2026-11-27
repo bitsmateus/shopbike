@@ -34,7 +34,7 @@ export default function LoginPage() {
             }}
             className="mt-8 space-y-4"
           >
-            <div className="grid size-12 place-items-center rounded-full bg-red-50 text-red">
+            <div className="grid size-12 place-items-center rounded-full bg-danger-50 text-danger">
               <Icon name="lock" />
             </div>
             <h1 className="text-2xl font-bold tracking-tight">Verificação em duas etapas</h1>

@@ -41,7 +41,7 @@ export function PedidoDrawer({ p, fechar, abaInicial = "Produtos" }: { p: Pedido
             <Botao tom="ghost">
               <Icon name="whatsapp" className="size-4" /> WhatsApp do cliente
             </Botao>
-            <Botao tom="ghost" className="text-red">
+            <Botao tom="ghost" className="text-danger">
               Cancelar com estorno
             </Botao>
           </div>
@@ -55,7 +55,7 @@ export function PedidoDrawer({ p, fechar, abaInicial = "Produtos" }: { p: Pedido
                 className={cn("shrink-0 border-b-2 px-3 pb-3 text-sm font-semibold transition", aba === a ? "border-ink text-ink" : "border-transparent text-muted hover:text-ink")}
               >
                 {a}
-                {a === "Antifraude" && p.risco.faixa !== "aprova" && <span className="ml-1.5 inline-block size-1.5 rounded-full bg-red align-middle" />}
+                {a === "Antifraude" && p.risco.faixa !== "aprova" && <span className="ml-1.5 inline-block size-1.5 rounded-full bg-danger align-middle" />}
               </button>
             ))}
           </div>
@@ -96,7 +96,7 @@ export function PedidoDrawer({ p, fechar, abaInicial = "Produtos" }: { p: Pedido
               <Linha k="Nota fiscal" v={p.nf ?? "Aguardando Bruning"} />
               <Linha k="Rastreio" v={p.frete.rastreio ?? "—"} />
               {p.risco.faixa !== "aprova" && (
-                <p className="rounded-2xl bg-red-50 p-3 text-red">Pedido de risco: só pode sair para o endereço de cobrança, e qualquer troca de endereço trava o pedido.</p>
+                <p className="rounded-2xl bg-danger-50 p-3 text-danger">Pedido de risco: só pode sair para o endereço de cobrança, e qualquer troca de endereço trava o pedido.</p>
               )}
             </dl>
           )}
@@ -163,7 +163,7 @@ export function AnaliseRisco({ p }: { p: Pedido }) {
           {p.risco.motivos.map((m) => (
             <li key={m.codigo} className="flex justify-between gap-3 rounded-xl bg-snow px-3 py-1.5 text-sm">
               <span>{m.descricao}</span>
-              <span className={cn("font-bold tabular", m.peso > 0 ? "text-red" : "text-ok")}>
+              <span className={cn("font-bold tabular", m.peso > 0 ? "text-danger" : "text-ok")}>
                 {m.peso > 0 ? "+" : ""}
                 {m.peso}
               </span>
@@ -175,11 +175,11 @@ export function AnaliseRisco({ p }: { p: Pedido }) {
         <p className="mb-2 text-sm font-semibold">Dados ligados</p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {p.vinculos.map((v) => (
-            <li key={v.tipo + v.valor} className={cn("rounded-xl px-3 py-2 text-sm ring-1", v.alerta ? "bg-red-50 ring-red-100" : "bg-white ring-line")}>
+            <li key={v.tipo + v.valor} className={cn("rounded-xl px-3 py-2 text-sm ring-1", v.alerta ? "bg-danger-50 ring-danger/20" : "bg-white ring-line")}>
               <span className="block text-xs text-muted">{v.tipo}</span>
               <span className="block truncate font-medium">{v.valor}</span>
               {v.alerta && (
-                <span className="mt-1 flex items-center gap-1 text-xs font-semibold text-red">
+                <span className="mt-1 flex items-center gap-1 text-xs font-semibold text-danger">
                   <Icon name="alert" className="size-3.5" /> {v.alerta}
                 </span>
               )}

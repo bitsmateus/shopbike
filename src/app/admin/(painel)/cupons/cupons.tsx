@@ -55,7 +55,7 @@ export function Cupons() {
                     </span>
                     {x.limite && (
                       <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-black/5">
-                        <div className="h-full rounded-full bg-red" style={{ width: `${(x.usos / x.limite) * 100}%` }} />
+                        <div className="h-full rounded-full bg-ink" style={{ width: `${(x.usos / x.limite) * 100}%` }} />
                       </div>
                     )}
                   </td>

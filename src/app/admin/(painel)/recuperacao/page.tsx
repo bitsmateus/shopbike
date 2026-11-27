@@ -64,7 +64,7 @@ export default function RecuperacaoPage() {
                 ["Resposta", "Cliente respondeu", "Conversa cai para um vendedor na NX"],
               ].map(([q, ev, msg]) => (
                 <li key={q + ev} className="relative">
-                  <span className="absolute top-1 -left-[25px] size-2.5 rounded-full bg-red ring-4 ring-white" />
+                  <span className="absolute top-1 -left-[25px] size-2.5 rounded-full bg-ink ring-4 ring-white" />
                   <p className="font-semibold">
                     {q} · {ev}
                   </p>

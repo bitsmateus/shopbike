@@ -67,14 +67,14 @@ export default function IntegracoesPage() {
             </thead>
             <tbody>
               {integracaoLog.map((l, i) => (
-                <tr key={i} className={cn("border-b border-black/5 last:border-0", l.resultado === "erro" && "bg-red-50/60")}>
+                <tr key={i} className={cn("border-b border-black/5 last:border-0", l.resultado === "erro" && "bg-danger-50/60")}>
                   <td className="py-3 pl-5 tabular">{l.quando}</td>
                   <td>{l.origem}</td>
                   <td>
                     <code className="text-xs">{l.endpoint}</code>
                   </td>
                   <td>
-                    <span className={cn("inline-flex items-center gap-1.5", l.resultado === "erro" ? "font-semibold text-red" : "text-ink-2")}>
+                    <span className={cn("inline-flex items-center gap-1.5", l.resultado === "erro" ? "font-semibold text-danger" : "text-ink-2")}>
                       <Icon name={l.resultado === "erro" ? "alert" : "check"} className="size-4" />
                       {l.detalhe}
                     </span>
@@ -112,7 +112,7 @@ export default function IntegracoesPage() {
                     </td>
                     <td className="text-sm">{t.ultimoUso}</td>
                     <td className="text-right">
-                      <button className="text-sm font-semibold text-red">Revogar</button>
+                      <button className="text-sm font-semibold text-danger">Revogar</button>
                     </td>
                   </tr>
                 ))}

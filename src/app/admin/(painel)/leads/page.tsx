@@ -59,7 +59,7 @@ export default function LeadsPage() {
         </Card>
         <Card titulo="Pop-up de captação">
           <div className="rounded-2xl bg-white p-4 ring-1 ring-black/5">
-            <p className="text-xs font-semibold tracking-wide text-red uppercase">Prévia</p>
+            <p className="text-xs font-semibold tracking-wide text-danger uppercase">Prévia</p>
             <p className="mt-2 text-lg leading-tight font-bold">Ganhe 5% na primeira compra</p>
             <p className="mt-1 text-sm text-muted">Deixe seu WhatsApp e receba ofertas de bikes e peças.</p>
             <div className="mt-3 h-10 rounded-xl bg-snow" />

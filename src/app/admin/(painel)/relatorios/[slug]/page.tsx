@@ -84,7 +84,7 @@ export default async function RelatorioPage({ params }: Props) {
           <div key={k} className="glass rounded-2xl px-3 py-2.5">
             <p className="text-xs font-medium text-muted">{k}</p>
             <p className="mt-1 text-xl font-bold tabular">{v}</p>
-            <p className={`text-xs font-semibold ${i === 3 ? "text-red" : "text-ok"}`}>{i === 3 ? "↓ 0,2 p.p." : `↑ ${8 + i * 3}%`} vs. período anterior</p>
+            <p className={`text-xs font-semibold ${i === 3 ? "text-danger" : "text-ok"}`}>{i === 3 ? "↓ 0,2 p.p." : `↑ ${8 + i * 3}%`} vs. período anterior</p>
           </div>
         ))}
       </div>

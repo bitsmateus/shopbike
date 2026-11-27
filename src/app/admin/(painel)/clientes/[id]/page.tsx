@@ -120,7 +120,7 @@ export default async function PerfilCliente({ params }: Props) {
             </ul>
             <div className="mt-4 flex flex-wrap gap-2">
               <Botao tom="ghost">Exportar dados</Botao>
-              <Botao tom="ghost" className="text-red">
+              <Botao tom="ghost" className="text-danger">
                 Excluir dados
               </Botao>
             </div>

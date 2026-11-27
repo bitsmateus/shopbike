@@ -18,7 +18,7 @@ export function Antifraude({ inicial }: { inicial?: string }) {
         {abas.map((a) => (
           <button key={a} role="tab" aria-selected={aba === a} onClick={() => setAba(a)} className={cn("shrink-0 rounded-full px-3.5 py-1.5 text-sm font-semibold transition", aba === a ? "bg-ink text-white" : "text-ink-2 hover:bg-snow")}>
             {a}
-            {a === "Fila de revisão" && <span className="ml-2 rounded-full bg-red px-1.5 py-0.5 text-[11px] text-white">{filaRevisao.length}</span>}
+            {a === "Fila de revisão" && <span className="ml-2 rounded-full bg-red px-1.5 py-0.5 text-xs font-bold text-white">{filaRevisao.length}</span>}
           </button>
         ))}
       </div>
@@ -142,7 +142,7 @@ function Fila({ inicial }: { inicial?: string }) {
             <Botao tom="ghost" onClick={() => decidir("pedido de documento enviado no WhatsApp")}>
               <Icon name="doc" className="size-4" /> Pedir documento
             </Botao>
-            <Botao tom="red" onClick={() => decidir("recusado, autorização cancelada e dados bloqueados")}>
+            <Botao tom="perigo" onClick={() => decidir("recusado, autorização cancelada e dados bloqueados")}>
               <Icon name="ban" className="size-4" /> Recusar e bloquear
             </Botao>
           </div>
@@ -209,7 +209,7 @@ function Regras() {
                   type="number"
                   value={r.peso}
                   onChange={(e) => setRegras(regras.map((x, j) => (j === i ? { ...x, peso: Number(e.target.value) } : x)))}
-                  className={cn("h-9 w-16 rounded-lg bg-white text-center font-bold ring-1 ring-black/10 outline-none tabular focus:ring-ink", r.peso > 0 ? "text-red" : "text-ok")}
+                  className={cn("h-9 w-16 rounded-lg bg-white text-center font-bold ring-1 ring-black/10 outline-none tabular focus:ring-ink", r.peso > 0 ? "text-danger" : "text-ok")}
                 />
               </label>
             </li>
@@ -224,7 +224,7 @@ function Regras() {
           <div className="flex h-3 overflow-hidden rounded-full">
             <span className="bg-ok" style={{ width: "30%" }} />
             <span className="bg-[#e7a33e]" style={{ width: "30%" }} />
-            <span className="bg-red" style={{ width: "40%" }} />
+            <span className="bg-danger" style={{ width: "40%" }} />
           </div>
           <div className="mt-2 grid grid-cols-3 text-xs">
             <span>
@@ -350,7 +350,7 @@ function Chargebacks() {
                   <td className="text-right font-semibold tabular">{reais(c.valor)}</td>
                   <td>{c.motivo}</td>
                   <td>
-                    <span className={cn("rounded-full px-2.5 py-1 text-xs font-semibold", c.status === "Perdido" ? "bg-red-50 text-red" : c.status === "Em disputa" ? "bg-warn-50 text-warn" : "bg-ok-50 text-ok")}>{c.status}</span>
+                    <span className={cn("rounded-full px-2.5 py-1 text-xs font-semibold", c.status === "Perdido" ? "bg-danger-50 text-danger" : c.status === "Em disputa" ? "bg-warn-50 text-warn" : "bg-ok-50 text-ok")}>{c.status}</span>
                   </td>
                 </tr>
               ))}
@@ -397,7 +397,7 @@ function Relatorio() {
               <div className="flex h-5 flex-1 overflow-hidden rounded-full">
                 <span className="bg-ok" style={{ width: `${w.aprov}%` }} />
                 <span className="bg-[#e7a33e]" style={{ width: `${w.rev}%` }} />
-                <span className="bg-red" style={{ width: `${w.bloq}%` }} />
+                <span className="bg-danger" style={{ width: `${w.bloq}%` }} />
               </div>
               <span className="w-10 text-right font-semibold tabular">{w.aprov}%</span>
             </li>
@@ -406,7 +406,7 @@ function Relatorio() {
         <div className="mt-3 flex gap-4 text-xs text-muted">
           <span className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-ok" /> Aprovado sozinho</span>
           <span className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-[#e7a33e]" /> Revisão</span>
-          <span className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-red" /> Bloqueado</span>
+          <span className="inline-flex items-center gap-1.5"><span className="size-2.5 rounded-full bg-danger" /> Bloqueado</span>
         </div>
       </Card>
       <Card titulo="Indicadores (30 dias)">

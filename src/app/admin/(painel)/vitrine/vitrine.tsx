@@ -74,17 +74,17 @@ function Home() {
               {blocos
                 .filter((b) => b.ativo)
                 .map((b) => (
-                  <div key={b.id} className={cn("rounded-lg text-[9px] font-semibold", sel === b.id && "ring-2 ring-red")}>
+                  <div key={b.id} className={cn("rounded-lg text-[9px] font-semibold", sel === b.id && "ring-2 ring-danger")}>
                     {b.tipo === "Barra de benefícios" && <div className="rounded-md bg-snow px-2 py-1 text-muted">Frete grátis · 10% Pix · 21x</div>}
                     {b.tipo === "Banners principais" && (
                       <div className="flex items-center rounded-lg bg-snow p-2">
                         <span className="flex-1 text-[11px] leading-tight font-bold">
-                          Sua próxima <span className="text-red">trilha</span>
+                          Sua próxima <span className="text-danger">trilha</span>
                         </span>
                         <ProductArt kind="mtb" color="#e30618" className="w-16" />
                       </div>
                     )}
-                    {b.tipo === "Faixa de benefícios" && <div className="grid grid-cols-4 gap-1">{[1, 2, 3, 4].map((k) => <span key={k} className="h-5 rounded bg-red-50" />)}</div>}
+                    {b.tipo === "Faixa de benefícios" && <div className="grid grid-cols-4 gap-1">{[1, 2, 3, 4].map((k) => <span key={k} className="h-5 rounded bg-danger-50" />)}</div>}
                     {b.tipo === "Categorias com imagem" && <div className="grid grid-cols-4 gap-1">{[1, 2, 3, 4].map((k) => <span key={k} className="h-7 rounded bg-snow" />)}</div>}
                     {b.tipo === "Vitrine" && (
                       <div>

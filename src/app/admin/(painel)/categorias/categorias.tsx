@@ -81,7 +81,7 @@ function Arvore() {
           <Botao tom="ink" onClick={() => avisar("Categoria salva")}>
             Salvar
           </Botao>
-          <Botao tom="ghost" className="text-red">
+          <Botao tom="ghost" className="text-danger">
             Excluir
           </Botao>
         </div>

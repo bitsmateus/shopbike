@@ -81,7 +81,7 @@ function Massa() {
             <input type="checkbox" className="size-4 accent-[var(--color-ink)]" /> Frete grátis nesses produtos
           </label>
         </div>
-        <Botao tom="red" className="mt-5 w-full" onClick={() => avisar(`Promoção agendada em ${afetados.length} produtos · registrada na auditoria`)}>
+        <Botao className="mt-5 w-full" onClick={() => avisar(`Promoção agendada em ${afetados.length} produtos · registrada na auditoria`)}>
           Aplicar em {afetados.length} produtos
         </Botao>
       </Card>

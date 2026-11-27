@@ -10,7 +10,7 @@ import { ProductArt } from "@/ui/product-art";
 import { Botao, Card } from "@/ui/painel/ui";
 
 function NotaQualidade({ nota }: { nota: number }) {
-  const cor = nota >= 80 ? "text-ok bg-ok-50" : nota >= 50 ? "text-warn bg-warn-50" : "text-red bg-red-50";
+  const cor = nota >= 80 ? "text-ok bg-ok-50" : nota >= 50 ? "text-warn bg-warn-50" : "text-danger bg-danger-50";
   return <span className={cn("inline-flex rounded-full px-2.5 py-1 text-xs font-bold tabular", cor)}>{nota}</span>;
 }
 
@@ -110,13 +110,13 @@ export function Catalogo() {
                   </td>
                   <td>{categorias.find((c) => c.slug === p.categoria)?.nome}</td>
                   <td className="text-center tabular">{p.variacoes.length}</td>
-                  <td className={cn("text-center font-semibold tabular", estoqueTotal(p) <= 2 && "text-red")}>{estoqueTotal(p)}</td>
+                  <td className={cn("text-center font-semibold tabular", estoqueTotal(p) <= 2 && "text-danger")}>{estoqueTotal(p)}</td>
                   <td className="text-right font-semibold tabular">{reais(p.preco)}</td>
                   <td className="pl-6">
                     {aba === "revisao" ? (
                       <span className="flex flex-wrap gap-1">
                         {problemas(p).map((x) => (
-                          <span key={x} className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red">
+                          <span key={x} className="rounded-full bg-danger-50 px-2 py-0.5 text-xs font-medium text-danger">
                             {x}
                           </span>
                         ))}

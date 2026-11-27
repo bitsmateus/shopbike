@@ -66,7 +66,7 @@ export default function UsuariosPage() {
                     <td>{u.ativo ? <Chip tom="ok">Ativo</Chip> : <Chip tom="apagado">Desativado</Chip>}</td>
                     <td className="text-right">
                       {u.ativo && !u.doisFatores && (
-                        <button onClick={() => avisar(`Lembrete de 2FA enviado para ${u.nome}`)} className="text-sm font-semibold text-red">
+                        <button onClick={() => avisar(`Lembrete de 2FA enviado para ${u.nome}`)} className="text-sm font-semibold text-danger">
                           Exigir 2FA
                         </button>
                       )}

@@ -103,7 +103,7 @@ export default function ImportacaoPage() {
                       {numero(i.ok + i.erros)} de {numero(i.linhas)}
                     </span>
                   </td>
-                  <td className="text-right">{i.erros > 0 ? <button className="text-sm font-semibold text-red underline">{i.erros} · baixar</button> : <span className="text-muted">0</span>}</td>
+                  <td className="text-right">{i.erros > 0 ? <button className="text-sm font-semibold text-danger underline">{i.erros} · baixar</button> : <span className="text-muted">0</span>}</td>
                   <td>
                     <Chip tom={i.status === "Processando" ? "info" : "ok"}>{i.status}</Chip>
                   </td>

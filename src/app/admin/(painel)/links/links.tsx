@@ -165,7 +165,7 @@ export function Links() {
               </p>
             )}
           </div>
-          <Botao tom="red" disabled={itens.length === 0} onClick={gerar} className="h-12 px-6">
+          <Botao disabled={itens.length === 0} onClick={gerar} className="h-12 px-6">
             <Icon name="link" className="size-4" /> Gerar link
           </Botao>
         </div>
@@ -215,7 +215,7 @@ export function Links() {
                   <button className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white px-3 text-xs font-semibold ring-1 ring-black/10">
                     <Icon name="whatsapp" className="size-3.5" /> Reenviar
                   </button>
-                  <button className="ml-auto inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold text-red">Cancelar</button>
+                  <button className="ml-auto inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold text-danger">Cancelar</button>
                 </div>
               )}
             </li>

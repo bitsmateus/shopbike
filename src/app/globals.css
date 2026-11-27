@@ -270,6 +270,23 @@ label:has(> input[type="radio"]) {
   }
 }
 
+/* Placeholder legível (#6e6c67 ≈ 5:1), não preto a 50% */
+.painel-bg :is(input, textarea)::placeholder {
+  color: var(--color-faint);
+  opacity: 1;
+}
+
+/* Tabela com cabeçalho fixo ao rolar (abaixo do menu de 64px) */
+@media (min-width: 1280px) {
+  .thead-fixo th {
+    position: sticky;
+    top: 64px;
+    z-index: 1;
+    background: var(--color-paper);
+    box-shadow: inset 0 -1px 0 var(--color-borda-card);
+  }
+}
+
 /* Lista com rolagem discreta */
 .fila-scroll {
   scrollbar-width: thin;
