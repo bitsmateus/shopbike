@@ -260,3 +260,10 @@ label:has(> input[type="radio"]) {
 .painel-bg section > div:first-child a:not([class*="bg-"]):hover {
   color: var(--color-red);
 }
+
+/* Lista com rolagem discreta (fila do antifraude na visão geral) */
+.fila-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #1a191733 transparent;
+  overscroll-behavior: contain;
+}

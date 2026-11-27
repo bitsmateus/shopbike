@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { produtos, corHex } from "@/mock/catalogo";
 import { dashboard, equipe, filaRevisao, integracaoLog, pedidos, resumoAntifraude } from "@/mock/operacao";
-import { reais, reaisCurto } from "@/lib/format";
+import { reaisCurto } from "@/lib/format";
 import { Icon } from "@/ui/icons";
 import { ProductArt } from "@/ui/product-art";
-import { Anel, BarrasHorizontais } from "@/ui/painel/graficos";
+import { BarrasHorizontais } from "@/ui/painel/graficos";
 import { CardVendas } from "@/ui/painel/card-vendas";
 import { Cabecalho, Card, NotaRisco, StatusChip } from "@/ui/painel/ui";
 
@@ -19,6 +19,12 @@ const destinoKpi: Record<string, string> = {
 };
 
 export default function VisaoGeral() {
+  const af = resumoAntifraude;
+  const faixasAf = [
+    { rotulo: "Aprovados", valor: af.aprovadosAuto, cor: "bg-ok" },
+    { rotulo: "Revisão", valor: af.analisados30d - af.aprovadosAuto - af.bloqueados, cor: "bg-[#e7a33e]" },
+    { rotulo: "Bloqueados", valor: af.bloqueados, cor: "bg-red" },
+  ];
   const acao = pedidos.filter((p) => !["Entregue", "Cancelado", "Enviado"].includes(p.status));
   const top = [...produtos].sort((a, b) => b.vendidos30d - a.vendidos30d).slice(0, 5);
   const ultimaSync = integracaoLog[0];
@@ -37,45 +43,64 @@ export default function VisaoGeral() {
       <div className="grid gap-4 xl:grid-cols-12">
         <CardVendas kpis={dashboard.kpis.map((k) => ({ ...k, href: destinoKpi[k.rotulo] }))} serie={dashboard.serie} />
 
-        <Card titulo="Antifraude · 30 dias" tom="red" className="xl:col-span-4" ferramentas={<Link href="/admin/antifraude" className="text-sm font-semibold text-red">Abrir fila</Link>}>
-          <div className="flex items-center gap-4">
-            <Anel valor={resumoAntifraude.aprovadosAuto} total={resumoAntifraude.analisados30d} rotulo="aprovados sozinhos" />
-            <dl className="grid flex-1 grid-cols-2 gap-x-3 gap-y-1.5 text-xs">
-              <div>
-                <dt className="text-muted">Analisados</dt>
-                <dd className="text-base font-bold tabular">{resumoAntifraude.analisados30d}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">Bloqueados</dt>
-                <dd className="text-base font-bold tabular">{resumoAntifraude.bloqueados}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">Fraudes evitadas</dt>
-                <dd className="text-base font-bold tabular">{resumoAntifraude.fraudesEvitadas}</dd>
-              </div>
-              <div>
-                <dt className="text-muted">Chargebacks</dt>
-                <dd className="text-base font-bold text-ok tabular">{resumoAntifraude.chargebacks}</dd>
-              </div>
-            </dl>
+        <Card titulo="Antifraude · 30 dias" tom="red" className="self-start xl:col-span-4" ferramentas={<Link href="/admin/antifraude" className="text-sm font-semibold text-red">Abrir fila</Link>}>
+          {/* Decisões: barra empilhada em vez de anel */}
+          <div className="flex items-baseline justify-between gap-2">
+            <p>
+              <span className="text-2xl font-bold tabular">{Math.round((af.aprovadosAuto / af.analisados30d) * 100)}%</span>
+              <span className="ml-1.5 text-xs font-medium text-muted">aprovados sem revisão</span>
+            </p>
+            <span className="text-xs text-muted tabular">{af.analisados30d} analisados</span>
           </div>
-          <p className="mt-3 rounded-xl bg-white/70 px-3 py-2 text-xs">
-            <strong className="tabular">{reais(resumoAntifraude.valorEvitado)}</strong> em pedidos fraudulentos barrados. Tempo médio de revisão: <strong>{resumoAntifraude.tempoMedioRevisao}</strong>.
-          </p>
-          <div className="mt-3 space-y-1.5">
-            {filaRevisao.map((p) => (
-              <Link key={p.numero} href={`/admin/antifraude?pedido=${p.numero}`} className="tile flex items-center gap-2.5 px-2.5 py-2 transition hover:bg-white">
-                <NotaRisco nota={p.risco.nota} faixa={p.risco.faixa} />
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold">
-                    #{p.numero} · {p.cliente.nome}
-                  </span>
-                  <span className="block truncate text-xs text-muted">{p.risco.motivos[0]?.descricao}</span>
-                </span>
-                <span className="text-sm font-semibold tabular">{reaisCurto(p.total)}</span>
-              </Link>
+          <div className="mt-2 flex h-2 overflow-hidden rounded-full bg-black/5" aria-hidden>
+            {faixasAf.map((f) => (
+              <span key={f.rotulo} className={f.cor} style={{ width: `${(f.valor / af.analisados30d) * 100}%` }} />
             ))}
           </div>
+          <div className="mt-1.5 flex flex-wrap gap-x-3 text-[11px] text-muted">
+            {faixasAf.map((f) => (
+              <span key={f.rotulo} className="inline-flex items-center gap-1">
+                <span className={`size-1.5 rounded-full ${f.cor}`} />
+                {f.rotulo} <strong className="text-ink tabular">{f.valor}</strong>
+              </span>
+            ))}
+          </div>
+
+          <dl className="mt-3 grid grid-cols-4 gap-1 rounded-xl bg-white/70 px-2 py-2 text-center">
+            {[
+              ["Fraudes evitadas", String(af.fraudesEvitadas), ""],
+              ["Valor barrado", reaisCurto(af.valorEvitado), ""],
+              ["Tempo médio", af.tempoMedioRevisao, ""],
+              ["Chargebacks", String(af.chargebacks), "text-ok"],
+            ].map(([k, v, cor]) => (
+              <div key={k}>
+                <dt className="text-[10px] leading-tight text-muted">{k}</dt>
+                <dd className={`text-sm font-bold tabular ${cor}`}>{v}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <p className="mt-3 mb-1.5 flex items-center justify-between text-xs font-semibold">
+            Aguardando revisão
+            <span className="rounded-full bg-red px-1.5 text-[10px] text-white tabular">{filaRevisao.length}</span>
+          </p>
+          {/* mostra 3 e rola o resto */}
+          <ul className="fila-scroll -mr-1.5 max-h-[9.25rem] space-y-1.5 overflow-y-auto pr-1.5" aria-label="Pedidos aguardando revisão">
+            {filaRevisao.map((p) => (
+              <li key={p.numero}>
+                <Link href={`/admin/antifraude?pedido=${p.numero}`} className="tile flex h-11 items-center gap-2 px-2">
+                  <NotaRisco nota={p.risco.nota} faixa={p.risco.faixa} />
+                  <span className="min-w-0 flex-1 leading-tight">
+                    <span className="block truncate text-[13px] font-semibold">
+                      #{p.numero} · {p.cliente.nome}
+                    </span>
+                    <span className="block truncate text-[11px] text-muted">{p.risco.motivos[0]?.descricao}</span>
+                  </span>
+                  <span className="text-xs font-semibold tabular">{reaisCurto(p.total)}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </Card>
 
         <Card titulo="Pedidos que pedem ação" className="xl:col-span-5" ferramentas={<Link href="/admin/pedidos" className="text-sm font-semibold">Ver todos</Link>}>
