@@ -340,6 +340,15 @@ input[type="radio"] {
   }
 }
 
+/* Prévia: botões que alterariam dados ficam visivelmente desativados */
+.area-previa button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.area-previa button[aria-disabled="true"]:active {
+  transform: none;
+}
+
 /* Lista com rolagem discreta */
 .fila-scroll {
   scrollbar-width: thin;

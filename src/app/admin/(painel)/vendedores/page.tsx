@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { reais, reaisCurto } from "@/lib/format";
 import { Icon } from "@/ui/icons";
-import { BadgeFase2 } from "@/ui/painel/fase";
+import { AreaPrevia } from "@/ui/painel/fase";
 import { Botao, Cabecalho, Card, Chip } from "@/ui/painel/ui";
 
 export const metadata: Metadata = { title: "Vendedores e metas" };
@@ -23,8 +23,8 @@ export default function VendedoresPage() {
           { icon: "chart", rotulo: "Meta da loja", valor: "75%" },
           { icon: "card", rotulo: "Comissão prevista", valor: reais(257_727) },
         ]}
-        acoes={<BadgeFase2 />}
       />
+      <AreaPrevia>
       <div className="grid gap-4 xl:grid-cols-[1.4fr_1fr]">
         <Card titulo="Ranking de novembro" ferramentas={<Botao tom="ghost">Novembro ▾</Botao>}>
           <ol className="space-y-3">
@@ -99,6 +99,7 @@ export default function VendedoresPage() {
           </Card>
         </div>
       </div>
+      </AreaPrevia>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { linhasDe, relatorios, type Relatorio } from "@/mock/relatorios";
 import { numero, pct, reais, reaisCurto } from "@/lib/format";
 import { Icon } from "@/ui/icons";
-import { BadgeFase2 } from "@/ui/painel/fase";
+import { FaixaPrevia } from "@/ui/painel/fase";
 import { Botao, Card, Chip } from "@/ui/painel/ui";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -44,12 +44,12 @@ export default async function RelatorioPage({ params }: Props) {
       <Link href="/admin/relatorios" className="mb-3 inline-flex items-center gap-1 text-sm font-semibold text-muted hover:text-ink">
         <Icon name="chevronLeft" className="size-4" /> Relatórios
       </Link>
+      {r.fase === 2 && <FaixaPrevia texto="Este relatório entra na próxima fase. Os números são de exemplo." />}
       <div className="mb-5 flex flex-wrap items-end gap-3">
         <div className="flex-1">
           <p className="text-sm text-muted">{r.grupo}</p>
           <h1 className="text-2xl leading-tight font-bold tracking-tight">{r.titulo}</h1>
         </div>
-        {r.fase === 2 && <BadgeFase2 />}
         <label className="glass flex h-11 items-center gap-2 rounded-full px-4 text-sm">
           <Icon name="clock" className="size-4 text-muted" />
           <select className="bg-transparent font-semibold outline-none" aria-label="Período" defaultValue="Este mês">

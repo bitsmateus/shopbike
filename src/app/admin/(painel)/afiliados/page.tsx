@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { reais } from "@/lib/format";
 import { Icon } from "@/ui/icons";
-import { BadgeFase2 } from "@/ui/painel/fase";
+import { AreaPrevia } from "@/ui/painel/fase";
 import { Botao, Cabecalho, Card, Chip } from "@/ui/painel/ui";
 
 export const metadata: Metadata = { title: "Afiliados" };
@@ -23,8 +23,8 @@ export default function AfiliadosPage() {
           { icon: "cart", rotulo: "Vendas (mês)", valor: "25" },
           { icon: "card", rotulo: "Comissão a pagar", valor: reais(311_000) },
         ]}
-        acoes={<BadgeFase2 />}
       />
+      <AreaPrevia>
       <Card titulo="Afiliados" ferramentas={<Botao tom="ink"><Icon name="plus" className="size-4" /> Convidar afiliado</Botao>} className="overflow-hidden">
         <div className="-mx-5 overflow-x-auto">
           <table className="tabela min-w-[900px]">
@@ -60,6 +60,7 @@ export default function AfiliadosPage() {
         </div>
         <p className="mt-3 text-xs text-muted">Comissão só é liberada depois do prazo de troca (7 dias após a entrega) e se o pedido não tiver chargeback.</p>
       </Card>
+      </AreaPrevia>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { produtos } from "@/mock/catalogo";
 import { reais } from "@/lib/format";
 import { Icon } from "@/ui/icons";
 import { ProductArt } from "@/ui/product-art";
-import { BadgeFase2 } from "@/ui/painel/fase";
+import { AreaPrevia } from "@/ui/painel/fase";
 import { Botao, Cabecalho, Card, Chip } from "@/ui/painel/ui";
 
 export const metadata: Metadata = { title: "Seminovas e bike na troca" };
@@ -29,8 +29,8 @@ export default function SeminovasPage() {
           { icon: "sync", rotulo: "Avaliações abertas", valor: "2" },
           { icon: "card", rotulo: "Crédito concedido (mês)", valor: "R$ 2.900" },
         ]}
-        acoes={<BadgeFase2 />}
       />
+      <AreaPrevia>
       <div className="grid gap-4 xl:grid-cols-[1fr_1.2fr]">
         <Card titulo="À venda" ferramentas={<Link href="/admin/catalogo/novo" className="text-sm font-semibold">+ Cadastrar seminova</Link>}>
           <ul className="space-y-2">
@@ -84,6 +84,7 @@ export default function SeminovasPage() {
           <p className="mt-3 text-xs text-muted">Fluxo: recebida → vistoria na oficina → proposta → aceita → crédito no pedido → entra no estoque como seminova.</p>
         </Card>
       </div>
+      </AreaPrevia>
     </>
   );
 }
